@@ -42,6 +42,10 @@
       "form" : {
         "FORM" : "Form",
         "FORM_ELEMENTS" : "Form elements",
+        "ADMISSION" : "New Admission",
+        "RECEIPT" : "Receipt",
+        "PROMOTE" : "Promote",
+        "BUSINVOICE" : "Bus Invoice",
         "FORM_VALIDATION" : "Form validation",
         "FORM_WIZARD" : "Form wizard"
       },

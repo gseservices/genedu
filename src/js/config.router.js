@@ -24,6 +24,7 @@ angular.module('app')
                   url: '/app',
                   templateUrl: 'tpl/app.html'
               })
+
               .state('app.dashboard-v1', {
                   url: '/dashboard-v1',
                   templateUrl: 'tpl/app_dashboard_v1.html',
@@ -264,6 +265,22 @@ angular.module('app')
               .state('app.form.elements', {
                   url: '/elements',
                   templateUrl: 'tpl/form_elements.html'
+              })
+              .state('app.form.admission', {
+                  url: '/admission',
+                  templateUrl: 'views/admission.html'
+              })
+              .state('app.form.receipt', {
+                  url: '/receipt',
+                  templateUrl: 'views/receipt.html'
+              })
+              .state('app.form.promote', {
+                  url: '/promote',
+                  templateUrl: 'views/promoteToNextYear.html'
+              })
+              .state('app.form.busInvoice', {
+                  url: '/busInvoice',
+                  templateUrl: 'views/busInvoice.html'
               })
               .state('app.form.validation', {
                   url: '/validation',

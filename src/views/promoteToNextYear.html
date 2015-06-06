@@ -1,0 +1,195 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Promote To Next Year</h1>
+</div>
+<div class="wrapper-md" ng-controller="promoteCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Search</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+        				<div class="col-sm-8">
+        					<div class="row">
+	        					<div class="col-sm-4">
+	        						<br/>
+			        				<div class="checkbox">
+						                <label class="i-checks">
+						                  <input type="checkbox" ng-model="applyDate" required><i></i> Apply Date Filter
+						                </label>
+		              				</div>
+			        			</div>
+			        			<div class="col-sm-4">
+			        				<lable>From Dt</lable>
+			        				<div ng-controller="DatepickerDemoCtrl">
+							            <div class="input-group w-md">
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </div>
+							        </div>
+			        			</div>
+			        			<div class="col-sm-4">
+			        				<lable>To Dt</lable>
+			        				<div ng-controller="DatepickerDemoCtrl">
+							            <div class="input-group w-md">
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </div>
+							        </div>
+			        			</div>
+		        			</div><!-- row -->
+		        			<div class="row">
+		        				<div class="col-sm-4">
+			        				<lable>Search Fields</lable>
+			        				<select class="form-control m-t" ng-model="f.b" required >
+				                      <option value="">Student Name</option>
+				                      
+				                  	</select>
+			        			</div>
+			        			<div class="col-sm-4">
+		        					<lable>Operator</lable>
+		        					<select class="form-control m-t" ng-model="f.b" required >
+				                      <option value="">Like</option>
+				                      
+				                  	</select>
+			        			</div>
+			        			<div class="col-sm-3">
+			        				<lable>Criteria</lable>
+			        				<input type="text" class="form-control" placeholder="Criteria" ng-model="criteria" name="criteria">
+			        					
+			        			</div>
+			        			<div class="col-sm-1">
+			        				<br />
+			        				<button type="button" class="btn btn-sm btn-info">Add</button>	
+			        			</div>
+		        			</div><!-- row --><br />
+
+		        			<div class="row">
+		        				<div class="col-sm-11">
+		        					<input type="text" class="form-control" placeholder="Criteria" ng-model="criteria" name="criteria">
+		        				</div>
+		        				<div class="col-sm-1">
+		        				<button type="button" class="btn btn-sm btn-info">Clear</button>	
+		        				</div>
+		        			</div>
+
+		        			<div class="row">
+		        				<div class="col-sm-8">
+			        				<label>Student Admission PRN</label>
+			        				<input type="text" class="form-control" placeholder="PRN" ng-model="prn" name="prn">
+		        				</div>
+		        				<div class="col-sm-4">
+		        					<br />
+		        					<button type="button" class="btn btn-sm btn-info">Find</button>	
+		        				</div>
+		        			</div>
+		        			<br />
+		        			<div class="row">
+		        				<div class="table-responsive">
+			        				<table style="height:100px;" ui-jq="dataTable" ui-options="{
+							          sAjaxSource: 'api/datatable.json',
+							          aoColumns: [
+							            { mData: 'engine' },
+							            { mData: 'browser' },
+							            { mData: 'platform' },
+							            { mData: 'version' },
+							            { mData: 'grade' }
+							          ]
+							        }" class="table table-striped b-t b-b">
+							        <thead>
+							          <tr>
+							            <th  style="width:40%">PRN</th>
+							            <th  style="width:30%">Student Name</th>
+							            <th style="width:30%">Academic Year</th>
+							          </tr>
+							        </thead>
+							        <tbody>
+							        </tbody>
+							      </table>
+			        			</div>
+		        			</div><!-- row -->
+		        				<br />
+		        			<div class="row">
+		        				<div class="col-sm-3">
+		        					<label>*Section</label>
+		        				</div>
+		        				<div class="col-sm-3">
+	        						<select class="form-control m-t" ng-model="f.b" required >
+				                      <option value="">Primary</option>
+				                      
+				                  	</select>
+		        				</div>
+		        				<div class="col-sm-3">
+		        					<label>*Fees Type</label>
+		        				</div>
+		        				<div class="col-sm-3">
+	        						<select class="form-control m-t" ng-model="f.b" required >
+				                      <option value="">Full Fees</option>
+				                      
+				                  	</select>
+		        				</div>
+		        			</div><!-- row -->
+		        			<div class="row">
+		        				<div class="col-sm-3">
+		        					<label>*Course Code</label>
+		        				</div>
+		        				<div class="col-sm-3">
+	        						<select class="form-control m-t" ng-model="f.b" required >
+				                      <option value="">6</option>
+				                      
+				                  	</select>
+		        				</div>
+		        				<div class="col-sm-3">
+		        					<label>Academic Year</label>
+		        				</div>
+		        				<div class="col-sm-3">
+	        						<select class="form-control m-t" ng-model="f.b" required >
+				                      <option value="">2015-2016</option>
+				                      
+				                  	</select>
+		        				</div>
+		        			</div><!-- row -->
+		        			<div class="row">
+		        				<div class="col-sm-3">
+		        					<label>*Cast Category</label>
+		        				</div>
+		        				<div class="col-sm-3">
+	        						<select class="form-control m-t" ng-model="f.b" required >
+				                      <option value="">General</option>
+				                      
+				                  	</select>
+		        				</div>
+		        				<div class="col-sm-3">
+		        					<label>Balance Amount</label>
+		        				</div>
+		        				<div class="col-sm-3">
+	        						<input type="number" class="form-control" placeholder="0.00" ng-model="balanceAmount" name="balancecAmount">
+		        				</div>
+		        			</div><!-- row -->
+
+		        			<div class="row">
+				        		<div class="col-sm-9">
+
+				        		</div>
+				        		<div class="col-sm-3">
+				        			<button type="button" class="btn btn-sm btn-info">Proceed</button>	
+				        		</div>
+				        	</div>
+
+		        		</div><!-- col sm 8 -->
+		        		<div class="col-sm-4">
+		        			<div class="row">
+		        				
+		        			</div>
+		        		</div>
+		        	</div><!-- row -->
+
+		        	
+	        	</div>
+	        </div><!-- Search -->
+	    </form>
+	</div>
+</div>

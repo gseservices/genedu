@@ -291,6 +291,26 @@
           <span translate="aside.nav.components.form.FORM_ELEMENTS">Form elements</span>
         </a>
       </li>
+      <li ui-sref-active="active" ng-show="app.menu.admissionNew">
+        <a ui-sref="app.form.admission" >
+          <span translate="aside.nav.components.form.ADMISSION">New Admission</span>
+        </a>
+      </li>
+      <li ui-sref-active="active" ng-show="app.menu.receiptNew">
+        <a ui-sref="app.form.receipt" >
+          <span translate="aside.nav.components.form.RECEIPT">New Receipt</span>
+        </a>
+      </li>
+      <li ui-sref-active="active" ng-show="app.menu.promote">
+        <a ui-sref="app.form.promote" >
+          <span translate="aside.nav.components.form.PROMOTE">Promote To Next Year</span>
+        </a>
+      </li>
+      <li ui-sref-active="active" ng-show="app.menu.busInvoice">
+        <a ui-sref="app.form.busInvoice" >
+          <span translate="aside.nav.components.form.BUSINVOICE">Bus Invoice</span>
+        </a>
+      </li>
       <li ui-sref-active="active">
         <a ui-sref="app.form.validation">
           <span translate="aside.nav.components.form.FORM_VALIDATION">Form validation</span>

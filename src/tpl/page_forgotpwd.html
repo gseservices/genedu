@@ -12,6 +12,9 @@
       </div>
       <button type="submit" ng-disabled="reset.$invalid" class="btn btn-lg btn-primary btn-block"  ng-click="isCollapsed = !isCollapsed" >Send</button>
     </form>
+
+    <div class="text-center m-t m-b"><a ui-sref="access.signin">Back to Sign in</a></div>
+
     <div collapse="isCollapsed" class="m-t">
       <div class="alert alert-success">
         <p>A reset link sent to your email address, please check it in 7 days. <a ui-sref="access.signin" class="btn btn-sm btn-success">Sign in</a></p>
