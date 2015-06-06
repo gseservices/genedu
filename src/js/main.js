@@ -12,8 +12,11 @@ angular.module('app')
 
       // config
       $scope.app = {
-        name: 'Angulr',
+        name: 'Edu Soft PSBA',
         version: '2.0.1',
+        copyright_company:'GS eServices',
+        copyright_year:'2015',
+        
         // for chart colors
         color: {
           primary: '#7266ba',
@@ -35,6 +38,12 @@ angular.module('app')
           asideFolded: false,
           asideDock: false,
           container: false
+        },
+        menu:{
+          admissionNew:true,
+          receiptNew: true,
+          promote: true,
+          busInvoice: true
         }
       }
 
