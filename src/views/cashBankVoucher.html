@@ -1,0 +1,114 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Cash / Bank Voucher</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Cash / Bank Voucher Info</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+	        			<div class="col-sm-12">
+		        			<center>
+		        				<label class="i-checks">
+					                <input type="radio" name="selectStatus" value="active" checked>
+					                <i></i>
+					                <h4>Payment</h4>
+					              </label>
+					            
+		        				
+					              <label class="i-checks">
+					                <input type="radio" name="selectStatus" value="cancel">
+					                <i></i>
+					                <h4>Receipt</h4>
+					              </label>	
+		        			</center>
+	        			</div><!-- first row -->
+        				<div class="col-sm-12">
+        					<div class="table-responsive">
+						      <table style="height:100px;" ui-jq="dataTable" ui-options="{
+						          sAjaxSource: 'api/datatable.json',
+						          aoColumns: [
+						            { mData: 'engine' },
+						            { mData: 'browser' },
+						            { mData: 'platform' },
+						            { mData: 'version' },
+						            { mData: 'grade' }
+						          ]
+						        }" class="table table-striped b-t b-b">
+						        <thead>
+						          <tr>
+						            <th  style="width:12%">Voucher Date</th>
+						            <th  style="width:12%">Payment Mode</th>
+						            <th  style="width:12%">Total Amount</th>
+						            <th  style="width:12%">Ledger (Heads)</th>
+						            <th  style="width:12%">Amount</th>
+						            <th  style="width:12%">Paid To</th>
+						            <th  style="width:12%">Paid For</th>
+						            <th  style="width:12%">Cheque No.</th> 
+
+						          </tr>
+						        </thead>
+						        <tbody>
+						        </tbody>
+						      </table>
+						      
+						      <br /><br />
+							</div>
+        				</div><!-- second row -->
+    					<div class="col-sm-12">
+    						<div class="col-sm-3">
+    							<lable>Received By</lable>
+	        					<select class="form-control" ng-model="f.b" required >
+			                      	<option value="pre-primary">User</option>
+			                      	
+				                </select>
+	        					<br />
+    						</div>
+    						<div class="col-sm-3">
+    							<lable>Checked By</lable>
+	        					<select class="form-control" ng-model="f.b" required >
+			                      	<option value="pre-primary">User</option>
+			                      	
+				                </select>
+	        					<br />
+    						</div>
+    						<div class="col-sm-3">
+    							<lable>Prepared By</lable>
+	        					<select class="form-control" ng-model="f.b" required >
+			                      	<option value="pre-primary">User</option>
+			                      	
+				                </select>
+	        					<br />
+    						</div>
+    						<div class="col-sm-3">
+    							<lable>Approved By</lable>
+	        					<select class="form-control" ng-model="f.b" required >
+			                      	<option value="pre-primary">User</option>
+			                      	
+				                </select>
+	        					<br />
+    						</div>
+    					</div>
+        				<div class="col-sm-12">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<center>
+					              
+					                <button type="button" class="btn btn-md btn-info">Save</button>
+					                <button type="button" class="btn btn-md btn-info">Cancel</button>
+					            </center>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->

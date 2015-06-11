@@ -1,0 +1,108 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Admission Details</h1>
+</div>
+<div class="wrapper-md" ng-controller="receiptCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Search</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+        				<div class="col-sm-8">
+        					<div class="row">
+	        					<div class="col-sm-4">
+	        						<br/>
+			        				<div class="checkbox">
+						                <label class="i-checks">
+						                  <input type="checkbox" ng-model="applyDate" required><i></i> Apply Date Filter
+						                </label>
+		              				</div>
+			        			</div>
+			        			<div class="col-sm-4">
+			        				<lable>From Dt</lable>
+			        				<div ng-controller="DatepickerDemoCtrl">
+							            <div class="input-group w-md">
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </div>
+							        </div>
+			        			</div>
+			        			<div class="col-sm-4">
+			        				<lable>To Dt</lable>
+			        				<div ng-controller="DatepickerDemoCtrl">
+							            <div class="input-group w-md">
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </div>
+							        </div>
+			        			</div>
+		        			</div><!-- row -->
+		        			<div class="row">
+		        				<div class="col-sm-4">
+			        				<lable>Search Fields</lable>
+			        				<select class="form-control" ng-model="f.b" required >
+				                      <option value="">Student Name</option>
+				                      
+				                  	</select>
+			        			</div>
+			        			<div class="col-sm-4">
+		        					<lable>Operator</lable>
+		        					<select class="form-control" ng-model="f.b" required >
+				                      <option value="">Like</option>
+				                      
+				                  	</select>
+			        			</div>
+			        			<div class="col-sm-3">
+			        				<lable>Criteria</lable>
+			        				<input type="text" class="form-control" placeholder="Criteria" ng-model="criteria" name="criteria">
+			        					
+			        			</div>
+			        			<div class="col-sm-1">
+			        				<br />
+			        				<button type="button" class="btn btn-sm btn-info">Add</button>	
+			        			</div>
+		        			</div><!-- row --><br />
+
+		        			<div class="row">
+		        				<div class="col-sm-11">
+		        					<input type="text" class="form-control" placeholder="Criteria" ng-model="criteria" name="criteria">
+		        				</div>
+		        				<div class="col-sm-1">
+		        				<button type="button" class="btn btn-sm btn-info">Clear</button>	
+		        				</div>
+		        			</div>
+
+		        			<div class="row">
+		        				<div class="col-sm-8">
+			        				<label>Student Admission PRN</label>
+			        				<input type="text" class="form-control" placeholder="PRN" ng-model="prn" name="prn">
+		        				</div>
+		        				<div class="col-sm-4">
+		        					<br />
+		        					<button type="button" class="btn btn-sm btn-info">Find</button>	
+		        				</div>
+		        			</div>
+		        		</div><!-- COL SM 8 -->
+		        	</div><!-- ROW -->
+		        </div><!-- PANEL BODY --> 
+		    </div><!-- SEARCH --> 
+		    
+		    <div class="panel panel-default">
+		        <div class="panel-heading font-bold">Admission Details</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+	        			<tabset class="tab-container">
+        				  <tab heading="Static title">Static content</tab>
+        				  <tab heading="Another Tab">Another content</tab>
+        				</tabset>
+	        		</div><!-- row --> 
+	        	</div><!-- pane body -->
+	        </div><!-- Admission Details --> 
+
+		</form><!-- form -->
+	</div>
+</div>

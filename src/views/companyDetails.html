@@ -1,0 +1,214 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Company Details</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Company Info</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+	        			<div class="col-sm-12">
+        					<lable>*Company Name</lable>
+        					<input type="text" class="form-control" placehoder="Company Name" name="companyName" ng-model="companyName" required>
+        					<br />
+	        			</div><!-- first row -->
+	        			<div class="col-sm-12">
+	        				<lable>*Organization</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">PSBA</option>
+		                      	
+			                </select>
+        					<br />
+	        			</div> <!-- second row -->
+
+        				<div class="col-sm-6">
+        					<lable>*Company Code</lable>
+        					<input type="text" class="form-control" placehoder="Company Code" name="companyCode" ng-model="companyCode" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>*Financial Year</lable><br />
+        					<div style="padding-left:0px;" class="col-sm-6">
+        						<input type="number" class="form-control" placehoder="From" name="fyFrom" ng-model="fyFrom" required> 
+        					</div>
+        					<div class="col-sm-1">
+        						<lable>To</lable>
+        					</div>
+        					<div class="col-sm-5">
+        						<input type="number" class="form-control" placehoder="To" name="fyTo" ng-model="fyTo" required>
+        						<br />
+        					</div>
+        					
+        					
+        					<br />
+	        			</div> <!-- third row -->
+        				
+        				<div class="col-sm-6">
+        					<lable>*Contact No</lable>
+        					<input type="number" class="form-control" placehoder="Contact No" name="contactNo" ng-model="contactNo" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>PIN No</lable>
+        					<input type="number" class="form-control" placehoder="PIN No" name="pinNo" ng-model="pinNo" required>
+        					<br />
+	        			</div> <!-- fourth row -->
+
+	        			<div class="col-sm-6">
+        					<lable>*Email Id</lable>
+        					<input type="email" class="form-control" placehoder="Email ID" name="emailId" ng-model="emailId" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>Fax No</lable>
+        					<input type="number" class="form-control" placehoder="Fax No" name="faxNo" ng-model="faxNo" required>
+        					<br />
+	        			</div> <!-- fifth row -->
+
+	        			<div class="col-sm-6">
+        					<lable>PAN No</lable>
+        					<input type="text" class="form-control" placehoder="PAN No" name="panNo" ng-model="panNo" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>TAN No</lable>
+        					<input type="text" class="form-control" placehoder="TAN No" name="tanNo" ng-model="tanNo" required>
+        					<br />
+	        			</div> <!-- sixth row -->
+
+	        			<div class="col-sm-6">
+        					<lable>Belong To</lable>
+        					<input type="text" class="form-control" placehoder="Belong To" name="belongTo" ng-model="belongTo" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>*Company Type</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">School</option>
+		                      	
+			                </select>
+        					<br />
+	        			</div> <!-- seventh row -->
+
+	        			<div class="col-sm-6">
+        					<lable>CNo</lable>
+        					<input type="text" class="form-control" placehoder="CNo" name="cNo" ng-model="cNo" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+        					<br />
+	        				<lable></lable>
+        					<label class="i-checks">
+				                <input type="radio" name="registrationType" value="registrationNo" checked>
+				                <i></i>
+				                Registration No.
+				              </label>
+				            
+	        				
+				              <label class="i-checks">
+				                <input type="radio" name="registrationType" value="cbseAffNo">
+				                <i></i>
+				                CBSE Aff. No.<br />
+				              </label>
+				            
+        					<br />
+	        			</div> <!-- eighth row -->
+
+        				
+
+	        			<div class="col-sm-12">
+	        				<h4>Address Details</h4>
+	        			</div> <!-- nineth row -->
+
+	        			<div class="col-sm-12">
+        					<lable>Address</lable>
+        					<textarea style="width:100%;" class="form-control" placehoder="Address" rows="4" name="employeeAddress" ng-model="employeeAddress"  > </textarea> 
+        					<br />
+				            
+        				</div> <!-- tenth row -->
+
+        				<div class="col-sm-6">
+	        				<lable>*Country</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">India</option>
+		                      	
+			                </select>
+        					<br />
+        					<lable>*State</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Maharashtra</option>
+		                      	
+			                </select>
+        					<br />
+        				</div> <!-- nineth row -->
+        				<div class="col-sm-6">
+        					<lable>*District</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Aurangabad</option>
+		                      	
+			                </select>
+			                <br />
+			            </div>
+			            <div class="col-sm-6">
+			                <lable>*City</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Aurangabad</option>
+		                      	
+			                </select>
+        					<br />
+        					<br />
+	        			</div> <!-- tenth row -->
+
+						<div class="col-sm-6">
+        					<lable class="col-sm-4 control-label">*Director's Sign</lable>
+        					
+					          <div class="col-sm-8">
+					            <input ui-jq="filestyle" type="file" data-icon="false" data-classButton="btn btn-default" data-classInput="form-control inline v-middle input-s">
+					          </div>
+			                <br />
+			            </div>
+			            <div class="col-sm-6">
+			                <lable class="col-sm-4 control-label">*Company Logo</lable>
+        					<div class="col-sm-8">
+					            <input ui-jq="filestyle" type="file" data-icon="false" data-classButton="btn btn-default" data-classInput="form-control inline v-middle input-s">
+					          </div>
+        					<br />
+        					<br />
+	        			</div> <!-- tenth row -->	        			
+
+        				<div class="col-sm-8">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<div class="form-group">
+					              <div class="col-lg-offset-2 col-lg-10">
+					              	<center>
+					              	<br />
+					                <button type="button" class="btn btn-md btn-info">Save</button>
+					                <button type="button" class="btn btn-sm btn-info">Clear</button>
+					                <button type="button" class="btn btn-sm btn-info">List</button>
+					                <button type="button" class="btn btn-sm btn-info">Close</button>
+					                </center>
+					              </div>
+					              
+					            </div>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->

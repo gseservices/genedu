@@ -1,0 +1,137 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Fees Head Master</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Fees Head Info</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+        				<div class="col-sm-6">
+        					<lable>*Type</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Course</option>
+		                      	
+			                </select>
+        					<br />
+        				</div>
+        				<div class="col-sm-6">
+				            <lable>*Academic Year</lable>
+				            <select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">2015-2016</option>
+		                      	
+			                </select>
+			                <br />
+			                
+        				</div><!-- first row -->
+        				<div class="col-sm-6">
+        					<lable>*Course Code</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">1</option>
+		                      	
+			                </select>
+        					<br />
+        				</div>
+        				<div class="col-sm-6">
+				            <lable>*Sem/Year</lable>
+				            <select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Year</option>
+		                      	
+			                </select>
+			                <br />
+			                
+        				</div><!-- second row -->
+        				<div class="col-sm-6">
+        					<lable>*Cast Category</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">General</option>
+		                      	
+			                </select>
+        					<br />
+        				</div>
+        				<div class="col-sm-6">
+				            <lable>*Fees Type</lable>
+				            <select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Full Fees</option>
+		                      	
+			                </select>
+			                <br />
+			                
+        				</div><!-- third row -->
+        				
+        				<div class="col-sm-6">
+        					<lable>Batch</lable>
+        					<lable>1- 2015 - 2016</lable>
+        					<br />
+        				</div>
+        				<div class="col-sm-6">
+				            <br />
+			                
+        				</div><!-- third row -->
+        					
+        				<div class="col-sm-8">
+
+        					<h4>Add Particulars</h4>
+
+        				</div>
+        				<div class="col-sm-4">
+        					<div class="checkbox">
+					                <label class="i-checks">
+					                  <input type="checkbox" ng-model="agree" required><i></i> Apply For All Cast Categories
+					                </label>
+	              				</div> <br />
+        				</div><!-- fourth row -->
+        				<div class="col-sm-12">
+        					<div class="table-responsive">
+						      <table style="height:100px;" ui-jq="dataTable" ui-options="{
+						          sAjaxSource: 'api/datatable.json',
+						          aoColumns: [
+						            { mData: 'engine' },
+						            { mData: 'browser' },
+						            { mData: 'platform' },
+						            { mData: 'version' },
+						            { mData: 'grade' }
+						          ]
+						        }" class="table table-striped b-t b-b">
+						        <thead>
+						          <tr>
+						            <th  style="width:70%">Particulars</th>
+						            <th  style="width:30%">Amount</th>
+						            
+						            
+						          </tr>
+						        </thead>
+						        <tbody>
+						        </tbody>
+						      </table>
+						      
+						      <br /><br />
+							</div>
+        				</div>
+
+        				<div class="col-sm-8">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<div class="form-group">
+					              <div class="col-lg-offset-2 col-lg-10">
+					                <button type="button" class="btn btn-sm btn-info">Save</button>
+					                <button type="button" class="btn btn-sm btn-info">Cancel</button>
+					                
+					              </div>
+					              
+					            </div>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->
