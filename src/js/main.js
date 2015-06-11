@@ -43,7 +43,23 @@ angular.module('app')
           admissionNew:true,
           receiptNew: true,
           promote: true,
-          busInvoice: true
+          busInvoice: true,
+          admissionDetails:true,
+          courseMaster:true,
+          accountGroupMaster: true,
+          admissionCancellation: true,
+          applicationSettings: true,
+          cashBankVoucher: true,
+          companyDetails: true,
+          divisionMaster: true,
+          employeeMaster: true,
+          feesHeadMaster: true,
+          feesParticularMaster: true,
+          generateRollNo: true,
+          intakeCapacityMaster: true,
+          menuSettings: true,
+          printerSettings: true,
+          roleManager: true
         }
       }
 
