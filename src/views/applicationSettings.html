@@ -1,0 +1,129 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Application Settings</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Application Settings Info</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+	        			<div class="col-sm-6">
+		        			<label>Port Available</label>
+		        			<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary"></option>
+		                      	
+			                </select>
+	        			</div>
+	        			<div class="col-sm-6">
+	        				<br />
+	        				<label>Current Port 1
+
+	        				</label>
+		        			<br /><br />
+	        			</div><!-- first row -->
+	        			<div class="col-sm-6">
+		        			<label>DateTime Picker</label>
+		        			<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">DropDown</option>
+		                      	
+			                </select>
+	        			</div>
+	        			<div class="col-sm-6">
+	        				<br />
+	        				<label>Current Style [Dropdown]</label>
+		        			<br /><br />
+	        			</div><!-- second row -->
+	        			<div class="col-sm-6">
+		        			<label>DateTime Format</label>
+		        			<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">dd-MMM-yyyy</option>
+		                      	
+			                </select>
+	        			</div>
+	        			<div class="col-sm-6">
+	        				<br />
+	        				<label>Current Format [dd-MMM-yyyy]</label>
+		        			<br /><br />
+	        			</div><!-- third row -->
+	        			
+
+	        			<div class="col-sm-6">
+		        			<label>Academic Year</label>
+		        			<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">2015-2016</option>
+		                      	
+			                </select>
+	        			</div>
+	        			<div class="col-sm-6">
+	        				<br />
+	        				<label>Current Academic Year [2015-2016]</label>
+		        			<br /><br />
+	        			</div><!-- fourth row -->
+	        			<div class="col-sm-12">
+	        			<br />
+		        			<div class="col-sm-2">
+		        			</div>
+		        			<div class="col-sm-8">
+			        			<center>
+		        					
+			        				<div style="float:left;" class="checkbox">
+						                <label class="i-checks">
+						                  <input type="checkbox" ng-model="showTopPanel" required><i></i>Show Top Panel
+						                </label>
+		              				</div>
+		              				<div class="checkbox">
+						                <label class="i-checks">
+						                  <input type="checkbox" ng-model="showLeftPanel" required><i></i> Show Left Panel
+						                </label>
+		              				</div>
+		              				<br />
+			        			</center>
+			        		</div>
+			        		<div class="col-sm-2">
+			        			<br /><br />
+			        		</div>
+	        			</div><!-- fifth row -->
+	        			<div class="col-sm-12">
+	        				<h4>Application Connection String</h4>
+	        			</div>
+	        			<div class="col-sm-12">
+	        				<div class="col-sm-3">
+	        					<lable>Server Name</lable>
+	        					<input type="text" class="form-control" placeholder="Server Name" ng-model="serverName" name="serverName" required /><br />
+	        				</div>
+							<div class="col-sm-3">
+							<lable>User Name</lable>
+	        					<input type="text" class="form-control" placeholder="User Name" ng-model="userName" name="userName" required /><br />
+	        				</div>
+	        				<div class="col-sm-3">
+	        					<lable>Password</lable>
+	        					<input type="password" class="form-control" placeholder="Password" ng-model="password" name="password" required /><br />
+	        				</div>
+	        				<div class="col-sm-3">
+	        					<lable>Database</lable>
+	        					<input type="text" class="form-control" placeholder="Database Name" ng-model="databaseName" name="databaseName" /><br />
+	        				</div>
+	        			</div><!-- sixth row -->
+        				<div class="col-sm-12">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<center>
+					              
+					                <button type="button" class="btn btn-md btn-info">Save</button>
+					                <button type="button" class="btn btn-md btn-info">Cancel</button>
+					            </center>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->

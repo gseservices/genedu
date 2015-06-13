@@ -42,10 +42,32 @@
       "form" : {
         "FORM" : "Form",
         "FORM_ELEMENTS" : "Form elements",
+        
+
+        
         "ADMISSION" : "New Admission",
+        "ADMISSION_DETAILS" : "Admission Details",
         "RECEIPT" : "Receipt",
         "PROMOTE" : "Promote",
         "BUSINVOICE" : "Bus Invoice",
+        "COURSE_MASTER" : "Course Master",
+        "ACCOUNT_GROUP_MASTER" : "Account Group Master",
+        "ADMISSION_CANCELLATION" : "Admission Cancellation",
+        "APPLICATION_SETTINGS" : "Application Settings",
+        "CASH_BANK_VOUCHER" : "Cash Bank Voucher",
+        "COMPANY_DETAILS" : "Company Details",
+        "DIVISION_MASTER" : "Division Master",
+        "EMPLOYEE_MASTER" : "Employee Master",
+        "FEES_HEAD_MASTER" : "Fees Head Master",
+        "FEES_PARTICULAR_MASTER" : "Fees Particular Master",
+        "GENERATE_ROLL_NO" : "Generate Roll No",
+        "INTAKE_CAPACITY_MASTER" : "Intake Capacity Master",
+        "MENU_SETTINGS" : "Menu Settings",
+        "PRINTER_SETTINGS" : "Printer Settings",
+        "ROLE_MANAGER" : "Role Manager",
+        
+
+
         "FORM_VALIDATION" : "Form validation",
         "FORM_WIZARD" : "Form wizard"
       },

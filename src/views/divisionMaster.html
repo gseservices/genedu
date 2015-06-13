@@ -1,0 +1,55 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Division Master</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Division Manager</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+        				<div class="col-sm-8">
+        					<lable>*College Type</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Pre-Primary</option>
+		                      	<option value="primary">Primary</option>
+			                </select>
+        					<br />
+				            <lable>*Course</lable>
+				            <select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">1</option>
+		                      	<option value="primary">2</option>
+			                </select>
+			                <br />
+			                <label>*Division Name</label>
+			                <input type="text" class="form-control" placeholder="Division Name" ng-model="divisionName" name="divisionName" required>
+			                <br />
+			                <label>*Division Capacity</label>
+			                <input type="number" class="form-control" placeholder="Division Capacity" ng-model="divisionCapacity" name="divisionCapacity" required><br /><br />
+        				</div><!-- first row -->
+        				
+        				<div class="col-sm-8">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<div class="form-group">
+					              <div class="col-lg-offset-2 col-lg-10">
+					                <button type="button" class="btn btn-sm btn-info">Save</button>
+					                <button type="button" class="btn btn-sm btn-info">Cancel</button>
+					                
+					              </div>
+					              
+					            </div>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- second row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->

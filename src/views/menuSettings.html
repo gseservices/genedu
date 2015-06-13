@@ -1,0 +1,62 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Menu Settings</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Menu Settings Info</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+	        			<div class="col-sm-6">
+		        			<label>*Node Name</label>
+		        			<input type="text" class="form-control" placeholder="Node Name" ng-model="nodeName" name="nodeName" required /><br />
+	        			</div>
+	        			<div class="col-sm-6">
+	        				<label>*Node URL</label>
+		        			<input type="text" class="form-control" placeholder="Node URL" ng-model="nodeURL" name="nodeURL" required /><br />
+	        			</div><!-- first row -->
+
+	        			<div class="col-sm-12">
+	        				<div style="float:left;" class="checkbox">
+				                <label class="i-checks">
+				                  <input type="checkbox" ng-model="showTopPanel" required><i></i>Is Root Node
+				                </label>
+              				</div><br />
+	        			</div><!-- second row -->
+	        			
+	        			<div class="col-sm-6">
+		        			<label>*Parent Node</label>
+		        			<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">A/C Settings</option>
+		                      	
+			                </select>
+	        			</div>
+	        			<div class="col-sm-6">
+	        				<label>*Narration</label>
+		        			<input type="text" class="form-control" placeholder="Narration" ng-model="narration" name="narration" required /><br />
+		        			<br />
+	        			</div><!-- third row -->
+	        			
+        				<div class="col-sm-12">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<center>
+					              
+					                <button type="button" class="btn btn-md btn-info">Save</button>
+					                <button type="button" class="btn btn-md btn-info">Cancel</button>
+					            </center>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->

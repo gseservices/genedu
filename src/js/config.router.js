@@ -266,9 +266,16 @@ angular.module('app')
                   url: '/elements',
                   templateUrl: 'tpl/form_elements.html'
               })
+
+              
+
               .state('app.form.admission', {
                   url: '/admission',
                   templateUrl: 'views/admission.html'
+              })
+              .state('app.form.admissionDetails', {
+                  url: '/admissionDetails',
+                  templateUrl: 'views/admissionDetails.html'
               })
               .state('app.form.receipt', {
                   url: '/receipt',
@@ -282,6 +289,69 @@ angular.module('app')
                   url: '/busInvoice',
                   templateUrl: 'views/busInvoice.html'
               })
+              .state('app.form.courseMaster', {
+                  url: '/courseMaster',
+                  templateUrl: 'views/courseMaster.html'
+              })
+              .state('app.form.accountGroupMaster', {
+                  url: '/accountGroupMaster',
+                  templateUrl: 'views/accountGroupMaster.html'
+              })
+              .state('app.form.admissionCancellation', {
+                  url: '/admissionCancellation',
+                  templateUrl: 'views/admissionCancellation.html'
+              })
+              .state('app.form.applicationSettings', {
+                  url: '/applicationSettings',
+                  templateUrl: 'views/applicationSettings.html'
+              })
+              .state('app.form.cashBankVoucher', {
+                  url: '/cashBankVoucher',
+                  templateUrl: 'views/cashBankVoucher.html'
+              })
+              .state('app.form.companyDetails', {
+                  url: '/companyDetails',
+                  templateUrl: 'views/companyDetails.html'
+              })
+              .state('app.form.divisionMaster', {
+                  url: '/divisionMaster',
+                  templateUrl: 'views/divisionMaster.html'
+              })
+              .state('app.form.employeeMaster', {
+                  url: '/employeeMaster',
+                  templateUrl: 'views/employeeMaster.html'
+              })
+              .state('app.form.feesHeadMaster', {
+                  url: '/feesHeadMaster',
+                  templateUrl: 'views/feesHeadMaster.html'
+              })
+              .state('app.form.feesParticularMaster', {
+                  url: '/feesParticularMaster',
+                  templateUrl: 'views/feesParticularMaster.html'
+              })
+              .state('app.form.generateRollNo', {
+                  url: '/generateRollNo',
+                  templateUrl: 'views/generateRollNo.html'
+              })
+              .state('app.form.intakeCapacityMaster', {
+                  url: '/intakeCapacityMaster',
+                  templateUrl: 'views/intakeCapacityMaster.html'
+              })
+              .state('app.form.menuSettings', {
+                  url: '/menuSettings',
+                  templateUrl: 'views/menuSettings.html'
+              })
+              .state('app.form.printerSettings', {
+                  url: '/printerSettings',
+                  templateUrl: 'views/printerSettings.html'
+              })
+              .state('app.form.roleManager', {
+                  url: '/roleManager',
+                  templateUrl: 'views/roleManager.html'
+              })
+
+              
+
               .state('app.form.validation', {
                   url: '/validation',
                   templateUrl: 'tpl/form_validation.html'

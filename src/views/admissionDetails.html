@@ -1,7 +1,7 @@
 <div class="bg-light lter b-b wrapper-md">
-  <h1 class="m-n font-thin h3">Promote To Next Year</h1>
+  <h1 class="m-n font-thin h3">Admission Details</h1>
 </div>
-<div class="wrapper-md" ng-controller="promoteCtrl">
+<div class="wrapper-md" ng-controller="receiptCtrl">
 	<div class="row">
 		<form role="form">
 			<div class="panel panel-default">
@@ -86,110 +86,23 @@
 		        					<button type="button" class="btn btn-sm btn-info">Find</button>	
 		        				</div>
 		        			</div>
-		        			<br />
-		        			<div class="row">
-		        				<div class="table-responsive">
-			        				<table style="height:100px;" ui-jq="dataTable" ui-options="{
-							          sAjaxSource: 'api/datatable.json',
-							          aoColumns: [
-							            { mData: 'engine' },
-							            { mData: 'browser' },
-							            { mData: 'platform' },
-							            { mData: 'version' },
-							            { mData: 'grade' }
-							          ]
-							        }" class="table table-striped b-t b-b">
-							        <thead>
-							          <tr>
-							            <th  style="width:40%">PRN</th>
-							            <th  style="width:30%">Student Name</th>
-							            <th style="width:30%">Academic Year</th>
-							          </tr>
-							        </thead>
-							        <tbody>
-							        </tbody>
-							      </table>
-			        			</div>
-		        			</div><!-- row -->
-		        				<br />
-		        			<div class="row">
-		        				<div class="col-sm-3">
-		        					<label>*Section</label>
-		        				</div>
-		        				<div class="col-sm-3">
-	        						<select class="form-control" ng-model="f.b" required >
-				                      <option value="">Primary</option>
-				                      
-				                  	</select>
-		        				</div>
-		        				<div class="col-sm-3">
-		        					<label>*Fees Type</label>
-		        				</div>
-		        				<div class="col-sm-3">
-	        						<select class="form-control" ng-model="f.b" required >
-				                      <option value="">Full Fees</option>
-				                      
-				                  	</select>
-		        				</div>
-		        			</div><!-- row -->
-		        			<div class="row">
-		        				<div class="col-sm-3">
-		        					<label>*Course Code</label>
-		        				</div>
-		        				<div class="col-sm-3">
-	        						<select class="form-control" ng-model="f.b" required >
-				                      <option value="">6</option>
-				                      
-				                  	</select>
-		        				</div>
-		        				<div class="col-sm-3">
-		        					<label>Academic Year</label>
-		        				</div>
-		        				<div class="col-sm-3">
-	        						<select class="form-control" ng-model="f.b" required >
-				                      <option value="">2015-2016</option>
-				                      
-				                  	</select>
-		        				</div>
-		        			</div><!-- row -->
-		        			<div class="row">
-		        				<div class="col-sm-3">
-		        					<label>*Cast Category</label>
-		        				</div>
-		        				<div class="col-sm-3">
-	        						<select class="form-control" ng-model="f.b" required >
-				                      <option value="">General</option>
-				                      
-				                  	</select>
-		        				</div>
-		        				<div class="col-sm-3">
-		        					<label>Balance Amount</label>
-		        				</div>
-		        				<div class="col-sm-3">
-	        						<input type="number" class="form-control" placeholder="0.00" ng-model="balanceAmount" name="balancecAmount">
-		        				</div>
-		        			</div><!-- row -->
+		        		</div><!-- COL SM 8 -->
+		        	</div><!-- ROW -->
+		        </div><!-- PANEL BODY --> 
+		    </div><!-- SEARCH --> 
+		    
+		    <div class="panel panel-default">
+		        <div class="panel-heading font-bold">Admission Details</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+	        			<tabset class="tab-container">
+        				  <tab heading="Static title">Static content</tab>
+        				  <tab heading="Another Tab">Another content</tab>
+        				</tabset>
+	        		</div><!-- row --> 
+	        	</div><!-- pane body -->
+	        </div><!-- Admission Details --> 
 
-		        			<div class="row">
-				        		<div class="col-sm-9">
-
-				        		</div>
-				        		<div class="col-sm-3">
-				        			<button type="button" class="btn btn-sm btn-info">Proceed</button>	
-				        		</div>
-				        	</div>
-
-		        		</div><!-- col sm 8 -->
-		        		<div class="col-sm-4">
-		        			<div class="row">
-		        				
-		        			</div>
-		        		</div>
-		        	</div><!-- row -->
-
-		        	
-	        	</div>
-	        </div><!-- Search -->
-	    </form>
+		</form><!-- form -->
 	</div>
 </div>

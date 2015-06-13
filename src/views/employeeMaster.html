@@ -1,0 +1,172 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Employee Master</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Employee Info</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+	        			<div class="col-sm-6">
+        					<lable>*Branch</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">All</option>
+		                      	
+			                </select>
+        					<br />
+	        			</div>
+	        			<div class="col-sm-6">
+	        				<lable>*Designation</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Clerk</option>
+		                      	
+			                </select>
+        					<br />
+	        			</div> <!-- first row -->
+
+        				<div class="col-sm-6">
+        					<lable>*Employee Name</lable>
+        					<input type="text" class="form-control" placehoder="Employee Name" name="employeeName" ng-model="employeeName" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>*Role</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Accountant</option>
+		                      	
+			                </select>
+        					<br />
+	        			</div> <!-- second row -->
+        				
+        				<div class="col-sm-6">
+        					<lable>*Employee Code</lable>
+        					<input type="text" class="form-control" placehoder="Employee Code" name="employeeCode" ng-model="employeeCode" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>*Date Of Joining</lable>
+        					<div ng-controller="DatepickerDemoCtrl">
+					            <div class="input-group w-md">
+					              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+					            </div>
+					        </div>
+        					<br />
+	        			</div> <!-- third row -->
+	        			<div class="col-sm-6">
+        					<lable>*Password</lable>
+        					<input type="password" class="form-control" placehoder="Password" name="employeePassword" ng-model="employeePassword" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>*Date Of Birth</lable>
+        					<div ng-controller="DatepickerDemoCtrl">
+					            <div class="input-group w-md">
+					              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+					            </div>
+					        </div>
+        					<br />
+	        			</div> <!-- fourth row -->
+	        			
+	        			<div class="col-sm-6">
+        					<lable>*Mobile</lable>
+        					<input type="number" class="form-control" placehoder="Mobile" name="employeeMobile" ng-model="employeeMobile" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>Phone</lable>
+        					<input type="number" class="form-control" placehoder="Phone" name="employeePhone" ng-model="employeePhone" required>
+        					<br />
+	        			</div> <!-- fifth row -->
+
+	        			<div class="col-sm-6">
+        					<lable>*Email Id</lable>
+        					<input type="email" class="form-control" placehoder="Email Id" name="employeeEmail" ng-model="employeeEmail" required>
+        					<br />
+				            
+        				</div>
+        				<div class="col-sm-6">
+	        				<lable>Salary</lable>
+        					<input type="number" class="form-control" placehoder="Salary" name="employeeSalary" ng-model="employeeSalary" required>
+        					<br />
+	        			</div> <!-- sixth row -->
+
+	        			<div class="col-sm-12">
+	        				<h4>Address Details</h4>
+	        			</div> <!-- seventh row -->
+
+	        			<div class="col-sm-12">
+        					<lable>Address</lable>
+        					<textarea style="width:100%;" class="form-control" placehoder="Address" rows="4" name="employeeAddress" ng-model="employeeAddress"  > </textarea> 
+        					<br />
+				            
+        				</div> <!-- eighth row -->
+
+        				<div class="col-sm-6">
+	        				<lable>*Country</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">India</option>
+		                      	
+			                </select>
+        					<br />
+        					<lable>*State</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Maharashtra</option>
+		                      	
+			                </select>
+        					<br />
+        				</div> <!-- nineth row -->
+        				<div class="col-sm-6">
+        					<lable>*District</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Aurangabad</option>
+		                      	
+			                </select>
+			                <br />
+			            </div>
+			            <div class="col-sm-6">
+			                <lable>*City</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Aurangabad</option>
+		                      	
+			                </select>
+        					<br />
+        					<br />
+	        			</div> <!-- tenth row -->
+
+        				<div class="col-sm-8">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<div class="form-group">
+					              <div class="col-lg-offset-2 col-lg-10">
+					                <button type="button" class="btn btn-sm btn-info">Save</button>
+					                <button type="button" class="btn btn-sm btn-info">Clear</button>
+					                <button type="button" class="btn btn-sm btn-info">List</button>
+					                <button type="button" class="btn btn-sm btn-info">Close</button>
+					              </div>
+					              
+					            </div>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->

@@ -1,0 +1,52 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Fees Particular Master</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Add Fees Head Particular</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+        				<div class="col-sm-8">
+        					<lable>*Company Code</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">PSBA</option>
+		                      	<option value="primary">Primary</option>
+			                </select>
+        					<br />
+				            <lable>*Fees Head Type</lable>
+				            <select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Course</option>
+		                      	<option value="primary">Primary</option>
+			                </select>
+			                <br />
+			                <label>*Particular Name</label>
+			                <input type="text" class="form-control" placeholder="Partuclar Name" ng-model="particularName" name="particularName" required><br /><br />
+        				</div><!-- first row -->
+        				
+        				<div class="col-sm-8">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<div class="form-group">
+					              <div class="col-lg-offset-2 col-lg-10">
+					                <button type="button" class="btn btn-sm btn-info">Save</button>
+					                <button type="button" class="btn btn-sm btn-info">Cancel</button>
+					                
+					              </div>
+					              
+					            </div>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- second row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->
