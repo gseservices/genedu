@@ -1,10 +1,10 @@
 <?php
 require_once '.\..\..\app_const.php';
-include_once BASE_PATH . '\classes\masters\cls_document.php';
+include_once BASE_PATH . '\classes\masters\clsReceipt.php';
 
 $action=$_REQUEST["a"];
 //global $obj;
-$obj = new cls_document() ;
+$obj = new clsReceipt() ;
 
 switch($action)
 {
@@ -52,7 +52,7 @@ switch($action)
 
 		break;
 	case "r":
-		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "vm_for_document","*","");
+		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "transmfeesreciept","pk_reciept_id, receip_code, fk_company_code, rcpt_no, fk_admission_id, reciept_date, pay_mode","");
 		echo  $ret;
 		break;
 	case "p":

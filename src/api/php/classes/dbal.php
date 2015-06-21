@@ -12,25 +12,25 @@
 		 *
 		 * @var string
 		 */
-		protected $host="ersandeep.com";//116.73.88.162
+		protected $host="localhost";//"ersandeep.com";//116.73.88.162
 		/**
 		 * mysql Username
 		 *
 		 * @var string
 		 */
-		protected $user="ersandee_eduusr"; //"gsiplc1j_beta";
+		protected $user="root";//"ersandee_eduusr"; //"gsiplc1j_beta";
 		/**
 		 * mysql Password for user
 		 *
 		 * @var string
 		 */
-		protected $pwd='edupwd';//'gsipl$1234';
+		protected $pwd="root";//'edupwd';//'gsipl$1234';
 		/**
 		 * Database name
 		 *
 		 * @var string
 		 */		
-		protected $db="ersandee_edulive";	//"gsiplc1j_beta"
+		protected $db="edu_soft_cmngr_psba";//"ersandee_edulive";	//"gsiplc1j_beta"
 		/**
 		 * mysql link identifier
 		 *
