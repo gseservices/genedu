@@ -1,0 +1,108 @@
+<?php
+require_once '.\..\..\app_const.php';
+include_once BASE_PATH . '\classes\masters\cls_client_work_planner.php';
+
+$action=$_REQUEST["a"];
+//global $obj;
+$obj = new cls_client_work_planner() ;
+
+switch($action)
+{
+	//Add Records
+	case "a":
+		
+		$jsonData = $_REQUEST["p_xml"];		 
+		//prepareXMLForDocumentsUnderDocCat(htmlspecialchars_decode ($jsonData))
+		$keys[0]="pk_client_work_planner_id";
+		$keys[1]="fk_uk_client_code";
+		$keys[2]="fk_uk_work_type_code";
+		$keys[3]="fk_uk_employee_code";
+		$keys[4]="for_year_from";
+		$keys[5]="for_year_to";
+		$keys[6]="work_periodicity_type";
+		$keys[7]="dead_line_date";
+		$keys[8]="current_status";
+		$keys[9]="current_remark";
+		$keys[10]="current_status_update_on";
+						
+		$obj->m_p_xml= $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_client_work_planner" , $keys,$obj->logged_in_user_id);		
+		//echo  $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_client_work_planner" , $keys,$obj->logged_in_user_id);
+		$obj->m_isnested = "N";
+			
+		$ret = $obj->Add();
+		//echo ("valret". $ret);
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+		//alert("InAdd");
+		break;
+		//Edit Records
+	case "e":
+		//$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "mst_biz_document_category","*","");
+		break;
+		//Delete Records
+	case "d":
+		$obj->m_pk_client_work_planner_id= $_REQUEST["pk_client_work_planner_id"] ;
+		$obj->m_deleted_by=$_REQUEST["deleted_by"];
+		$obj->m_deletedtype="s";
+
+		$ret = $obj->Delete();
+		echo $ret;
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+
+		break;
+	case "r":
+		$filter ="";
+		if(isset($_REQUEST["client_filter"])){
+			$filter = htmlspecialchars_decode($_REQUEST["client_filter"]);
+		}
+		//echo $filter ;
+		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "vw_tran_work_planner","*",$filter);
+		echo  $ret;
+		break;
+	case "p":
+		$ret = $obj->getAllMastersRequired();
+		echo  $ret;
+		break;
+}
+
+function prepareXMLForDocumentsUnderDocCat($jsonData)
+{
+	/*echo $jsonData;
+	$documents =  json_decode($jsonData,TRUE);
+	print_r($documents);
+	$XMLString="<mst_biz_document>";
+	$index = 0;
+	foreach ($documents as $obj)
+	{	
+		debug("Line: " . $index . $XMLString);	
+		$XMLString=$XMLString . "<row>";
+		//debug($XMLString);
+		$XMLString=$XMLString . "<field name='fk_uk_doc_category_code'>". $obj->{"fk_uk_doc_category_code"} ."</field>";
+		//debug($XMLString);
+		$XMLString=$XMLString . "<field name='uk_document_code'>". $obj->{"uk_document_code"} ."</field>";//debug($XMLString);		
+		$XMLString=$XMLString . "<field name='document_name'>". $obj->{"document_name"} ."</field>";//debug($XMLString);
+		$XMLString=$XMLString . "<field name='description'>". $obj->{"description"} ."</field>";//debug($XMLString);
+		$XMLString=$XMLString . "<field name='created_by'>1</field>";//debug($XMLString);
+		$XMLString=$XMLString . "<field name='modified_by'>1</field>";//debug($XMLString);
+		$XMLString=$XMLString . "</row>";//debug($XMLString);
+		$index ++;//debug($XMLString);
+	}
+	$XMLString=$XMLString . "</mst_biz_document>";
+	echo $XMLString;*/
+	
+}
+
+function debug($str=""){
+	echo $str ."<br>";
+}
+//$ret = $obj->Delete();
+
+
+?>

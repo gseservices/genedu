@@ -1,0 +1,104 @@
+<?php
+
+include_once BASE_PATH . '\classes\clsBase.php';
+
+class cls_biz_doc_cat extends clsBase
+{
+
+	public $m_pk_doc_cat_id=0;
+	public $m_uk_doc_cat_code="";
+	public $m_doc_cat_name="";
+	public $m_description="";
+	//public $mCreatedBy=0;
+	//public $mUpdatedby=1;
+	//public $p_xml="abcd";
+
+	public $dbal;
+
+	function __construct()
+	{
+		parent::connect();
+		$this->dbal= new DBAL($this->myLink);
+	}
+
+	public function Add()
+	{
+		try{
+			$sql = "CALL spm_iu_mst_biz_document_category(". $this->m_pk_doc_cat_id .",'". $this->m_uk_doc_cat_code."','" . $this->m_doc_cat_name ."','". $this->m_description ."',". $this->mCreatedBy .",".$this->mUpdatedby .",'".$this->p_xml."')" ;// `p_xml` text
+			$result = $this->dbal->execScalar($sql,false);
+			echo $result;
+		}catch (Exception $ex)
+		{
+			$this->WriteLog($ex);
+		}
+	}
+
+	public function Update()
+	{
+		try{
+			$sql = "CALL spm_iu_mst_biz_document_category(". $this->m_pk_doc_cat_id .",'". $this->m_uk_doc_cat_code."','" . $this->m_doc_cat_name ."','". $this->m_description ."',". $this->mCreatedBy .",".$this->mUpdatedby .",'".$this->p_xml."')" ;// `p_xml` text
+			$result = $this->dbal->execScalar($sql,false);
+			echo $result;
+		}catch (Exception $ex)
+		{
+			$this->WriteLog($ex);
+		}
+
+	}
+
+	public function Delete()
+	{
+		try{
+			$sql = "CALL ";
+			$result = $this->dbal->execScalar($sql,false);
+			echo $result;
+		}catch (Exception $ex)
+		{
+			$this->WriteLog($ex);
+		}
+	}
+
+	public function GetData($mode = SELECT_MODE_VIEW, $returntype =SELECT_RETURN_TYPE_JSONSTRING, $dbobj="",$projectionList="*",$filter="")
+	{
+		switch($mode)
+		{
+			case SELECT_MODE_VIEW:
+				$sql = " SELECT ". $projectionList ." FROM ". $dbobj . (($filter == "")? "" : " WHERE " . $filter);
+				break;
+			case SELECT_MODE_TABLE:
+				echo "mode table";
+				$sql = " SELECT ". $projectionList ." FROM ". $dbobj . (($filter == "")? "" : " WHERE " . $filter);
+				break;
+			case SELECT_MODE_SP:
+				$sql = "CALL ". $dbobj . (($filter == "")? "" : "(". $filter .")");
+				break;
+			default:
+				$sql = " SELECT ". $projectionList ." FROM ". $dbobj . (($filter == "")? "" : " WHERE " . $filter);
+				break;
+		}
+
+		$qry_res = $this->dbal->execReader($sql);
+
+	if($qry_res)
+		{
+			$rec_set = $this->dbal->fetchData($qry_res, true);
+			//print_r($rec_set);
+		}else {
+			//echo "no data";
+			return "NODATA";
+		}
+
+		if($rec_set)
+		{
+			if($returntype == SELECT_RETURN_TYPE_JSONSTRING )
+			{
+				$return_str = json_encode($rec_set);				
+				return $this->sanitizeBlankJSONRecordset($return_str);
+			}
+		}else{
+			return $this->sanitizeBlankJSONRecordset();
+		}	
+	}
+}
+
+?>

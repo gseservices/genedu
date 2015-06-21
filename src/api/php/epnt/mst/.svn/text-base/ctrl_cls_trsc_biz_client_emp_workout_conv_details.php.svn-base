@@ -1,0 +1,71 @@
+<?php
+require_once '.\..\..\app_const.php';
+include_once BASE_PATH . '\classes\masters\cls_trsc_biz_client_emp_workout_conv_details.php';
+
+$action=$_REQUEST["a"];
+//global $obj;
+$obj = new cls_trsc_biz_client_emp_workout_conv_details() ;
+
+switch($action)
+{
+	//Add Records
+	case "a":
+		
+		$jsonData = $_REQUEST["p_xml"];
+			
+		$keys[0]="pk_client_emp_work_out_conv_del_id" ;
+		$keys[1]="fk_client_emp_workout_id" ;
+		$keys[2]="fk_uk_conveyance_code" ;
+		$keys[3]="fk_uk_employee_code" ;
+		$keys[4]="approval_status" ;
+		$keys[5]="req_magnitude" ;
+		$keys[6]="approved_magnitude" ;
+		$keys[7]="description" ;
+				
+		$obj->m_p_xml= $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_client_emp_workout_conv_details" , $keys,$obj->logged_in_user_id);
+		echo  $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_client_emp_workout_conv_details" , $keys,$obj->logged_in_user_id);
+		$obj->m_isnested = "N";
+							
+		$ret = $obj->Add();
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+		//alert("InAdd");
+		break;
+		//Edit Records
+	case "e":
+		//$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "mst_biz_document_category","*","");
+		break;
+		//Delete Records
+	case "d":
+		$obj->m_pk_client_emp_work_out_conv_del_id= $_REQUEST["pk_client_emp_work_out_conv_del_id"] ;
+		$obj->m_deleted_by=$_REQUEST["deleted_by"];
+		$obj->m_deletedtype="s";
+
+		$ret = $obj->Delete();
+		echo $ret;
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+
+		break;
+	case "r":
+		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "vm_trans_client_emp_workout_conv_details","*","");
+		echo  $ret;
+		break;
+	case "p":
+		$ret = $obj->getAllMastersRequired();
+		echo  $ret;
+		break;
+}
+function debug($str=""){
+	echo $str ."<br>";
+}
+//$ret = $obj->Delete();
+
+
+?>

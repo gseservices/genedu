@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/webapps/!svn/ver/5237/gsaudit/classes
+END
+dbal.php
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/webapps/!svn/ver/5027/gsaudit/classes/dbal.php
+END
+clsBase.php
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/webapps/!svn/ver/5191/gsaudit/classes/clsBase.php
+END
+grid.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/webapps/!svn/ver/4839/gsaudit/classes/grid.tpl
+END

@@ -1,0 +1,75 @@
+<?php
+require_once '.\..\..\app_const.php';
+include_once BASE_PATH . '\classes\masters\cls_biz_emp_sal_det.php';
+
+$action=$_REQUEST["a"];
+
+$obj = new cls_biz_emp_sal_det() ;
+
+switch($action)
+{
+	//Add Records
+	case "a":
+		
+		$jsonData = $_REQUEST["p_xml"];		 
+		$keys[0]="pk_emp_sal_det_id";
+		$keys[1]="fk_uk_employee_code";
+		$keys[2]="formonth";
+		$keys[3]="basic_salary";
+		$keys[4]="extra_salary";
+		$keys[5]="workdays";
+		$keys[6]="present";
+		$keys[7]="absentdays";
+		$keys[8]="paiddays";
+		$keys[9]="total_paid";
+						
+		$obj->m_p_xml= $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_emp_sal_det" , $keys,$obj->logged_in_user_id);
+		echo  $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_emp_sal_det" , $keys,$obj->logged_in_user_id);
+			
+		$ret = $obj->Add();
+		echo ("valret". $ret);
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+		//alert("InAdd");
+		break;
+		//Edit Records
+	case "e":
+		//$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "mst_biz_document_category","*","");
+		break;
+		//Delete Records
+	case "d":
+		$obj->m_pk_emp_sal_det_id= $_REQUEST["pk_emp_sal_det_id"] ;
+		$obj->m_deleted_by=$_REQUEST["deleted_by"];
+		$obj->m_deletedtype="s";
+
+		$ret = $obj->Delete();
+		echo $ret;
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+		break;
+	case "r":
+		$filter ="";
+		if(isset($_REQUEST["client_filter"])){
+			$filter = htmlspecialchars_decode($_REQUEST["client_filter"]);
+		}
+		//echo $filter ;
+		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "trsc_biz_emp_sal_det","*",$filter);
+		echo  $ret;
+		break;
+	case "p":
+		$ret = $obj->getAllMastersRequired();
+		echo  $ret;
+		break;
+}
+
+function debug($str=""){
+	echo $str ."<br>";
+}
+
+?>

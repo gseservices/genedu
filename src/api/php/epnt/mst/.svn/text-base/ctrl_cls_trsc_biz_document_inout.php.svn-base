@@ -1,0 +1,83 @@
+<?php
+require_once '.\..\..\app_const.php';
+include_once BASE_PATH . '\classes\masters\cls_trsc_biz_document_inout.php';
+
+$action=$_REQUEST["a"];
+//global $obj;
+$obj = new cls_trsc_biz_document_inout();
+
+switch($action)
+{
+	//Add Records
+	case "a":
+
+		$obj->m_pk_document_inout_id= $_REQUEST["pk_document_inout_id"] ;
+		$obj->m_txn_type= $_REQUEST["txn_type"] ;
+		$obj->m_fk_uk_client_code= $_REQUEST["fk_uk_client_code"] ;
+		$obj->m_fk_uk_work_type_code= $_REQUEST["fk_uk_work_type_code"] ;
+		$obj->m_received_date= $_REQUEST["received_date"] ;
+		$obj->m_received_by= $_REQUEST["received_by"] ;
+		$obj->m_qty= $_REQUEST["qty"] ;
+		$obj->m_description= $_REQUEST["description"] ;		
+		
+		$jsonData = $_REQUEST["p_xml"];	 
+
+		$keys[0]="pk_document_inout_det_id";
+		$keys[1]="fk_document_inout_id";
+		$keys[2]="document_name";
+		$keys[3]="file_name";
+		$keys[4]="file_type";
+		$keys[5]="description";
+		
+		$p_xml= '"'.$obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_document_inout_detail" , $keys,$obj->logged_in_user_id).'"';
+		$obj->m_p_xml= $p_xml;
+		//echo $p_xml;
+		//echo  $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_document_inout_detail" , $keys,$obj->logged_in_user_id);
+		$obj->m_isnested = "N";
+			
+		$ret = $obj->Add();
+		//echo ("valret". $ret);
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+		//alert("InAdd");
+		break;
+		//Edit Records
+	case "e":
+		//$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "mst_biz_document_category","*","");
+		break;
+		//Delete Records
+	case "d":
+		$obj->m_pk_document_inout_id= $_REQUEST["pk_document_inout_id"] ;
+		$obj->m_deleted_by=$_REQUEST["deleted_by"];
+		$obj->m_deletedtype="s";
+
+		$ret = $obj->Delete();
+		echo $ret;
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+		break;
+	case "r":
+		$filter ="";
+		if(isset($_REQUEST["client_filter"])){
+			$filter = htmlspecialchars_decode($_REQUEST["client_filter"]);
+		}
+		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "vm_for_client_document_details","*","$filter");
+		echo  $ret;
+		break;
+	case "p":
+		$ret = $obj->getAllMastersRequired();
+		echo  $ret;
+		break;
+}
+
+function debug($str=""){
+	echo $str ."<br>";
+}
+
+?>

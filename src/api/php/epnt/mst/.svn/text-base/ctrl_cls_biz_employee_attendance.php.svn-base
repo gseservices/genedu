@@ -1,0 +1,99 @@
+<?php
+require_once '.\..\..\app_const.php';
+include_once BASE_PATH . '\classes\masters\cls_biz_employee_attendance.php';
+
+$action=$_REQUEST["a"];
+//global $obj;
+$obj = new cls_biz_employee_attendance() ;
+
+switch($action)
+{
+	//Add Records
+	case "a":
+
+		$jsonData = $_REQUEST["p_xml"];
+		$keys[0]="pk_attendance_id";
+		$keys[1]="fk_uk_employee_code";
+		$keys[2]="date";
+		$keys[3]="in_time";
+		$keys[4]="out_time";
+		$keys[5]="over_time";
+		$keys[6]="present_status";
+
+		$obj->m_p_xml= $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_employee_attendance" , $keys,$obj->logged_in_user_id);
+		echo  $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_employee_attendance" , $keys,$obj->logged_in_user_id);
+			
+		$ret = $obj->Add();
+		echo ("valret". $ret);
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+		//alert("InAdd");
+		break;
+		//Edit Records
+	case "e":
+		//$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "mst_biz_document_category","*","");
+		break;
+		//Delete Records
+	case "d":
+		$obj->m_pk_client_work_planner_stat_id= $_REQUEST["pk_client_work_planner_stat_id"] ;
+		$obj->m_deleted_by=$_REQUEST["deleted_by"];
+		$obj->m_deletedtype="s";
+
+		$ret = $obj->Delete();
+		echo $ret;
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+		break;
+	case "r":
+		$filter ="";
+		if(isset($_REQUEST["client_filter"])){
+			$filter = htmlspecialchars_decode($_REQUEST["client_filter"]);
+		}
+		//echo $filter ;
+		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "vm_for_employee_attendance","*",$filter);
+		echo  $ret;
+		break;
+	case "p":
+		$ret = $obj->getAllMastersRequired();
+		echo  $ret;
+		break;
+}
+
+function debug($str=""){
+	echo $str ."<br>";
+}
+
+function prepareXMLForDocumentsUnderAttendanceDetails($jsonData)
+{
+	$emp_attendance =  json_decode($jsonData,TRUE);
+	//print_r($emp_attendance);
+
+	$XMLString="<trsc_biz_employee_attendance>";
+	$index = 0;
+	foreach ($emp_attendance as $obj)
+	{
+		print_r($emp_attendance[0]);
+		$XMLString=$XMLString . "<row>";
+
+		$XMLString=$XMLString . "<field name='fk_uk_employee_code'>0</field>";
+		$XMLString=$XMLString . "<field name='date'>0</field>";
+		$XMLString=$XMLString . "<field name='in_time'>0</field>";
+		$XMLString=$XMLString . "<field name='out_time'>0</field>";
+		$XMLString=$XMLString . "<field name='over_time'>0</field>";
+		$XMLString=$XMLString . "<field name='present_status'>0</field>";
+		$XMLString=$XMLString . "<field name='created_by'>1</field>";
+		$XMLString=$XMLString . "<field name='modified_by'>1</field>";
+		$XMLString=$XMLString . "</row>";
+		//debug($XMLString);//". $obj->{"fk_debit_ledger_id"} ."
+		$index ++;
+	}
+	$XMLString=$XMLString . "</trsc_biz_employee_attendance>";
+	return $XMLString;
+}
+?>

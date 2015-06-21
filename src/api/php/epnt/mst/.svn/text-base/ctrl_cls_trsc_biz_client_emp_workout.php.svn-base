@@ -1,0 +1,80 @@
+<?php
+require_once '.\..\..\app_const.php';
+include_once BASE_PATH . '\classes\masters\cls_trsc_biz_client_emp_workout.php';
+
+$action=$_REQUEST["a"];
+//global $obj;
+$obj = new cls_trsc_biz_client_emp_workout() ;
+
+switch($action)
+{
+	//Add Records
+	case "a":
+		
+		$jsonData = $_REQUEST["p_xml"];
+		$keys[0]="pk_client_emp_workout_id";
+		$keys[1]="fk_uk_trans_code";
+		$keys[2]="fk_uk_employee_code";
+		$keys[3]="fk_uk_work_step_code";
+		$keys[4]="start_date";
+		$keys[5]="end_date";
+		$keys[6]="actually_start_date";
+		$keys[7]="actually_end_date";
+		$keys[8]="is_status";
+		$keys[9]="client_work_out_status";
+		$keys[10]="description";
+						
+		$obj->m_p_xml= $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_client_emp_workout" , $keys,$obj->logged_in_user_id);		
+		//echo  $obj->prepareXMLForSP(htmlspecialchars_decode ($jsonData),"trsc_biz_client_work_planner" , $keys,$obj->logged_in_user_id);
+		$obj->m_isnested = "N";
+			
+		$ret = $obj->Add();
+		echo ("valret". $ret);
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+		//alert("InAdd");
+		break;
+		//Edit Records
+	case "e":
+		//$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "mst_biz_document_category","*","");
+		break;
+		//Delete Records
+	case "d":
+		$obj->m_pk_client_emp_workout_id= $_REQUEST["pk_client_emp_workout_id"] ;
+		$obj->m_deleted_by=$_REQUEST["deleted_by"];
+		$obj->m_deletedtype="s";
+
+		$ret = $obj->Delete();
+		echo $ret;
+		if(intval($ret)>0){
+			echo  $ret;
+		}else{
+			echo "FAIL";
+		}
+
+		break;
+	case "r":
+		$filter ="";
+		if(isset($_REQUEST["client_filter"])){
+			$filter = htmlspecialchars_decode($_REQUEST["client_filter"]);
+		}
+		//echo $filter ;
+		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "vm_tran_client_emp_workout","*",$filter);
+		echo  $ret;
+		break;
+	case "p":
+		$ret = $obj->getAllMastersRequired();
+		echo  $ret;
+		break;
+}
+
+function debug($str=""){
+	echo $str ."<br>";
+}
+//$ret = $obj->Delete();
+
+
+?>
