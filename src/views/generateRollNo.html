@@ -1,0 +1,106 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Generate Roll No</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Admission List Search</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+        				<div class="col-sm-6">
+        					<lable>*Section</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Primary</option>
+		                      	
+			                </select>
+        					<br />
+        				</div>
+        				<div class="col-sm-6">
+				            <lable>*Academic Year</lable>
+				            <select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">2015-2016</option>
+		                      	
+			                </select>
+			                <br />
+			                
+        				</div><!-- first row -->
+        				<div class="col-sm-6">
+        					<lable>*Course Code</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">1</option>
+		                      	
+			                </select>
+        					<br />
+        				</div>
+        				<div class="col-sm-6">
+				            
+			                <br />
+			                
+        				</div><!-- second row -->
+        				
+        				<div class="col-sm-12">
+        					
+			                <button type="button" class="btn btn-md btn-info">Show</button>
+			                
+			                <br /><br />
+        				</div> <!-- third row -->
+
+        				<div class="col-sm-12">
+        					<div class="table-responsive">
+						      <table style="height:100px;" ui-jq="dataTable" ui-options="{
+						          sAjaxSource: 'api/datatable.json',
+						          aoColumns: [
+						            { mData: 'engine' },
+						            { mData: 'browser' },
+						            { mData: 'platform' },
+						            { mData: 'version' },
+						            { mData: 'grade' }
+						          ]
+						        }" class="table table-striped b-t b-b">
+						        <thead>
+						          <tr>
+						            <th  style="width:15%">Roll No.</th>
+						            <th  style="width:10%">PRN</th>
+						            <th  style="width:30%">Student Name</th>
+						            <th  style="width:10%">Division</th>
+						            <th  style="width:15%">Admission Date</th>
+						            <th  style="width:10%">Status</th>
+
+						            
+						            
+						          </tr>
+						        </thead>
+						        <tbody>
+						        </tbody>
+						      </table>
+						      
+						      <br /><br />
+							</div>
+        				</div>
+
+        				<div class="col-sm-8">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<div class="form-group">
+					              <div class="col-lg-offset-2 col-lg-10">
+					                <button type="button" class="btn btn-sm btn-info">Print</button>
+					                <button type="button" class="btn btn-sm btn-info">Get Roll</button>
+					                
+					              </div>
+					              
+					            </div>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->

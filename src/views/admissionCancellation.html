@@ -1,0 +1,182 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Admission Cancellation</h1>
+</div>
+<div class="wrapper-md" ng-controller="receiptCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Search for Admission Cancellation</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+        				<div class="col-sm-8">
+        					<div class="row">
+	        					<div class="col-sm-4">
+	        						<br/>
+			        				<div class="checkbox">
+						                <label class="i-checks">
+						                  <input type="checkbox" ng-model="applyDate" required><i></i> Apply Date Filter
+						                </label>
+		              				</div>
+			        			</div>
+			        			<div class="col-sm-4">
+			        				<lable>From Dt</lable>
+			        				<div ng-controller="DatepickerDemoCtrl">
+							            <div class="input-group w-md">
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </div>
+							        </div>
+			        			</div>
+			        			<div class="col-sm-4">
+			        				<lable>To Dt</lable>
+			        				<div ng-controller="DatepickerDemoCtrl">
+							            <div class="input-group w-md">
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </div>
+							        </div>
+			        			</div>
+		        			</div><!-- row -->
+		        			<div class="row">
+		        				<div class="col-sm-4">
+			        				<lable>Search Fields</lable>
+			        				<select class="form-control" ng-model="f.b" required >
+				                      <option value="">Student Name</option>
+				                      
+				                  	</select>
+			        			</div>
+			        			<div class="col-sm-4">
+		        					<lable>Operator</lable>
+		        					<select class="form-control" ng-model="f.b" required >
+				                      <option value="">Like</option>
+				                      
+				                  	</select>
+			        			</div>
+			        			<div class="col-sm-3">
+			        				<lable>Criteria</lable>
+			        				<input type="text" class="form-control" placeholder="Criteria" ng-model="criteria" name="criteria">
+			        					
+			        			</div>
+			        			<div class="col-sm-1">
+			        				<br />
+			        				<button type="button" class="btn btn-sm btn-info">Add</button>	
+			        			</div>
+		        			</div><!-- row --><br />
+
+		        			<div class="row">
+		        				<div class="col-sm-11">
+		        					<input type="text" class="form-control" placeholder="Criteria" ng-model="criteria" name="criteria">
+		        				</div>
+		        				<div class="col-sm-1">
+		        				<button type="button" class="btn btn-sm btn-info">Clear</button><br /><br />	
+		        				</div>
+		        			</div>
+
+		        		</div><!-- COL SM 8 -->
+
+		        		<div class="col-sm-12">
+					    	<div class="col-sm-2">
+				    			
+			    				<div class="checkbox">
+					                <label class="i-checks">
+					                  <input type="checkbox" ng-model="selectAll" required><i></i> Select All
+					                </label>
+			      				</div>
+					    	</div>
+					    	<div class="col-sm-1">
+					    		<button type="button" class="btn btn-md btn-info">Show</button>	
+					    	</div>
+					    	<div class="col-sm-2">
+
+					    		<h4>Record Count (0)</h4>
+					    	</div>
+					    	<div class="col-sm-7">
+					    		<br />
+				    			<label>Select Status</label>
+		        				
+						        
+					              <label class="i-checks">
+					                <input type="radio" name="selectStatus" value="active" checked>
+					                <i></i>
+					                Active
+					              </label>
+					            
+		        				
+					              <label class="i-checks">
+					                <input type="radio" name="selectStatus" value="cancel">
+					                <i></i>
+					                Cancel
+					              </label>
+					            
+					              <label class="i-checks">
+					                <input type="radio" name="selectStatus" value="completed">
+					                <i></i>
+					                Completed
+					              </label>
+					            
+					    	</div>
+					    </div>
+
+					    <div class="col-sm-12">
+				    		<div class="table-responsive">
+				    			<br />
+		        				<table style="height:100px;" ui-jq="dataTable" ui-options="{
+						          sAjaxSource: 'api/datatable.json',
+						          aoColumns: [
+						            { mData: 'engine' },
+						            { mData: 'browser' },
+						            { mData: 'platform' },
+						            { mData: 'version' },
+						            { mData: 'grade' }
+						          ]
+						        }" class="table table-striped b-t b-b">
+						        <thead>
+						          <tr>
+						          	<th  style="width:10%"></th>
+						            <th  style="width:10%">PRN</th>
+						            <th  style="width:30%">Student Name</th>
+						            <th  style="width:20%">Modified Date</th>
+						            <th  style="width:10%">Status</th>
+						            <th  style="width:20%">Academic Year</th>
+						          </tr>
+						        </thead>
+						        <tbody>
+						        </tbody>
+						      </table>
+		        			</div>
+					    </div>
+
+					    <div class="col-sm-12">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<div class="form-group">
+					              <div class="col-lg-offset-2 col-lg-10">
+					              	<center>
+					              	<br />
+					                <button type="button" class="btn btn-md btn-info">Print</button>
+					                <button type="button" class="btn btn-md btn-info">Save</button>
+					                
+					                </center>
+					              </div>
+					              
+					            </div>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+
+		        	</div><!-- ROW -->
+		        </div><!-- PANEL BODY --> 
+		    </div><!-- SEARCH --> 
+
+		</form><!-- form -->
+	</div><!-- row --> 
+</div><!-- controller -->

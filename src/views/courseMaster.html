@@ -1,0 +1,108 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Course Master</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Course Manager</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+        				<div class="col-sm-8">
+        					<lable>*Course Name</lable>
+        					<input type="text" class="form-control" placehoder="Course Name" name="courseName" ng-model="courseName" required>
+        					<br />
+				            
+        				</div><!-- first row -->
+        				<div class="col-sm-8">
+        					<div class="col-sm-4" style="padding-left:0px;">
+        						<label>*Section</label>
+					            <select class="form-control" ng-model="f.b" required >
+			                      	<option value="pre-primary">Pre-primary</option>
+			                      	<option value="primary">Primary</option>
+				                </select>
+        					</div>
+        					<div class="col-sm-4" >
+        						<label>*Medium</label>
+					            <select class="form-control" ng-model="f.b" required >
+			                      	<option value="pre-primary">Pre-primary</option>
+			                      	<option value="primary">Primary</option>
+				                </select>
+        					</div>
+        					<div class="col-sm-4">
+        						<label>*Faculty</label>
+					            <select class="form-control" ng-model="f.b" required >
+			                      	<option value="pre-primary">Pre-primary</option>
+			                      	<option value="primary">Primary</option>
+				                </select>
+				                <br />
+        					</div>
+        					
+        				</div><!-- second row -->
+        				<div class="col-sm-8">
+        					<div class="col-sm-4" style="padding-left:0px;">
+        						<label>*Duration</label>
+					            <input type="text" class="form-control" placehoder="Duration" name="duration" ng-model="duration" required>
+        					</div>
+        					<div class="col-sm-4" >
+        						<label>*Course Code</label>
+					            <input type="text" class="form-control" placehoder="Course Code" name="courseCode" ng-model="courseCode" required><br />
+        					</div>
+        					<div class="col-sm-4">
+        						
+        					</div>
+        					
+        				</div><!-- third row -->
+        				<div class="col-sm-8">
+        					<lable>*Select Subject Code</lable>
+        					<div class="table-responsive">
+						      <table style="height:100px;" ui-jq="dataTable" ui-options="{
+						          sAjaxSource: 'api/datatable.json',
+						          aoColumns: [
+						            { mData: 'engine' },
+						            { mData: 'browser' },
+						            { mData: 'platform' },
+						            { mData: 'version' },
+						            { mData: 'grade' }
+						          ]
+						        }" class="table table-striped b-t b-b">
+						        <thead>
+						          <tr>
+						            <th  style="width:40%">Compulsory 1</th>
+						            <th  style="width:30%">Second Language</th>
+						            <th  style="width:30%">Subject Code</th>
+						            
+						          </tr>
+						        </thead>
+						        <tbody>
+						        </tbody>
+						      </table>
+						      <br />
+							</div>
+        				</div><!-- third row -->
+        				<div class="col-sm-8">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<div class="form-group">
+					              <div class="col-lg-offset-2 col-lg-10">
+					                <button type="button" class="btn btn-sm btn-info">Save</button>
+					                <button type="button" class="btn btn-sm btn-info">Clear</button>
+					                <button type="button" class="btn btn-sm btn-info">List</button>
+					                <button type="button" class="btn btn-sm btn-info">Close</button>
+					              </div>
+					              
+					            </div>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->

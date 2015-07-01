@@ -1,0 +1,88 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Account Group Master</h1>
+</div>
+<div class="wrapper-md" ng-controller="courseCtrl">
+	<div class="row">
+		<form role="form">
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Account Group Info</div>
+	        	<div class="panel-body">
+	        		<div class="row">
+        				<div class="col-sm-6">
+        					<lable>*Company</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">PSBA</option>
+		                      	
+			                </select>
+        					<br />
+        				</div>
+        				<div class="col-sm-6">
+				            <lable>*Account Section</lable>
+				            <select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Assets</option>
+		                      	
+			                </select>
+			                <br />
+			                
+        				</div><!-- first row -->
+        				<div class="col-sm-6">
+        					<lable>*Group Type</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary">Master</option>
+		                      	
+			                </select>
+        					<br />
+        				</div>
+        				<div class="col-sm-6">
+				            <lable>Under Account Section</lable>
+        					<select class="form-control" ng-model="f.b" required >
+		                      	<option value="pre-primary"></option>
+		                      	
+			                </select>
+			                <br />
+			                
+        				</div><!-- second row -->
+        				
+        				<div class="col-sm-12">
+        					<lable>Description</lable>
+        					<textarea rows="3" class="form-control" placeholder="Description" ng-model="description" name="description" > </textarea>
+			                <br />
+        				</div> <!-- third row -->
+
+    					<div class="col-sm-6">
+        					<lable>AG Name</lable>
+        					<input type="text" class="form-control" placeholder="AG Name" ng-model="agName" name="agName">
+        					<br />
+        				</div>
+        				<div class="col-sm-6">
+				            <lable>AG Code</lable>
+        					<input type="text" class="form-control" placeholder="AG Code" ng-model="agCode" name="agCode">
+			                <br />
+			                
+        				</div><!-- fourth row -->
+
+        				<div class="col-sm-12">
+        					<div class="col-sm-2">
+			        				
+		        			</div>
+		        			<div class="col-sm-8">
+		        				<div class="form-group">
+					              <div class="col-lg-offset-2 col-lg-10">
+					                <button type="button" class="btn btn-sm btn-info">Save</button>
+					                <button type="button" class="btn btn-sm btn-info">Cancel</button>
+					                
+					              </div>
+					              
+					            </div>
+		        			</div>
+		        			<div class="col-sm-2">
+		        				
+		        			</div>
+		        			
+        				</div><!-- fourth row -->
+	        		</div>
+	        	</div><!-- panel body -->
+	        </div><!-- panel -->
+	    </form><!-- form -->
+	</div><!-- row -->
+</div><!-- controller -->
