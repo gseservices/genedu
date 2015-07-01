@@ -1,6 +1,8 @@
 <?php
 
-include_once(BASE_PATH . "\classes\dbal.php");
+include_once(BASE_PATH . "/classes/dbal.php");
+
+//echo "at the beginning of clsbase";
 //OnClick="return validateGeneralNotice();"
 abstract class clsBase
 {

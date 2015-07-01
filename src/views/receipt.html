@@ -22,7 +22,7 @@
 			        				<lable>From Dt</lable>
 			        				<div ng-controller="DatepickerDemoCtrl">
 							            <div class="input-group w-md">
-							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="fromDate" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
 							              <span class="input-group-btn">
 							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 							              </span>
@@ -33,7 +33,7 @@
 			        				<lable>To Dt</lable>
 			        				<div ng-controller="DatepickerDemoCtrl">
 							            <div class="input-group w-md">
-							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="toDate" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
 							              <span class="input-group-btn">
 							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 							              </span>
@@ -102,11 +102,83 @@
 	        			</div>
 	        			<div class="col-sm-4">
 	        				<br/>
-	        				<button type="button" class="btn btn-sm btn-info">Find</button>	
+	        				<button type="button" class="btn btn-sm btn-info" ng-click="getData()">Find</button>	
 	        			</div>
 	        		</div>
 	        	</div>
 		    </div><!-- Student Type -->
+		    <div class="panel panel-default">
+		        <div class="panel-heading font-bold">Student List</div>
+	        	<div class="panel-body">
+	        		<!--<div ng-grid="gridOptions" style="min-height:420px"></div>-->
+	        		<!--<div class="panel-heading">
+				      DataTables
+				    </div>
+				    <div class="table-responsive">
+				      <table ui-jq="dataTable" ui-options="{
+				          aaData: receiptList,
+				          aoColumns: [
+				            { mData: 'engine' },
+				            { mData: 'browser' },
+				            { mData: 'platform' },
+				            { mData: 'version' },
+				            { mData: 'grade' }
+				          ]
+				        }" class="table table-striped b-t b-b">
+				        <thead>
+				          <tr>
+				            <th  style="width:20%">Rendering engine</th>
+				            <th  style="width:25%">Browser</th>
+				            <th  style="width:25%">Platform(s)</th>
+				            <th  style="width:15%">Engine version</th>
+				            <th  style="width:15%">CSS grade</th>
+				          </tr>
+				        </thead>
+				        <tbody>
+				        </tbody>
+				      </table>
+				    </div>-->
+					<div>
+						<label>Receipt List containts {{receiptList.length}} elements</label><br/>
+				      <table id="receiptTable" class="table m-b-none" ui-jq="footable" ngRepeatFinished data-page-size="5" >
+				        <thead>
+				          <tr>
+				              <th data-toggle="true">
+				                  Receipt Id
+				              </th>
+				              <th>
+				                  Receipt Code
+				              </th>
+				              <th data-hide="phone,tablet">
+				                  Receipt No.
+				              </th>
+				              <th data-hide="phone,tablet" data-name="Date Of Birth">
+				                  DOB
+				              </th>
+				              <th data-hide="phone">
+				                  Status
+				              </th>
+				          </tr>
+				        </thead>
+				        <tbody>
+				          <tr data-ng-repeat="receipt in receiptList" ngRepeatFinished >
+				              <td>{{receipt.pk_reciept_id}}</td>
+				              <td><a href>{{receipt.receip_code}}</a></td>
+				              <td>{{receipt.rcpt_no}}</td>
+				              <td data-value="78025368997">22 Jun 1972</td>
+				              <td data-value="1"><span class="label bg-success" title="Active">Active</span></td>
+				          </tr>
+						</tbody>
+						<tfoot class="hide-if-no-paging">
+				          <tr>
+				              <td colspan="5" class="text-center">
+				                  <ul class="pagination"></ul>
+				              </td>
+				          </tr>
+				        </tfoot>
+					  </table>
+	        	</div>
+		    </div><!-- Student List -->
 
 		    <div class="panel panel-default">
 		        <div class="panel-heading font-bold">Student Details</div>

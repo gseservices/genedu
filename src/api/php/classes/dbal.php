@@ -62,6 +62,7 @@
 				}
 								
 			}catch(Exception $e){
+				echo "dbal object cannot be created.. error ". $e.get_message();
 				$this->WriteLog($e);
 			}
 		}

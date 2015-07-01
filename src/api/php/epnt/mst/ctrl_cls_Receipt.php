@@ -1,10 +1,21 @@
 <?php
-require_once '.\..\..\app_const.php';
-include_once BASE_PATH . '\classes\masters\clsReceipt.php';
+
+require_once './../../app_const.php';
+include_once BASE_PATH.'/classes/masters/clsReceipt.php';
+
+//echo "at the beginning of file with base path : " . BASE_PATH;
 
 $action=$_REQUEST["a"];
 //global $obj;
-$obj = new clsReceipt() ;
+//echo "<br/>before receipt object creation";
+try{
+	$obj = new clsReceipt() ;
+	//echo "receipt object created...";
+}catch(Exception $ex){
+	//echo "error : ".$ex;
+}
+
+//echo "before switch";
 
 switch($action)
 {
@@ -52,6 +63,7 @@ switch($action)
 
 		break;
 	case "r":
+		//echo "reached at retrieval location";
 		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, "transmfeesreciept","pk_reciept_id, receip_code, fk_company_code, rcpt_no, fk_admission_id, reciept_date, pay_mode","");
 		echo  $ret;
 		break;
