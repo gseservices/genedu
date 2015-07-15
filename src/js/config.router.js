@@ -266,9 +266,6 @@ angular.module('app')
                   url: '/elements',
                   templateUrl: 'tpl/form_elements.html'
               })
-
-              
-
               .state('app.form.admission', {
                   url: '/admission',
                   templateUrl: 'views/admission.html'
@@ -279,7 +276,17 @@ angular.module('app')
               })
               .state('app.form.receipt_new',{
                 url: '/receiptNew',
-                templateUrl: 'views/receiptNew.html'
+                templateUrl: 'views/receiptNew.html',
+                resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad){
+                          return $ocLazyLoad.load('toaster').then(
+                              function(){
+                                 return $ocLazyLoad.load('js/controllers/toaster.js');
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.form.receipt', {
                   url: '/receipt',

@@ -16,6 +16,7 @@ angular.module('app')
         version: '2.0.1',
         copyright_company:'GS eServices',
         copyright_year:'2015',
+        cur_symbol:'₹',
         
         // for chart colors
         color: {

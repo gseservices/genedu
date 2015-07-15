@@ -58,7 +58,7 @@ class clsReceipt extends clsBase
 	public function Add()
 	{
 		try{			
-			$sql = "CALL spt_iu_transmfeesreciept(";
+			$sql = "CALL `spt_iu_transmfeesreciept`(";
 			$sql .= "'". $this->varreceip_code ."'";
 			$sql .= ",". "'" . $this->varrcpt_no . "'";
 			$sql .= ",". "" . $this->varfk_admission_id . "";
@@ -82,14 +82,17 @@ class clsReceipt extends clsBase
 			$sql .= ",". "'" . $this->varcollegetype . "'";
 			$sql .= ",". "'" . $this->p_xml . "'";
 			$sql .= ",". "'" . $this->var_is_rcpt_no_manual . "'";
-			$sql .= ",". "'" . $this->varreciept_code_return . "'";
+			$sql .= ",". "@varreciept_code_return";
 			 
-			$sql .= ")";
-			echo $sql;  
-			$result = $this->dbal->execScalar($sql,false);
+			$sql .= ");";
+			
+			//$sql = "CALL `spt_iu_test`(3, 'test3')";
+			//echo $sql;  
+			$result = $this->dbal->execScalar($sql,FALSE);
 			return $result;
 		}catch (Exception $ex)
 		{
+			echo $ex->getMessage();
 			$this->WriteLog($ex);
 		}
 	}

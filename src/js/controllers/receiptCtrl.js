@@ -1,6 +1,18 @@
 
 angular.module('app')
-.controller('receiptCtrl',['ReceiptService','HelperService','$scope','$http','$location', function( ReceiptService,HelperService,$scope,$http,$location) {
+.controller('receiptCtrl',['ReceiptService','HelperService','toaster','$scope','$http','$location', function( ReceiptService,HelperService,toaster,$scope,$http,$location) {
+
+  $scope.toaster = {
+    type :'info', // success , warning, info, error, wait
+    title : 'Receipt New',
+    text : ''
+  };
+  
+  $scope.makeToast = function(toast_type, message) {
+    $scope.toaster.type = toast_type;
+    $scope.toaster.text = message;
+    toaster.pop($scope.toaster.type, $scope.toaster.title, $scope.toaster.text);
+  };
 
 	$scope.applyDate = false;
 	var _fromDate  = new Date();
@@ -76,7 +88,12 @@ angular.module('app')
   $scope.setPRNInfo = function(obj){
     //$scope.PRN = obj.PRN;
     if(!obj)
-    { debugLog("setPRNInfo --> object is not set"); $scope.resetStudentDetails(); return;}
+    { 
+      debugLog("setPRNInfo --> object is not set"); 
+      $scope.resetStudentDetails();
+      $scope.makeToast('warning','No info found for given criteria!'); 
+      return;
+    }
     
     $scope.admissionId = obj["pk_admission_id"];
     $scope.receiptDate = getTodaysDateFormatted();
@@ -84,11 +101,13 @@ angular.module('app')
     
     $scope.totalFees = obj["total_fees"];
     $scope.paidAmt = obj["paid_fees"];
+    $scope.totalPaid = $scope.paidAmt;
     
     $scope.totalBalance = $scope.totalFees - $scope.paidAmt;
     $scope.currentBalance = $scope.totalBalance;
     $scope.previousBalance = $scope.currentBalance;
     
+    $scope.makeToast('info','Record info retrieved!');
     debugLog("setPRNInfo done");  
   };
   
@@ -148,9 +167,15 @@ angular.module('app')
          $scope.newReceiptData = d.data;
          
          if($scope.newReceiptData !== undefined || $scope.newReceiptData !== null){
-             var obj = $scope.newReceiptData[0];
+             var obj = $scope.newReceiptData;
+             if(obj !== undefined){
+              $scope.makeToast('success','New receipt created! Rcpt Code is : ');
+              debugLog("New Receipt Saved Data : "+ obj);   
+             }else{
+               $scope.makeToast('error','Unable to create new receipt!');
+              debugLog("Receipt Not Saved Data : "+ obj);
+             }
              
-             debugLog("New Receipt Saved Data : "+ obj); 
              
              // extract new receipt code 
              // and display to user for future reference
@@ -224,7 +249,7 @@ angular.module('app')
     $scope.admissionId = 0;
     $scope.receiptId = 0;
     $scope.receiptDate = getTodaysDateFormatted();
-    $scope.studentName = "";
+    $scope.studentName = "student name";
     $scope.academicYear = "";
     $scope.previousBalance = 0.00;
     $scope.totalBalance = 0.00;
@@ -257,7 +282,7 @@ angular.module('app')
       $scope.admissionId = 0;
       $scope.receiptNo = 0;
       $scope.admissionDate = getTodaysDateFormatted();
-      $scope.studentName = "";
+      $scope.studentName = "student name";
       //$scope.academicYear = ($scope.academicYears.length > 0 ? $scope.academicYears[0].Key : "");
       
       $scope.totalBalance = 0.00;
@@ -297,10 +322,12 @@ angular.module('app')
       $scope.PRN = 0;
       $scope.admissionId = 0;
       $scope.admissionDate = getTodaysDateFormatted();
-      $scope.studentName = "";
+      $scope.studentName = "student name";
       $scope.academicYear = ($scope.academicYears.length > 0 ? $scope.academicYears[0].Key : "");
       
       $scope.totalBalance = 0.00;
+      $scope.totalPaid = 0.00;
+      $scope.totalFees = 0.00;
       $scope.currentBalance = 0.00;
       $scope.paymentMode = "Cash";
       $scope.paymentModeChanged();
@@ -337,6 +364,7 @@ angular.module('app')
       
       // getPRNInfo require PRN & academicYear 
       $scope.getPRNInfo();
+      
       
     };
     
