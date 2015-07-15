@@ -27,24 +27,39 @@ angular.module('app')
     // Call the async method and then do stuff with what is returned inside our own then function
     ReceiptService.async_get_data().then(function(d) {
       $scope.receiptList = d.data;
-      console.log($scope.receiptList);
+      debugLog("getData --> async_get_data --> success --> "+$scope.receiptList);
       
     });
   };
   
+  $scope.selectedPRNInfo = {
+    studentInfo : "",
+    feesInfo : "",
+    installmentInfo : ""
+  };
+  
   $scope.getPRNInfo = function(){
+      ReceiptService.reset_promises();
+      
       ReceiptService.async_get_prn_info($scope.selectedPRN, $scope.academicYear).then(function(d){
          $scope.selectedPRNInfo = d.data;
          
          if($scope.selectedPRNInfo !== undefined || $scope.selectedPRNInfo !== null){
-             var obj = $scope.selectedPRNInfo[0];
+             var obj = $scope.selectedPRNInfo.studentInfo[0];
              
+             $scope.resetStudentDetails();
              $scope.setPRNInfo(obj);
+             
+             $scope.feesInfo = ($scope.selectedPRNInfo.feesInfo !== undefined ? $scope.selectedPRNInfo.feesInfo : []);
+             $scope.installmentInfo = ($scope.selectedPRNInfo.installmentInfo !== undefined ? $scope.selectedPRNInfo.installmentInfo : []);
+             
+             debugLog("fees Info set -->"+ $scope.feesInfo);
+             debugLog("installment Info set -->"+ $scope.installmentInfo);
          }
          
-         console.log($scope.selectedReceiptInfo); 
+         debugLog('getPRNInfo called for '+$scope.selectedPRN); 
       });
-      ReceiptService.reset_promises();
+      
       
   };
   
@@ -53,13 +68,16 @@ angular.module('app')
     
     if(temp !== null || temp !== undefined){
       $scope.academicYears = temp;
-      console.log($scope.academicYears);
+      debugLog( "retrieved academic years --> " + $scope.academicYears);
     }
     
   };
   
   $scope.setPRNInfo = function(obj){
     //$scope.PRN = obj.PRN;
+    if(!obj)
+    { debugLog("setPRNInfo --> object is not set"); $scope.resetStudentDetails(); return;}
+    
     $scope.admissionId = obj["pk_admission_id"];
     $scope.receiptDate = getTodaysDateFormatted();
     $scope.studentName = obj["student_name"];
@@ -71,7 +89,7 @@ angular.module('app')
     $scope.currentBalance = $scope.totalBalance;
     $scope.previousBalance = $scope.currentBalance;
     
-      
+    debugLog("setPRNInfo done");  
   };
   
   $scope.validate = function(){
@@ -91,13 +109,16 @@ angular.module('app')
   };
   
   $scope.saveReceipt = function(){
-   if(!$scope.validate())   
+    ReceiptService.reset_promises();
+    
+    if(!$scope.validate())   
       return;
       
-    var dataObj = {
-          'varreceip_code':'',
-          'varrcpt_no':'',
-          'varfk_admission_id':$scope.admissionId,
+    var formData = {
+          a:'a',
+          varreceip_code:'',
+          varrcpt_no:$scope.receiptNo,
+          varfk_admission_id:$scope.admissionId,
           'varreciept_date':getMySqlDate($scope.receiptDate),
           'varpay_mode':$scope.paymentMode,
           'varch_dd_ac_no':$scope.accountNo,
@@ -121,23 +142,28 @@ angular.module('app')
           
         };
         
-    ReceiptService.async_save_new_receipt(dataObj).then(function(d){
+        debugLog("New Receipt Data before save : "+ formData); 
+        
+    ReceiptService.async_save_new_receipt(formData).then(function(d){
          $scope.newReceiptData = d.data;
          
          if($scope.newReceiptData !== undefined || $scope.newReceiptData !== null){
              var obj = $scope.newReceiptData[0];
              
+             debugLog("New Receipt Saved Data : "+ obj); 
+             
              // extract new receipt code 
              // and display to user for future reference
          }
          
-         console.log($scope.selectedReceiptInfo); 
+         
       });        
       
   };
 
   $scope.receiptTypeChanged = function(){
       $scope.collegeType = ($scope.receiptType == "Transport" ? "PST" : "PSBA");
+      debugLog("receipt type changed --> " + $scope.receiptType);
   };
   
   $scope.receivedAmountChanged = function(){
@@ -153,7 +179,7 @@ angular.module('app')
           }
               
       }
-       
+      debugLog("received amount changed --> " + $scope.receivedAmount); 
   };
 
   $scope.paymentModeChanged = function(){
@@ -166,7 +192,7 @@ angular.module('app')
             $scope.disableBankDetails = false;
             break;
       }
-     
+     debugLog("payment mode changed --> "+ $scope.paymentMode);
   };
 
   $scope.selectedPRN = 0;
@@ -190,9 +216,11 @@ angular.module('app')
     
     // object definition
     $scope.academicYears = [];
+    $scope.feesInfo = [];
+    $scope.installmentInfo = [];
     
     $scope.PRN = $scope.selectedPRN;
-    $scope.isAdmission = "";
+    $scope.isAdmission = "N";
     $scope.admissionId = 0;
     $scope.receiptId = 0;
     $scope.receiptDate = getTodaysDateFormatted();
@@ -203,7 +231,7 @@ angular.module('app')
     $scope.currentBalance = 0.00;
     
     $scope.receiptType = "Regular"; // regular / bus / other
-    $scope.receiptNo = "";
+    $scope.receiptNo = 0;
     $scope.paymentMode = "Cash"; // cash / cheque / dd
     $scope.receiptCode = "";
     $scope.receivedAmount = 0.00;
@@ -222,10 +250,49 @@ angular.module('app')
     
     
     
+    $scope.resetStudentDetails = function(){
+      $scope.feesInfo = [];
+      $scope.installmentInfo = [];
+    
+      $scope.admissionId = 0;
+      $scope.receiptNo = 0;
+      $scope.admissionDate = getTodaysDateFormatted();
+      $scope.studentName = "";
+      //$scope.academicYear = ($scope.academicYears.length > 0 ? $scope.academicYears[0].Key : "");
+      
+      $scope.totalBalance = 0.00;
+      $scope.currentBalance = 0.00;
+      $scope.paymentMode = "Cash";
+      $scope.paymentModeChanged();
+      $scope.chqDDDate = getTodaysDateFormatted();
+      $scope.feesType = 1;
+      
+      $scope.receiptType = "Regular"; // regular / bus / other
+      $scope.receiptTypeChanged();
+      
+      $scope.receiptCode = "";
+      $scope.receivedAmount = 0.00;
+      
+      $scope.bankName = "";
+      $scope.chqDDDate = getTodaysDateFormatted();
+      $scope.bankBranch = "";
+      $scope.chqDDNo = "";
+      $scope.accountNo = "";
+      $scope.remarks = "";
+      
+      
+      $scope.isNew = true;
+      
+      debugLog("resetStudentDetails called")
+    };
+    
+    
     $scope.initializeForm = function(){
       // fill combo boxes
       $scope.getAcademicYears();
-      
+      $scope.feesInfo = [];
+      $scope.installmentInfo = [];
+    
       
       $scope.PRN = 0;
       $scope.admissionId = 0;
@@ -236,12 +303,26 @@ angular.module('app')
       $scope.totalBalance = 0.00;
       $scope.currentBalance = 0.00;
       $scope.paymentMode = "Cash";
+      $scope.paymentModeChanged();
       $scope.chqDDDate = getTodaysDateFormatted();
       $scope.feesType = 1;
       
+      $scope.receiptType = "Regular"; // regular / bus / other
+      $scope.receiptNo = 0;
+      $scope.receiptCode = "";
+      $scope.receivedAmount = 0.00;
+      
+      $scope.bankName = "";
+      $scope.chqDDDate = getTodaysDateFormatted();
+      $scope.bankBranch = "";
+      $scope.chqDDNo = "";
+      $scope.accountNo = "";
+      $scope.remarks = "";
+      $scope.collegeType = "";
       
       $scope.isNew = true;
       
+      debugLog("initializeForm called");
       //$scope.getPRNInfo();
     };
     

@@ -35,99 +35,122 @@
 	        	<div class="panel-body">
 	        		<div class="form-group">
 	        			<div class="row">
-        					<div class="col-sm-6">
-        						<div class="col-sm-6">
+        					<div class="col-sm-12">
+        						<div class="col-sm-4">
         							<label>PRN</label>
         							<input type="text"  class="form-control" placeholder="PRN" data-ng-model="PRN" required name="prn">
         						</div>
-        						<div class="col-sm-6">
-        							<label>Date</label>
-	        						<div ng-controller="DatepickerDemoCtrl">
-							            <div class="input-group w-md">
-							              <input type="text" class="form-control" datepicker-popup="{{format}}" data-ng-model="receiptDate" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
-							              <span class="input-group-btn">
-							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-							              </span>
-							            </div>
-							        </div>
+        						<div class="col-sm-4">
+        							<lable>*Student Name</lable>
+        							<input type="text" disabled="disabled" class="form-control" placeholder="Student Name" data-ng-model="studentName" required name="studentName" >
+        						</div>
+        						<div class="col-sm-4">
+        							<lable>Academic Year</lable>
+        							<select class="form-control"  disabled="disabled" data-ng-model="academicYear" required>
+		                      			<option ng:repeat="o in academicYears" value="{{o.Key}}">{{o.Value}}</option>
+							  
+		                     	 	</select>
         						</div>
         						<br /><br/>
 
-        						<div class="col-sm-6">
-        							<lable>*Student Name</lable>
-        							<input type="text" class="form-control" placeholder="Student Name" data-ng-model="studentName" required name="studentName" >
-        						</div>
-        						<div class="col-sm-6">
-        							<lable>Academic Year</lable>
-        							<select class="form-control" data-ng-model="academicYear" required >
-									  <option selected value="2012 - 2013">2012 - 2013</option>
-									  <option value="2013 - 2014">2013 - 2014</option>
-									  <option value="2014 - 2015">2014 - 2015</option>	
-				                      <option value="2015 - 2016">2015 - 2016</option>
-				                      <option value="2016 - 2017">2016 - 2017</option>
-				                      <option value="2017 - 2018">2017 - 2018</option>
-				                  	</select>
-        						</div>
+        						
 
         						<br />
-        						<div class="col-sm-6">
+        						<div class="col-sm-4">
     								<label>Total Balance Amount</label>
-    								<input type="text" class="form-control" placeholder="0.00" data-ng-model="totalBalance" name="totalBalancecAmount">
+    								<input type="text" class="form-control"  disabled="disabled" placeholder="0.00" data-ng-model="totalBalance" name="totalBalancecAmount">
         						</div>
-        						<div class="col-sm-6">
+        						<div class="col-sm-4">
         						<label>Current Balance Amount</label>
-    								<input type="text" step="any" min="0" class="form-control" placeholder="0.00" data-ng-model="currentBalance" name="currentBalancecAmount">
+    								<input type="text" step="any" min="0"  disabled="disabled" class="form-control" placeholder="0.00" data-ng-model="currentBalance" name="currentBalancecAmount">
         						</div>
         					</div>
-
-        					<div class="col-sm-6">
+						</div><!-- row -->
+						<br />
+						<div class="row" >
+        					<div class="col-sm-12">
         						<div class="col-sm-6">
     								<div class="table-responsive">
-				        				<table style="height:100px;" ui-jq="dataTable" ui-options="{
-								          sAjaxSource: 'api/datatable.json',
-								          aoColumns: [
-								            { mData: 'engine' },
-								            { mData: 'browser' },
-								            { mData: 'platform' },
-								            { mData: 'version' },
-								            { mData: 'grade' }
-								          ]
-								        }" class="table table-striped b-t b-b">
-								        <thead>
-								          <tr>
-								            <th  style="width:40%">Particular</th>
-								            <th  style="width:30%">Bal. Amt.</th>
-								            <th  style="width:30%">Paid Amt.</th>
-								          </tr>
-								        </thead>
-								        <tbody>
-								        </tbody>
-								      </table>
+										<h4 style="padding-left:3px;" >Fees Info</h4>
+				        				<table st-table="feesInfo" class="table table-striped">
+											<thead>
+											<tr>
+												<th st-sort="fees_type">Fees Type</th>
+												<th st-sort="amount_to_pay">Amt To Pay</th>
+												<th st-sort="PaidAmt">Paid Amt</th>
+												<th st-sort="BalanceAmt">Balance Amt</th>
+												
+											</tr>
+											<!--<tr>
+												<th>
+													<input st-search="'firstName'" placeholder="search for firstname" class="input-sm form-control" type="search"/>
+												</th>
+												<th colspan="4">
+													<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+												</th>
+											</tr>-->
+											</thead>
+											<tbody>
+											<tr ng-repeat="row in feesInfo">
+												<td>{{row.fees_type}}</td>
+												<td>{{row.amount_to_pay}}</td>
+												<td>{{row.PaidAmt}}</td>
+												<td>{{row.BalanceAmt}}</td>
+												
+												
+											</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="5" class="text-center">
+														<div st-pagination="" st-items-by-page="15" st-displayed-pages="1"></div>
+													</td>
+												</tr>
+											</tfoot>
+										</table>
 				        			</div>
         						</div>
 
         						<div class="col-sm-6">
         							<div class="table-responsive">
-				        				<table style="height:100px;" ui-jq="dataTable" ui-options="{
-								          sAjaxSource: 'api/datatable.json',
-								          aoColumns: [
-								            { mData: 'engine' },
-								            { mData: 'browser' },
-								            { mData: 'platform' },
-								            { mData: 'version' },
-								            { mData: 'grade' }
-								          ]
-								        }" class="table table-striped b-t b-b">
-								        <thead>
-								          <tr>
-								            <th  style="width:40%">Code</th>
-								            <th  style="width:30%">Date</th>
-								            <th  style="width:30%">Amt</th>
-								          </tr>
-								        </thead>
-								        <tbody>
-								        </tbody>
-								      </table>
+										<h4 style="padding-left:3px;" >Installment Info</h4>
+				        				<table st-table="feesInfo" class="table table-striped">
+											<thead>
+											<tr>
+												<th st-sort="receip_code">Rcpt Code</th>
+												<th st-sort="rcpt_type">Type</th>
+												<th st-sort="reciept_date">Date</th>
+												<th st-sort="paid_amt">Paid Amt</th>
+												
+											</tr>
+											<!--<tr>
+												<th>
+													<input st-search="'firstName'" placeholder="search for firstname" class="input-sm form-control" type="search"/>
+												</th>
+												<th colspan="4">
+													<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+												</th>
+											</tr>-->
+											</thead>
+											<tbody>
+											<tr ng-repeat="row in installmentInfo">
+												<td>{{row.receip_code}}</td>
+												<td>{{row.rcpt_type}}</td>
+												<td>{{row.reciept_date}}</td>
+												<td>{{row.paid_amt}}</td>
+												
+												
+												
+											</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="5" class="text-center">
+														<div st-pagination="" st-items-by-page="15" st-displayed-pages="1"></div>
+													</td>
+												</tr>
+											</tfoot>
+										</table>
 				        			</div>
         						</div>
         					</div>
@@ -171,7 +194,7 @@
 						<div class="row">
 							<div class="col-sm-4">
 		        				<lable>*Receipt No.</lable>
-		        				<input type="text" class="form-control" placeholder="Receipt No" required name="receiptNo" />
+		        				<input type="text" class="form-control" disabled="disabled" placeholder="Receipt No" required name="receiptNo" data-ng-model="receiptNo" />
 		        			</div>
 		        			<div class="col-sm-4">
 		        				<lable>Payment Mode</lable>
@@ -181,7 +204,17 @@
 			                      <option value="DD">DD</option>
 			                  	</select>
 		        			</div>
-		        				
+		        			<div class="col-sm-4">
+        							<label>Receipt Date</label>
+	        						<div ng-controller="DatepickerDemoCtrl">
+							            <div class="input-group w-md">
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" data-ng-model="receiptDate" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </div>
+							        </div>
+        						</div>	
 						</div><!-- row --><br />
 						<div class="row">
 							<div class="col-sm-4">
@@ -192,7 +225,10 @@
 		        				<lable>*Received Amount</lable>
 		        				<input type="text" class="form-control" placeholder="Received Amt" required name="receivedAmount" data-ng-change="receivedAmountChanged()" data-ng-model="receivedAmount" />
 		        			</div>
-		        				
+		        			<div class="col-sm-4">
+		        				<lable>Remarks</lable>
+		        				<input type="text" class="form-control" placeholder="Remarks" required name="remarks"  data-ng-model="remarks" />
+		        			</div>	
 						</div><!-- row -->
 						
 					</div>

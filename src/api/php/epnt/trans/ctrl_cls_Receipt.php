@@ -6,12 +6,11 @@ include_once BASE_PATH.'/classes/transactions/clsReceipt.php';
 //echo "at the beginning of file with base path : " . BASE_PATH;
 
 
-
 $action=$_REQUEST["a"];
 $prn = $_REQUEST['p'];
 $academic_year = $_REQUEST['ay'];
 //echo "academic year : ". $academic_year;
-
+$isMultiQuery = false;
 
 //global $obj;
 //echo "<br/>before receipt object creation";
@@ -23,14 +22,17 @@ try{
 }
 
 
-
-//echo "before switch";
+//echo "before switch -->REQUEST -->".$_REQUEST['a'] ." : POST -->" . $_POST["a"];
 
 if(isset($_POST['a'])){
 	$action = $_POST['a'];
 	
+//echo "after check";
+
 	switch($action){
 		case "a": // add new record
+			//echo "1";
+		
 			if(isset($_POST['varreceip_code']))
 				$obj->varreceip_code = $_POST['varreceip_code'];
 			if(isset($_POST['varrcpt_no']))
@@ -41,6 +43,9 @@ if(isset($_POST['a'])){
 				$obj->varreciept_date = $_POST['varreciept_date'];
 			if(isset($_POST['varpay_mode']))
 				$obj->varpay_mode = $_POST['varpay_mode'];
+			
+			//echo "1";
+			
 			if(isset($_POST['varch_dd_ac_no']))
 				$obj->varrch_dd_ac_no = $_POST['varch_dd_ac_no'];
 			if(isset($_POST['varch_dd_no']))
@@ -53,10 +58,15 @@ if(isset($_POST['a'])){
 				$obj->varch_dd_bank = $_POST['varch_dd_bank'];
 			if(isset($_POST['varch_dd_status']))
 				$obj->varch_dd_status = $_POST['varch_dd_status'];
+			
+			//echo "2";
+			
 			if(isset($_POST['varprevious_balance']))
 				$obj->varprevious_balance = $_POST['varprevious_balance'];
 			if(isset($_POST['varpaid_amt']))
 				$obj->varpaid_amt = $_POST['varpaid_amt'];
+			if(isset($_POST['varcurrent_balance']))
+				$obj->varcurrent_balance = $_POST['varcurrent_balance'];
 			if(isset($_POST['varremark']))
 				$obj->varremark = $_POST['varremark'];
 			if(isset($_POST['varcreated_by']))
@@ -65,6 +75,13 @@ if(isset($_POST['a'])){
 				$obj->varmodified_by = $_POST['varmodified_by'];
 			if(isset($_POST['varpk_reciept_id']))
 				$obj->varpk_reciept_id = $_POST['varpk_reciept_id'];
+			
+			//echo "3";
+			
+			if(isset($_POST['varrcpt_type']))
+				$obj->varrcpt_type = $_POST['varrcpt_type'];
+			if(isset($_POST['varis_admission']))
+				$obj->varis_admission = $_POST['varis_admission'];
 			if(isset($_POST['varrcpt_type']))
 				$obj->varrcpt_type = $_POST['varrcpt_type'];
 			if(isset($_POST['varis_admission']))
@@ -75,6 +92,8 @@ if(isset($_POST['a'])){
 				$obj->p_xml = $_POST['p_xml'];
 			if(isset($_POST['var_is_rcpt_no_manual']))
 				$obj->var_is_rcpt_no_manual = $_POST['var_is_rcpt_no_manual'];
+			
+			//echo "calling add method";
 			
 			$ret = $obj->Add();
 			if(intval($ret)>0){
@@ -134,6 +153,7 @@ switch($action)
 
 		break;
 	case "r":
+		$isMultiQuery = false;
 		//echo "reached at retrieval location";
 		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, 
 			"view_for_reciept",
@@ -142,10 +162,11 @@ switch($action)
 		break;
 	case "rp":
 		//echo "reached at retrieval location";
+		$isMultiQuery = true;
 		$ret = $obj->GetData(SELECT_MODE_SP, SELECT_RETURN_TYPE_JSONSTRING, 
 			"spt_get_fees_details_for_prn",
 			"",
-			"".$prn.",'".$academic_year."'" );
+			"".$prn.",'".$academic_year."'", $isMultiQuery );
 		echo  $ret;
 		break;
 	case "p":

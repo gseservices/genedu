@@ -169,7 +169,7 @@
 				throw $e;				
 			}
 		}
-		function execReaderMultiDs($sql,$mode=MYSQL_ASSOC){
+		function execReaderMultiDs($sql,$tableNames = array(),$mode=MYSQL_ASSOC){
 			try {
 				if($sql != ""){
 					//echo $sql;
@@ -177,7 +177,8 @@
 					$dataset = array();
 					
 					if (mysqli_multi_query($this->myLink, $sql)) {
-					    do {
+					    $tableCounter = 0;
+						do {
 					        /* store first result set */
 					        if ($result = mysqli_use_result($this->myLink)) {
 					            
@@ -188,7 +189,11 @@
 					            }
 					            mysqli_free_result($result);
 								
-								array_push($dataset, $table);
+								$dataset[$tableNames[$tableCounter]] = $table;
+								//echo $tableNames[$tableCounter];
+								$tableCounter++;
+								
+								//array_push($dataset, $table);
 					        }
 					        /* print divider */
 					        /*if (mysqli_more_results($this->myLink)) {

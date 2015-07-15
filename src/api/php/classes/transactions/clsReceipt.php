@@ -72,8 +72,9 @@ class clsReceipt extends clsBase
 			$sql .= ",". "'" . $this->varch_dd_status . "'";
 			$sql .= ",". "" . $this->varprevious_balance . "";
 			$sql .= ",". "" . $this->varpaid_amt . "";
+			$sql .= ",". "" . $this->varcurrent_balance . "";
 			$sql .= ",". "'" . $this->varremark . "'";
-			$sql .= ",". "'" . $this->varcreated_by . "";
+			$sql .= ",". "" . $this->varcreated_by . "";
 			$sql .= ",". "" . $this->varmodified_by . "";
 			$sql .= ",". "" . $this->varpk_reciept_id . "";
 			$sql .= ",". "'" . $this->varrcpt_type . "'";
@@ -84,7 +85,7 @@ class clsReceipt extends clsBase
 			$sql .= ",". "'" . $this->varreciept_code_return . "'";
 			 
 			$sql .= ")";
-			//echo $sql;  
+			echo $sql;  
 			$result = $this->dbal->execScalar($sql,false);
 			return $result;
 		}catch (Exception $ex)
@@ -119,7 +120,7 @@ class clsReceipt extends clsBase
 		}
 	}
 
-public function GetData($mode = SELECT_MODE_VIEW, $returntype =SELECT_RETURN_TYPE_JSONSTRING, $dbobj="",$projectionList="*",$filter="")
+public function GetData($mode = SELECT_MODE_VIEW, $returntype =SELECT_RETURN_TYPE_JSONSTRING, $dbobj="",$projectionList="*",$filter="", $isMultiQuery = false, $tableNames = array())
 	{		
 
 		switch($mode)
@@ -146,43 +147,58 @@ public function GetData($mode = SELECT_MODE_VIEW, $returntype =SELECT_RETURN_TYP
 		//$sql = " SELECT ". $projectionList ." FROM ". $dbobj ;//. ($filter == "")? "" : " WHERE " . $filter;		
 		//echo $sql;
 		
-		//hi there...
-		
-		$dataset = $this->dbal->execReaderMultiDs($sql);
-		//print_r($dataset);
-		$return_str = "";
-		if($dataset)
-		{
-			$counter = 0;
-			$rec_set = $dataset[$counter];
-			//echo "starting do while loop...<br />";
-			do{
-				
-				if($rec_set)
-				{
-					//print_r($rec_set);
-					//echo "<br />";
-					if($returntype == SELECT_RETURN_TYPE_JSONSTRING )
+		if($isMultiQuery){
+			
+			$tableNames = array ("studentInfo","feesInfo","installmentInfo");
+			
+			$dataset = $this->dbal->execReaderMultiDs($sql,$tableNames);
+			//print_r($dataset);
+			$return_str = "";
+			if($dataset)
+			{
+				/*$counter = 0;
+				$rec_set = $dataset[$tableNames[$counter]];
+				//echo "starting do while loop...<br />";
+				do{
+					
+					if($rec_set)
 					{
-						$temp_str = json_encode($rec_set);				
-						$return_str .= $this->sanitizeBlankJSONRecordset($temp_str);
+						//print_r($rec_set);
+						//echo "<br />";
+						if($returntype == SELECT_RETURN_TYPE_JSONSTRING )
+						{
+							$temp_str = json_encode($rec_set);	
+							//echo $temp_str . "<br />";			
+							$return_str .= ($return_str == "" ? "" : ",") . $this->sanitizeBlankJSONRecordset($temp_str);
+						}
+					}else{
+						$return_str .= $this->sanitizeBlankJSONRecordset();
+					}		
+					//echo $counter;
+					$counter++;
+					
+				}while($rec_set = $dataset[$tableNames[$counter]]);
+				*/
+				
+				if(!$dataset)
+					$return_str = $this->sanitizeBlankJSONRecordset();
+				else{
+					if($returntype == SELECT_RETURN_TYPE_JSONSTRING){
+						$return_str = json_encode($dataset);	
 					}
-				}else{
-					$return_str .= $this->sanitizeBlankJSONRecordset();
-				}		
+				}
 				
-				$counter++;
+				return  $return_str ;
+				//print_r($rec_set);
 				
-			}while($rec_set = $dataset[$counter]);
+			}else {
+				//echo "no data";
+				return "NODATA";
+			}	
 			
-			
-			return $return_str;
-			//print_r($rec_set);
-			
-		}else {
-			//echo "no data";
-			return "NODATA";
 		}
+		
+		
 
 		
 		
