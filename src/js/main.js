@@ -42,6 +42,7 @@ angular.module('app')
         menu:{
           admissionNew:true,
           receiptNew: true,
+          receipt: true,
           promote: true,
           busInvoice: true,
           admissionDetails:true,
@@ -90,6 +91,8 @@ angular.module('app')
         $scope.lang.isopen = !$scope.lang.isopen;
       };
 
+    
+      
       function isSmartDevice( $window )
       {
           // Adapted from http://www.detectmobilebrowsers.com
@@ -97,5 +100,12 @@ angular.module('app')
           // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
           return (/iPhone|iPod|iPad|Silk|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
       }
+
+    
+     
+
+
+
+
 
   }]);

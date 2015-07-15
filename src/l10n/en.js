@@ -47,6 +47,7 @@
         
         "ADMISSION" : "New Admission",
         "ADMISSION_DETAILS" : "Admission Details",
+        "RECEIPT_NEW" : "Receipt New",
         "RECEIPT" : "Receipt",
         "PROMOTE" : "Promote",
         "BUSINVOICE" : "Bus Invoice",

@@ -1,0 +1,75 @@
+
+
+pk_college_type_id, college_type, college_type_code from mstcollegetype where deleted='N'
+
+select pk_feecategory_id, feecategory_name from mstfeecategory where
+deleted='N'
+
+select courseId, courseName, courseType, mediumid, corsecode from mstcourse where deleted=’N' 
+
+select pk_castecategory_id, castecategory_name from mstcastecategory where deleted=’N'
+
+select pk_div_id, fk_course_id, div_name from mstdivision where where deleted=’N'
+
+
+// create procedure for Receipt New --> get fees detail using PRN No. & academic year
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spt_get_fees_details_for_prn`(IN `var_prn` INT(11), 
+	IN `var_academic_year` VARCHAR(20))
+    READS SQL DATA
+    COMMENT 'retrieves fees details for given PRN number'
+BEGIN
+
+declare var_total_fees double(10,2);
+declare var_paid_fees double(10,2);
+
+SELECT sum(amount_to_pay) into var_total_fees FROM `mstfeesheadagainstadmission` 
+	WHERE fk_admission_id =(select pk_admission_id from mstadmission where prn_no=var_prn and academic_year=var_academic_year) 
+	and installment=1;
+
+select sum(paid_amt) into var_paid_fees from transmfeesreciept 
+where `fk_admission_id`=(select pk_admission_id from mstadmission where prn_no=var_prn and academic_year=var_academic_year) 
+and rcpt_type != 'Concession';
+
+
+select pk_admission_id, concat(firstName , ' ',middlename,' ',surname) as student_name, 
+	var_total_fees as total_fees, var_paid_fees as paid_fees from mstadmission 
+	where prn_no=var_prn and academic_year=var_academic_year;
+	
+select fees_type, amount_to_pay,(case when fees_type='Admission' then (select sum(paid_amt) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Regular') when fees_type='Transport' then (select sum(paid_amt) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Transport') END) as PaidAmt, (amount_to_pay - (case when fees_type='Admission' then (select sum(paid_amt) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Regular') when fees_type='Transport' then (select sum(paid_amt) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Transport') END)) as BalanceAmt from mstfeesheadagainstadmission  where fk_admission_id = var_admission_id and fees_type in ('Admission','Transport') and installment =1;
+
+
+
+
+END;;
+DELIMITER ;
+
+
+// get paid amount receipt type wise -- Regular / Transport
+select sum(paid_amt),rcpt_type from transmfeesreciept 
+where `fk_admission_id`=(select pk_admission_id from mstadmission where prn_no=1600 and academic_year='2014 - 2015') 
+and rcpt_type != 'Concession' group by rcpt_type
+
+=================
+14 July 2015
+=================
+
+select * from mstadmission where prn_no=1600 and academic_year = '2014 - 2015'
+
+select rcpt_type as Particular, sum(paid_amt) as PaidAmt, sum(current_balance) as BalanceAmt from transmfeesreciept where fk_admission_id = 3052 group by `rcpt_type` order by rcpt_type;
+
+select fees_type, amount_to_pay,(case when fees_type='Admission' then (select sum(paid_amt) from transmfeesreciept where fk_admission_id = 3052 and rcpt_type='Regular') when fees_type='Transport' then (select sum(paid_amt) from transmfeesreciept where fk_admission_id = 3052 and rcpt_type='Transport') END) as PaidAmt, (amount_to_pay - (case when fees_type='Admission' then (select sum(paid_amt) from transmfeesreciept where fk_admission_id = 3052 and rcpt_type='Regular') when fees_type='Transport' then (select sum(paid_amt) from transmfeesreciept where fk_admission_id = 3052 and rcpt_type='Transport') END)) as BalanceAmt from mstfeesheadagainstadmission  where fk_admission_id = 3052 and fees_type in ('Admission','Transport') and installment =1;
+
+
+
+select pk_reciept_id, receip_code, rcpt_no, reciept_date, pay_mode, ch_dd_no, ch_dd_date, paid_amt, rcpt_type from transmfeesreciept where fk_admission_id = 3052;
+
+select distinct rcpt_type from transmfeesreciept;
+
+select * from mstfeesheadagainstadmission where installment = 1 and paid_amt > 0
+
+
+
+select pk_admission_id, concat(firstName , ' ',middlename,' ',surname) as student_name from mstadmission where prn_no=1600 and academic_year = '2014 - 2015'
+
+select pk_admission_id, concat(firstName , ' ',middlename,' ',surname) as student_name from mstadmission where pk_admission_id = 3052

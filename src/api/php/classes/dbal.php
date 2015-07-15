@@ -1,6 +1,6 @@
 <?php
 
-	include_once(BASE_PATH . "\classes\dbal.php");
+	//include_once(BASE_PATH . "\classes\dbal.php");
 	/**
 	 * class DBAL : Database Access Layer for MySql 5.x
 	 *
@@ -167,6 +167,47 @@
 			catch(Exception $e){
 				$this->WriteLog($e);
 				throw $e;				
+			}
+		}
+		function execReaderMultiDs($sql,$mode=MYSQL_ASSOC){
+			try {
+				if($sql != ""){
+					//echo $sql;
+					
+					$dataset = array();
+					
+					if (mysqli_multi_query($this->myLink, $sql)) {
+					    do {
+					        /* store first result set */
+					        if ($result = mysqli_use_result($this->myLink)) {
+					            
+								$table = array();
+								
+								while ($row = mysqli_fetch_array($result,$mode)) {
+					                array_push($table, $row);
+					            }
+					            mysqli_free_result($result);
+								
+								array_push($dataset, $table);
+					        }
+					        /* print divider */
+					        /*if (mysqli_more_results($this->myLink)) {
+					            printf("-----------------\n");
+					        }*/
+					    } while (mysqli_next_result($this->myLink));
+						
+					}
+					
+					
+					return $dataset;
+				}
+				else{
+					return false;
+				}
+			}
+			catch (Exception $e){
+				echo "Exception: ". $e->getMessage();
+				$this->WriteLog($e);
 			}
 		}
 		

@@ -1,6 +1,6 @@
 
 angular.module('app')
-.controller('receiptCtrl',['ReceiptService','HelperService','$scope','$http','$location', function( ReceiptService,HelperService,$scope,$http,$location) {
+.controller('admissionCtrl',['AdmissionService','HelperService','$scope','$http','$location', function( AdmissionService,HelperService,$scope,$http,$location) {
 
 	$scope.applyDate = false;
 	var _fromDate  = new Date();
@@ -13,10 +13,10 @@ angular.module('app')
     
     $scope.itemByPage = 15;
 
-	$scope.receiptList = [];
+	$scope.admissionList = [];
 
   $scope.clearData = function() {
-    $scope.receiptList = [];
+    $scope.admissionList = [];
   };
   
   $scope.setSelectedPRN= function(prnNo){
@@ -25,15 +25,15 @@ angular.module('app')
  
   $scope.getData = function() {
     // Call the async method and then do stuff with what is returned inside our own then function
-    ReceiptService.async_get_data().then(function(d) {
-      $scope.receiptList = d.data;
-      console.log($scope.receiptList);
+    AdmissionService.async_get_data().then(function(d) {
+      $scope.admissionList = d.data;
+      console.log($scope.admissionList);
       
     });
   };
   
   $scope.getPRNInfo = function(){
-      ReceiptService.async_get_prn_info($scope.selectedPRN, $scope.academicYear).then(function(d){
+      AdmissionService.async_get_prn_info($scope.selectedPRN).then(function(d){
          $scope.selectedPRNInfo = d.data;
          
          if($scope.selectedPRNInfo !== undefined || $scope.selectedPRNInfo !== null){
@@ -44,13 +44,58 @@ angular.module('app')
          
          console.log($scope.selectedReceiptInfo); 
       });
-      ReceiptService.reset_promises();
+      
+  };
+  
+  $scope.getCollegeTypes = function(){
+      HelperService.async_get_college_types().then(function(d){
+         $scope.collegeTypes = d.data;
+         
+         console.log($scope.collegeTypes); 
+         // initialize section variable 
+         $scope.section = ($scope.collegeTypes.length > 0 ? $scope.collegeTypes[0].pk_college_type_id : "");
+         $scope.collegeTypeChanged();
+      });
+      
+  };
+  
+  $scope.getCourses = function(){
+      HelperService.async_get_courses().then(function(d){
+         $scope.courses = d.data;
+         
+         console.log($scope.courses); 
+         // initialize section variable 
+         $scope.courseCode = ($scope.courses.length > 0 ? $scope.courses[0].courseId : "");
+         $scope.courseCodeChanged();
+      });
+      
+  };
+  
+  $scope.getCasteCategories = function(){
+      HelperService.async_get_caste_categories().then(function(d){
+         $scope.casteCategories = d.data;
+         
+         console.log($scope.casteCategories); 
+         // initialize section variable 
+         $scope.casteCategory = ($scope.casteCategories.length > 0 ? $scope.casteCategories[0].pk_castecategory_id : "");
+         
+      });
+      
+  };
+  
+  $scope.getDivisions = function(){
+      HelperService.async_get_divisions().then(function(d){
+         $scope.divisions = d.data;
+         
+         console.log($scope.divisions); 
+         // initialize section variable 
+         $scope.division = ($scope.divisions.length > 0 ? $scope.divisions[0].courseId : "");
+      });
       
   };
   
   $scope.getAcademicYears = function(){
     var temp = HelperService.async_get_academic_years();
-    
     if(temp !== null || temp !== undefined){
       $scope.academicYears = temp;
       console.log($scope.academicYears);
@@ -58,21 +103,21 @@ angular.module('app')
     
   };
   
+  
   $scope.setPRNInfo = function(obj){
-    //$scope.PRN = obj.PRN;
-    $scope.admissionId = obj["pk_admission_id"];
+    $scope.PRN = obj.PRN;
+    $scope.admissionId = obj["fk_admission_id"];
     $scope.receiptDate = getTodaysDateFormatted();
-    $scope.studentName = obj["student_name"];
-    
-    $scope.totalFees = obj["total_fees"];
-    $scope.paidAmt = obj["paid_fees"];
-    
-    $scope.totalBalance = $scope.totalFees - $scope.paidAmt;
-    $scope.currentBalance = $scope.totalBalance;
+    $scope.studentName = obj["Student Name"];
+    $scope.academicYear = obj["Academic Year"].toString();
+    $scope.totalBalance = obj["addTotalFees"];
+    $scope.currentBalance = obj["current_balance"];
     $scope.previousBalance = $scope.currentBalance;
     
       
   };
+  
+  
   
   $scope.validate = function(){
     var blnValidate = true;
@@ -121,17 +166,20 @@ angular.module('app')
           
         };
         
-    ReceiptService.async_save_new_receipt(dataObj).then(function(d){
-         $scope.newReceiptData = d.data;
+    AdmissionService.async_save_new_admission(dataObj).then(function(d){
+         $scope.newAdmissionData = d.data;
          
-         if($scope.newReceiptData !== undefined || $scope.newReceiptData !== null){
-             var obj = $scope.newReceiptData[0];
+         if($scope.newAdmissionData !== undefined || $scope.newAdmissionData !== null){
+             var obj = $scope.newAdmissionData[0];
              
              // extract new receipt code 
              // and display to user for future reference
          }
          
-         console.log($scope.selectedReceiptInfo); 
+         console.log($scope.selectedAdmissionInfo); 
+         
+         // clear scope variables after save
+         
       });        
       
   };
@@ -169,8 +217,46 @@ angular.module('app')
      
   };
 
-  $scope.selectedPRN = 0;
+  $scope.collegeTypeChanged = function(){
+    $scope.filteredCourses = [];
+    
+    if($scope.courses == null || $scope.courses == undefined){
+      return;
+    }
+      
+    angular.forEach($scope.courses, function(element) {
+      if(element.courseType == $scope.section){
+        $scope.filteredCourses.push(element);
+      }
+    }, this);
+    
+    if($scope.filteredCourses.length > 0){
+      $scope.courseCode = $scope.filteredCourses[0].courseId;
+      $scope.courseCodeChanged();
+    }
+  };
   
+  
+  $scope.courseCodeChanged = function(){
+    $scope.filteredDivisions = [];
+    
+    if($scope.divisions == null || $scope.divisions == undefined){
+      return;
+    }
+    
+    angular.forEach($scope.divisions, function(element){
+      if(element.fk_course_id == $scope.courseCode ){
+        $scope.filteredDivisions.push(element);
+      }
+    }, this);
+    
+    if($scope.filteredDivisions.length > 0){
+      $scope.division = $scope.filteredDivisions[0].pk_div_id;
+      
+    }
+  };
+
+  $scope.selectedPRN = 1182;
 
     var searchObject = $location.search();
     var query;
@@ -186,25 +272,33 @@ angular.module('app')
 
     //alert($scope.selectedPRN);
     
-    
-    
     // object definition
+    $scope.collegeTypes =[];
     $scope.academicYears = [];
+    $scope.courses = [];
+    $scope.filteredCourses = [];
+    $scope.feeTypes = [];
+    $scope.casteCategories = [];
+    $scope.divisions = [];
+    $scope.filteredDivisions = [];
+    $scope.courseSubjects = [];
+    $scope.filteredCourseSubjects = [];
+    
     
     $scope.PRN = $scope.selectedPRN;
-    $scope.isAdmission = "";
     $scope.admissionId = 0;
-    $scope.receiptId = 0;
-    $scope.receiptDate = getTodaysDateFormatted();
+    $scope.section = 0;
+    $scope.courseCode = 0;
+    $scope.casteCategory = 0;
     $scope.studentName = "";
     $scope.academicYear = "";
     $scope.previousBalance = 0.00;
     $scope.totalBalance = 0.00;
     $scope.currentBalance = 0.00;
     
-    $scope.receiptType = "Regular"; // regular / bus / other
+    $scope.receiptType = "Regular"; // Regular / Transport / Other
     $scope.receiptNo = "";
-    $scope.paymentMode = "Cash"; // cash / cheque / dd
+    $scope.paymentMode = "Cash"; // Cash / Cheque / DD
     $scope.receiptCode = "";
     $scope.receivedAmount = 0.00;
     
@@ -220,11 +314,21 @@ angular.module('app')
     
     $scope.disableBankDetails = true;
     
+    /*if($location.path().indexOf("receiptNew") > 0 && $scope.PRN !== undefined){
+        $scope.getPRNInfo();
+    }*/
     
     
     $scope.initializeForm = function(){
+      
+      
       // fill combo boxes
       $scope.getAcademicYears();
+      $scope.getDivisions();
+      $scope.getCasteCategories();
+      $scope.getCourses();
+      $scope.getCollegeTypes();
+      
       
       
       $scope.PRN = 0;
@@ -242,118 +346,11 @@ angular.module('app')
       
       $scope.isNew = true;
       
-      //$scope.getPRNInfo();
-    };
-    
-    if($location.path().indexOf("receiptNew") > 0 && $scope.PRN !== undefined){
-        $scope.initializeForm();
-        //$scope.getPRNInfo();
-    }
-    
-    $scope.getInfo = function(){
-      $scope.selectedPRN = $scope.PRN;
-      
-      
-      // getPRNInfo require PRN & academicYear 
-      $scope.getPRNInfo();
       
     };
     
     
+    $scope.initializeForm();
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-  /* Grid Options */
-
-	$scope.filterOptions = {
-        filterText: "",
-        useExternalFilter: true
-    }; 
-    $scope.totalServerItems = 0;
-    $scope.pagingOptions = {
-        pageSizes: [250, 500, 1000],
-        pageSize: 250,
-        currentPage: 1
-    };  
-    $scope.setPagingData = function(data, page, pageSize){  
-        var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-        $scope.myData = pagedData;
-        $scope.totalServerItems = data.length;
-        if (!$scope.$$phase) {
-            $scope.$apply();
-        }
-    };
-    $scope.getPagedDataAsync = function (pageSize, page, searchText) {
-        setTimeout(function () {
-            var data;
-            if (searchText) {
-                var ft = searchText.toLowerCase();
-                $http.get('../src/api/php/epnt/mst/ctrl_cls_Receipt.php?a=r').success(function (largeLoad) {    
-                    data = largeLoad.filter(function(item) {
-                        return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
-                    });
-                    $scope.setPagingData(data,page,pageSize);
-                });            
-            } else {
-                $http.get('../src/api/php/epnt/mst/ctrl_cls_Receipt.php?a=r').success(function (largeLoad) {
-                    $scope.setPagingData(largeLoad,page,pageSize);
-                });
-            }
-        }, 100);
-    };
-
-    $scope.getDataAsync = function(){
-    	$scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
-
-	    $scope.$watch('pagingOptions', function (newVal, oldVal) {
-	        if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
-	          $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-	        }
-	    }, true);
-	    $scope.$watch('filterOptions', function (newVal, oldVal) {
-	        if (newVal !== oldVal) {
-	          $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-	        }
-	    }, true);
-
-	    $scope.gridOptions = {
-	        data: 'myData',
-	        enablePaging: true,
-	        showFooter: true,
-	        rowHeight: 36,
-	        headerRowHeight: 36,
-	        totalServerItems: 'totalServerItems',
-	        pagingOptions: $scope.pagingOptions,
-	        filterOptions: $scope.filterOptions
-	    };
-    }
-
-    
-
-
-  /* End Grid Options */
-
-
 }]);
 

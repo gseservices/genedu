@@ -277,6 +277,10 @@ angular.module('app')
                   url: '/admissionDetails',
                   templateUrl: 'views/admissionDetails.html'
               })
+              .state('app.form.receipt_new',{
+                url: '/receiptNew',
+                templateUrl: 'views/receiptNew.html'
+              })
               .state('app.form.receipt', {
                   url: '/receipt',
                   templateUrl: 'views/receipt.html'

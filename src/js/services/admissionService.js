@@ -1,20 +1,13 @@
 
 
 angular.module('app')
-.factory('ReceiptService', function($http,$q) {
-  var promise,
-  promiseGetPRNInfo,
-  promiseSaveNewReceipt;
-  var ReceiptService = {
-    
-    reset_promises: function(){
-      promise = promiseGetPRNInfo = promiseSaveNewReceipt = undefined;
-    },
-    
+.factory('AdmissionService', function($http,$q) {
+  var promise;
+  var AdmissionService = {
     async_get_data: function() {
       if ( !promise ) {
         // $http returns a promise, which has a then function, which also returns a promise
-        promise = $http.get('../src/api/php/epnt/trans/ctrl_cls_Receipt.php?a=r').
+        promise = $http.get('../src/api/php/epnt/trans/ctrl_cls_Admission.php?a=r').
         success(function(data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
@@ -36,10 +29,10 @@ angular.module('app')
       return promise;
     }, // -- async_get_data --
     
-    async_get_prn_info: function(selected_prn, academic_year) {
-      if ( !promiseGetPRNInfo ) {
+    async_get_prn_info: function(query) {
+      if ( !promise ) {
         // $http returns a promise, which has a then function, which also returns a promise
-        promiseGetPRNInfo = $http.get('../src/api/php/epnt/trans/ctrl_cls_Receipt.php?a=rp&p='+selected_prn+'&ay='+academic_year+'').
+        promise = $http.get('../src/api/php/epnt/trans/ctrl_cls_Receipt.php?a=rp&p='+query).
         success(function(data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
@@ -57,14 +50,14 @@ angular.module('app')
       }
       
        // Return the promise to the controller
-      return promiseGetPRNInfo;
+      return promise;
     }, // -- async_get_prn_info --
     
-    async_save_new_receipt: function(dataObj){
-      if ( !promiseSaveNewReceipt ) {
+    async_save_new_admission: function(dataObj){
+      if ( !promise ) {
         // $http returns a promise, which has a then function, which also returns a promise
         
-        promiseSaveNewReceipt = $http.post('../src/api/php/epnt/trans/ctrl_cls_Receipt.php',dataObj).
+        promise = $http.post('../src/api/php/epnt/trans/ctrl_cls_Admission.php',dataObj).
         success(function(data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
@@ -82,13 +75,13 @@ angular.module('app')
       }
       
        // Return the promise to the controller
-      return promiseSaveNewReceipt;
+      return promise;
       
-    } // -- async_save_new_receipt --
-
-    //add new function here...
+    } // -- async_save_new_admission --
     
+    // add new function here...
+
   };
-  return ReceiptService;
+  return AdmissionService;
 });
 
