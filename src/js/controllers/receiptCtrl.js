@@ -286,6 +286,8 @@ angular.module('app')
       //$scope.academicYear = ($scope.academicYears.length > 0 ? $scope.academicYears[0].Key : "");
       
       $scope.totalBalance = 0.00;
+      $scope.totalPaid = 0.00;
+      $scope.totalFees = 0.00;
       $scope.currentBalance = 0.00;
       $scope.paymentMode = "Cash";
       $scope.paymentModeChanged();
