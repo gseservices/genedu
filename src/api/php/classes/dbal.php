@@ -147,26 +147,26 @@
 					$show_debug = true;
 				//
 				$is_qry_ok = mysqli_query($this->myLink,$sql);
-				if ($show_debug)
-					echo "is_qry_ok: ". $is_qry_ok ."\n";				
+				//if ($show_debug)
+					//echo "is_qry_ok: ". $is_qry_ok ."\n";				
 				//echo "<br>" ;
 				if ($is_qry_ok)
 				{	
-					if ($show_debug)
-						echo "Inside fetch block \n";
+					/*if ($show_debug)
+						echo "Inside fetch block \n";*/
 					if($return_insert_id){
 						//retriving newly inserted id
 						$res_arr = $this->fetchData($is_qry_ok,FALSE,MYSQL_BOTH);
-						if ($show_debug){
+						/*if ($show_debug){
 							echo "about to fetch results: \n";
 							print_r($res_arr);
-						}
+						}*/
 						return $res_arr[0];
 					}
 					else{
-						if ($show_debug){
-							echo "Not returning anything by choice. \n"
-						}
+						/*if ($show_debug){
+							echo "Not returning anything by choice. \n";
+						}*/
 						return true;
 					}					
 				}
@@ -180,7 +180,7 @@
 			}
 			catch(Exception $e){
 				if ($show_debug){
-					echo "Not returning anything by choice. \n"
+					echo "Not returning anything by choice. \n";
 				}
 				$this->WriteLog($e);
 				throw $e;

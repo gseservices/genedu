@@ -90,5 +90,319 @@ select * from test
 SET @p0='1'; SET @p1='test1'; CALL `spt_iu_test`(1, 'test2');
 
 ===================
-
+17 July 2015
 ===================
+
+BEGIN
+declare collegeType_Code varchar(10);
+declare varaccount_id int(10);
+declare installment_no INT unsigned default 1;
+declare r_recieptId INT;
+declare Vch_XML varchar(8000);
+DECLARE credit_ledger_id int;
+DECLARE debit_ledger_id int;
+DECLARE newreturnid int(11) DEFAULT 0;
+DECLARE var_receipt_no varchar(255) DEFAULT '';
+DECLARE varCompCode varchar(50);
+	DECLARE varConcessionId int(11);
+
+start transaction;
+
+
+	if varpk_reciept_id  <= 0 then
+		
+			select max(`installment`) into installment_no from  mstfeesheadagainstadmission where `fk_admission_id`=`varfk_admission_id`; 
+				if installment_no is null then
+				set installment_no=1;
+				else
+				set installment_no = installment_no+1;
+				end if;
+		set @newid = `varfk_admission_id`;
+		
+		
+		if `varpaid_amt`=0 then
+			if varrcpt_type = "Regular" OR varrcpt_type = "Exam" OR varrcpt_type = "Transport" then
+				call spm_iu_mstfeesheadagainstadmission(p_xml, @newid,-2,installment_no,'y',varpay_mode,varch_dd_ac_no,varch_dd_no,varreciept_code_return); 
+				else 
+				call spm_iu_mstfeesheadagainstother(p_xml, @newid,-2,installment_no,'y'); 
+			end if;
+		else
+
+		if  `varrcpt_type` = "Transport" THEN
+				SELECT settingValue into collegeType_Code from tranapplicationsetting where settingKey = 'Bus_Receipt_Code';
+			ELSE
+				select `college_type_code` into collegeType_Code from view_for_course_college_code where `pk_admission_id`=`varfk_admission_id`;
+		end IF;
+		set @rec_code=fn_get_reciept_code(`varreciept_date`,`collegeType_Code`);
+		set varreciept_code_return=concat(@rec_code,`collegeType_Code`);
+		
+		
+		if `varrcpt_type` = "Transport" THEN
+
+       
+				set varCompCode = fn_getCompanyCode(2);
+		ELSE	
+			
+				set varCompCode = fn_getCompanyCode(1);
+		END if;
+
+		
+		
+		
+		if UPPER(var_is_rcpt_no_manual) ='Y' THEN		
+			set var_receipt_no = varrcpt_no;
+		ELSE
+			select spm_get_new_reciept_no(varCompCode) into var_receipt_no;
+		end IF;
+
+		 
+		INSERT INTO  `transmfeesreciept` (`receip_code`, `fk_company_code`,`rcpt_no`, `fk_admission_id`, `reciept_date`, `pay_mode`, `ch_dd_ac_no`, `ch_dd_no`, `ch_dd_date`, `ch_dd_bbranch`, `ch_dd_bank`, `ch_dd_status`, `previous_balance`, `paid_amt`, `current_balance`, `remark`,`rcpt_type`,`is_admission`,`rcp_installment`, `created_on`, `created_by`, `modified_by`) VALUES  ( concat(@rec_code,`collegeType_Code`), varCompCode ,var_receipt_no, `varfk_admission_id`, `varreciept_date`, `varpay_mode`, `varch_dd_ac_no`, `varch_dd_no`, `varch_dd_date`, `varch_dd_bbranch`, `varch_dd_bank`, `varch_dd_status`, `varprevious_balance`, `varpaid_amt`, `varcurrent_balance`, `varremark`,`varrcpt_type`,`varis_admission`,`installment_no`, now(), `varcreated_by`, `varmodified_by`);
+		 set newreturnid =  last_insert_id();
+	set varConcessionId = last_insert_id();
+		select  last_insert_id() as newreturnid;
+		set @receipt_id = last_insert_id() ;
+		set r_recieptId=@receipt_id;
+		if varrcpt_type = "Regular" OR varrcpt_type = "Exam" OR varrcpt_type = "Transport" then
+				call spm_iu_mstfeesheadagainstadmission(p_xml, @newid,@receipt_id,installment_no,'y',varpay_mode,varch_dd_ac_no,varch_dd_no,varreciept_code_return); 
+				else 
+				call spm_iu_mstfeesheadagainstother(p_xml, @newid,@receipt_id,installment_no,'y'); 
+		end if;
+		
+
+
+			end if;
+end if;
+
+
+commit;
+
+
+
+
+END
+
+
+=== our procedure ==
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spt_iu_transmfeesreciept`(IN varreceip_code varchar (50),  varrcpt_no varchar (20), varfk_admission_id int (11), varreciept_date datetime , varpay_mode enum ('Cash','Cheque','DD','Bank','eTransfer'), varch_dd_ac_no varchar (20), varch_dd_no varchar (20), varch_dd_date datetime ,varch_dd_bbranch varchar (250), varch_dd_bank varchar (250), varch_dd_status char(1), varprevious_balance double (10,2), varpaid_amt double (10,2), varcurrent_balance double (10,2), varremark varchar (300), varcreated_by int (11), varmodified_by int (11), varpk_reciept_id int (10),varrcpt_type enum ('Regular','Other','Exam','Concession','Transport'),varis_admission char(1), varcollegetype varchar(10), p_xml longtext, var_is_rcpt_no_manual char(1), INOUT  varreciept_code_return varchar (50))
+BEGIN
+declare collegeType_Code varchar(10);
+declare varaccount_id int(10);
+declare installment_no INT unsigned default 1;
+declare r_recieptId INT;
+declare Vch_XML varchar(8000);
+DECLARE credit_ledger_id int;
+DECLARE debit_ledger_id int;
+DECLARE newreturnid int(11) DEFAULT 0;
+DECLARE var_receipt_no varchar(255) DEFAULT '';
+DECLARE varCompCode varchar(50);
+  DECLARE varConcessionId int(11);
+
+start transaction;
+
+
+  if varpk_reciept_id  <= 0 then
+    
+      select max(`installment`) into installment_no from  mstfeesheadagainstadmission where `fk_admission_id`=`varfk_admission_id`; 
+        if installment_no is null then
+        set installment_no=1;
+        else
+        set installment_no = installment_no+1;
+        end if;
+    set @newid = `varfk_admission_id`;
+    
+    
+    if `varpaid_amt`=0 then
+      if varrcpt_type = "Regular" OR varrcpt_type = "Exam" OR varrcpt_type = "Transport" then
+        call spm_iu_mstfeesheadagainstadmission(p_xml, @newid,-2,installment_no,'y',varpay_mode,varch_dd_ac_no,varch_dd_no,varreciept_code_return); 
+        else 
+        call spm_iu_mstfeesheadagainstother(p_xml, @newid,-2,installment_no,'y'); 
+      end if;
+    else
+
+    if  `varrcpt_type` = "Transport" THEN
+        SELECT settingValue into collegeType_Code from tranapplicationsetting where settingKey = 'Bus_Receipt_Code';
+      ELSE
+        select `college_type_code` into collegeType_Code from view_for_course_college_code where `pk_admission_id`=`varfk_admission_id`;
+    end IF;
+    set @rec_code=fn_get_reciept_code(`varreciept_date`,`collegeType_Code`);
+    set varreciept_code_return=concat(@rec_code,`collegeType_Code`);
+    
+    
+    if `varrcpt_type` = "Transport" THEN
+
+       
+        set varCompCode = fn_getCompanyCode(2);
+    ELSE  
+      
+        set varCompCode = fn_getCompanyCode(1);
+    END if;
+
+    
+    
+    
+    if UPPER(var_is_rcpt_no_manual) ='Y' THEN   
+      set var_receipt_no = varrcpt_no;
+    ELSE
+      select spm_get_new_reciept_no(varCompCode) into var_receipt_no;
+    end IF;
+
+     
+    INSERT INTO  `transmfeesreciept` (`receip_code`, `fk_company_code`,`rcpt_no`, `fk_admission_id`, `reciept_date`, `pay_mode`, `ch_dd_ac_no`, `ch_dd_no`, `ch_dd_date`, `ch_dd_bbranch`, `ch_dd_bank`, `ch_dd_status`, `previous_balance`, `paid_amt`, `current_balance`, `remark`,`rcpt_type`,`is_admission`,`rcp_installment`, `created_on`, `created_by`, `modified_by`) VALUES  ( concat(@rec_code,`collegeType_Code`), varCompCode ,var_receipt_no, `varfk_admission_id`, `varreciept_date`, `varpay_mode`, `varch_dd_ac_no`, `varch_dd_no`, `varch_dd_date`, `varch_dd_bbranch`, `varch_dd_bank`, `varch_dd_status`, `varprevious_balance`, `varpaid_amt`, `varcurrent_balance`, `varremark`,`varrcpt_type`,`varis_admission`,`installment_no`, now(), `varcreated_by`, `varmodified_by`);
+     set newreturnid =  last_insert_id();
+  set varConcessionId = last_insert_id();
+    select  last_insert_id() as newreturnid;
+    set @receipt_id = last_insert_id() ;
+    set r_recieptId=@receipt_id;
+    if varrcpt_type = "Regular" OR varrcpt_type = "Exam" OR varrcpt_type = "Transport" then
+        call spm_iu_mstfeesheadagainstadmission(p_xml, @newid,@receipt_id,installment_no,'y',varpay_mode,varch_dd_ac_no,varch_dd_no,varreciept_code_return); 
+        else 
+        call spm_iu_mstfeesheadagainstother(p_xml, @newid,@receipt_id,installment_no,'y'); 
+    end if;
+    
+
+
+      end if;
+end if;
+
+
+commit;
+
+
+
+
+END;;
+DELIMITER ;
+
+--------
+
+!   C:\wamp\www\current.zip: Cannot create folder current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\node_modules
+!   The filename or extension is too long.
+!   C:\wamp\www\current.zip: Cannot create folder current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\node_modules\proto-list
+!   The system cannot find the path specified.
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\node_modules\proto-list\LICENSE
+    Total path and file name length must not exceed 260 characters
+!   The system cannot find the path specified.
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\node_modules\proto-list\package.json
+    Total path and file name length must not exceed 260 characters
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\node_modules\proto-list\proto-list.js
+    Total path and file name length must not exceed 260 characters
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\node_modules\proto-list\README.md
+    Total path and file name length must not exceed 260 characters
+!   C:\wamp\www\current.zip: Cannot create folder current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\node_modules\proto-list\test
+!   The system cannot find the path specified.
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\node_modules\proto-list\test\basic.js
+    Total path and file name length must not exceed 260 characters
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\test\chain-class.js
+    Total path and file name length must not exceed 260 characters
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\config-chain\test\ignore-unfound-file.js
+    Total path and file name length must not exceed 260 characters
+!   C:\wamp\www\current.zip: Cannot create folder current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\once\node_modules\wrappy
+!   The filename or extension is too long.
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\once\node_modules\wrappy\LICENSE
+    Total path and file name length must not exceed 260 characters
+!   The system cannot find the path specified.
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\once\node_modules\wrappy\package.json
+    Total path and file name length must not exceed 260 characters
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\once\node_modules\wrappy\README.md
+    Total path and file name length must not exceed 260 characters
+!   C:\wamp\www\current.zip: Cannot create folder current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\once\node_modules\wrappy\test
+!   The filename or extension is too long.
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\once\node_modules\wrappy\test\basic.js
+    Total path and file name length must not exceed 260 characters
+!   C:\wamp\www\current.zip: Cannot create current\genedu\node_modules\grunt-bower-install-simple\node_modules\bower\node_modules\update-notifier\node_modules\latest-version\node_modules\package-json\node_modules\registry-url\node_modules\npmconf\node_modules\once\node_modules\wrappy\wrappy.js
+    Total path and file name length must not exceed 260 characters
+
+
+=============
+
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spt_iu_transmfeesreciept`(IN varreceip_code varchar (50),  varrcpt_no varchar (20), varfk_admission_id int (11), varreciept_date datetime , varpay_mode enum ('Cash','Cheque','DD','Bank','eTransfer'), varch_dd_ac_no varchar (20), varch_dd_no varchar (20), varch_dd_date datetime ,varch_dd_bbranch varchar (250), varch_dd_bank varchar (250), varch_dd_status char(1), varprevious_balance double (10,2), varpaid_amt double (10,2), varcurrent_balance double (10,2), varremark varchar (300), varcreated_by int (11), varmodified_by int (11), varpk_reciept_id int (10),varrcpt_type enum ('Regular','Other','Exam','Concession','Transport'),varis_admission char(1), varcollegetype varchar(10), p_xml longtext, var_is_rcpt_no_manual char(1), INOUT  varreciept_code_return varchar (50))
+BEGIN
+declare collegeType_Code varchar(10);
+declare varaccount_id int(10);
+declare installment_no INT unsigned default 1;
+declare r_recieptId INT;
+declare Vch_XML varchar(8000);
+DECLARE credit_ledger_id int;
+DECLARE debit_ledger_id int;
+DECLARE newreturnid int(11) DEFAULT 0;
+DECLARE var_receipt_no varchar(255) DEFAULT '';
+DECLARE varCompCode varchar(50);
+  DECLARE varConcessionId int(11);
+
+start transaction;
+
+
+  if varpk_reciept_id  <= 0 then
+    
+      select max(`installment`) into installment_no from  mstfeesheadagainstadmission where `fk_admission_id`=`varfk_admission_id`; 
+        if installment_no is null then
+        set installment_no=1;
+        else
+        set installment_no = installment_no+1;
+        end if;
+    set @newid = `varfk_admission_id`;
+    
+    
+    if `varpaid_amt`=0 then
+      if varrcpt_type = "Regular" OR varrcpt_type = "Exam" OR varrcpt_type = "Transport" then
+        call spm_iu_mstfeesheadagainstadmission(p_xml, @newid,-2,installment_no,'y',varpay_mode,varch_dd_ac_no,varch_dd_no,varreciept_code_return); 
+        else 
+        call spm_iu_mstfeesheadagainstother(p_xml, @newid,-2,installment_no,'y'); 
+      end if;
+    else
+
+    if  `varrcpt_type` = "Transport" THEN
+        SELECT settingValue into collegeType_Code from tranapplicationsetting where settingKey = 'Bus_Receipt_Code';
+      ELSE
+        select `college_type_code` into collegeType_Code from view_for_course_college_code where `pk_admission_id`=`varfk_admission_id`;
+    end IF;
+    set @rec_code=fn_get_reciept_code(`varreciept_date`,`collegeType_Code`);
+    set varreciept_code_return=concat(@rec_code,`collegeType_Code`);
+    
+    
+    if `varrcpt_type` = "Transport" THEN
+
+       
+        set varCompCode = fn_getCompanyCode(2);
+    ELSE  
+      
+        set varCompCode = fn_getCompanyCode(1);
+    END if;
+
+    
+    
+    
+    if UPPER(var_is_rcpt_no_manual) ='Y' THEN   
+      set var_receipt_no = varrcpt_no;
+    ELSE
+      select spm_get_new_reciept_no(varCompCode) into var_receipt_no;
+    end IF;
+
+     
+    INSERT INTO  `transmfeesreciept` (`receip_code`, `fk_company_code`,`rcpt_no`, `fk_admission_id`, `reciept_date`, `pay_mode`, `ch_dd_ac_no`, `ch_dd_no`, `ch_dd_date`, `ch_dd_bbranch`, `ch_dd_bank`, `ch_dd_status`, `previous_balance`, `paid_amt`, `current_balance`, `remark`,`rcpt_type`,`is_admission`,`rcp_installment`, `created_on`, `created_by`, `modified_by`) VALUES  ( concat(@rec_code,`collegeType_Code`), varCompCode ,var_receipt_no, `varfk_admission_id`, `varreciept_date`, `varpay_mode`, `varch_dd_ac_no`, `varch_dd_no`, `varch_dd_date`, `varch_dd_bbranch`, `varch_dd_bank`, `varch_dd_status`, `varprevious_balance`, `varpaid_amt`, `varcurrent_balance`, `varremark`,`varrcpt_type`,`varis_admission`,`installment_no`, now(), `varcreated_by`, `varmodified_by`);
+     set newreturnid =  last_insert_id();
+  set varConcessionId = last_insert_id();
+    select  last_insert_id() as newreturnid;
+    set @receipt_id = last_insert_id() ;
+    set r_recieptId=@receipt_id;
+    if varrcpt_type = "Regular" OR varrcpt_type = "Exam" OR varrcpt_type = "Transport" then
+        call spm_iu_mstfeesheadagainstadmission(p_xml, @newid,@receipt_id,installment_no,'y',varpay_mode,varch_dd_ac_no,varch_dd_no,varreciept_code_return); 
+        else 
+        call spm_iu_mstfeesheadagainstother(p_xml, @newid,@receipt_id,installment_no,'y'); 
+    end if;
+    
+
+
+      end if;
+end if;
+
+
+commit;
+
+
+
+
+END;;
+DELIMITER ;

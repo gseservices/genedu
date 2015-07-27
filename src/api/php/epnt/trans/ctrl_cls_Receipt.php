@@ -1,4 +1,5 @@
 <?php
+error_reporting(1);
 
 require_once './../../app_const.php';
 include_once BASE_PATH.'/classes/transactions/clsReceipt.php';

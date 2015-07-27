@@ -65,6 +65,8 @@ angular.module('app')
              $scope.feesInfo = ($scope.selectedPRNInfo.feesInfo !== undefined ? $scope.selectedPRNInfo.feesInfo : []);
              $scope.installmentInfo = ($scope.selectedPRNInfo.installmentInfo !== undefined ? $scope.selectedPRNInfo.installmentInfo : []);
              
+             $scope.receiptTypeChanged();
+             
              debugLog("fees Info set -->"+ $scope.feesInfo);
              debugLog("installment Info set -->"+ $scope.installmentInfo);
          }
@@ -96,6 +98,7 @@ angular.module('app')
     }
     
     $scope.admissionId = obj["pk_admission_id"];
+    
     $scope.receiptDate = getTodaysDateFormatted();
     $scope.studentName = obj["student_name"];
     
@@ -127,12 +130,39 @@ angular.module('app')
     return blnValidate;
   };
   
+  $scope.generatePXML = function(){
+    var str = "";
+    str += "<mstfeesheadagainstadmission>";
+    str += "<row>";
+    
+    str += "<field name=\\'fk_feesheadadm_id\\'>"+$scope.fkFeesHeadAdmId+"</field>";
+    str += "<field name=\\'fk_admission_id\\'>"+$scope.admissionId+"</field>";
+    str += "<field name=\\'fk_reciept_id\\'>"+$scope.receiptId+"</field>";
+    str += "<field name=\\'fk_perticular_id\\'>"+$scope.fkParticularId+"</field>";
+    str += "<field name=\\'amount_to_pay\\'>"+$scope.totalBalance+"</field>";
+    str += "<field name=\\'paid_amount\\'>"+$scope.receivedAmount+"</field>";
+    str += "<field name=\\'installment\\'>"+0+"</field>";
+    str += "<field name=\\'fees_type\\'>"+$scope.feesType+"</field>";
+    str += "<field name=\\'fk_batch_feeshead_id\\'>"+$scope.fkBatchFeesHeadId+"</field>";
+    str += "<field name=\\'created_by\\'>"+$scope.createdBy+"</field>";
+    str += "<field name=\\'modified_by\\'>"+$scope.modifiedBy+"</field>";
+    
+    str += "</row>";
+    str += "</mstfeesheadagainstadmission>";
+    
+    return str;
+  };
+  
+  
   $scope.saveReceipt = function(){
     ReceiptService.reset_promises();
     
     if(!$scope.validate())   
       return;
-      
+    
+    var pxml = $scope.generatePXML();
+    
+    
     var formData = {
           a:'a',
           varreceip_code:'',
@@ -156,7 +186,7 @@ angular.module('app')
           'varrcpt_type':$scope.receiptType,
           'varis_admission':$scope.isAdmission,
           'varcollegetype':$scope.collegeType,
-          'p_xml':'',
+          'p_xml':pxml,
           'var_is_rcpt_no_manual':'N' // default value
           
         };
@@ -188,6 +218,23 @@ angular.module('app')
 
   $scope.receiptTypeChanged = function(){
       $scope.collegeType = ($scope.receiptType == "Transport" ? "PST" : "PSBA");
+      $scope.feesType = ($scope.receiptType == "Transport" ? "Transport" : "Admission");
+      $scope.fkParticularId = ($scope.receiptType == "Transport" ? 8 : 1); //
+      
+      $scope.fkBatchFeesHeadId = 0;
+      if($scope.feesInfo !== undefined){
+        if($scope.feesInfo.length > 0){
+          $scope.feesInfo.forEach(function(element) {
+            if((element["fees_type"] == "Admission" && $scope.receiptType == "Regular") || 
+               (element["fees_type"] == "Transport" && $scope.receiptType == "Transport") ){
+              $scope.fkBatchFeesHeadId = element["fk_batch_feeshead_id"];
+              debugLog("fkBatchFeesHeadId ==> "+ $scope.fkBatchFeesHeadId);
+            }
+          }, this);
+        }
+      }
+       
+       
       debugLog("receipt type changed --> " + $scope.receiptType);
   };
   
@@ -247,6 +294,10 @@ angular.module('app')
     $scope.PRN = $scope.selectedPRN;
     $scope.isAdmission = "N";
     $scope.admissionId = 0;
+    $scope.fkParticularId = 1; // 1 : School Fees , 8 : Bus Fees / Transport
+    $scope.fkBatchFeesHeadId = 0; // retrieved from $scope.feesInfo retrieved via json
+    $scope.fkFeesHeadAdmId = 0; 
+    
     $scope.receiptId = 0;
     $scope.receiptDate = getTodaysDateFormatted();
     $scope.studentName = "student name";
@@ -256,6 +307,7 @@ angular.module('app')
     $scope.currentBalance = 0.00;
     
     $scope.receiptType = "Regular"; // regular / bus / other
+    $scope.feesType = "Admission"; // Admission / Transport / Other
     $scope.receiptNo = 0;
     $scope.paymentMode = "Cash"; // cash / cheque / dd
     $scope.receiptCode = "";
@@ -280,6 +332,9 @@ angular.module('app')
       $scope.installmentInfo = [];
     
       $scope.admissionId = 0;
+      $scope.fkParticularId = 1;
+      $scope.fkBatchFeesHeadId = 0;
+      $scope.fkFeesHeadAdmId = 0;
       $scope.receiptNo = 0;
       $scope.admissionDate = getTodaysDateFormatted();
       $scope.studentName = "student name";
@@ -323,6 +378,9 @@ angular.module('app')
       
       $scope.PRN = 0;
       $scope.admissionId = 0;
+      $scope.fkParticularId = 1;
+      $scope.fkBatchFeesHeadId = 0;
+      $scope.fkFeesHeadAdmId = 0;
       $scope.admissionDate = getTodaysDateFormatted();
       $scope.studentName = "student name";
       $scope.academicYear = ($scope.academicYears.length > 0 ? $scope.academicYears[0].Key : "");

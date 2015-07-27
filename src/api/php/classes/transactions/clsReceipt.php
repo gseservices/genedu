@@ -1,4 +1,5 @@
 <?php
+
 include_once BASE_PATH . '/classes/clsBase.php';
 
 //echo "at the beginning of clsReceipt";
@@ -88,7 +89,7 @@ class clsReceipt extends clsBase
 			
 			//$sql = "CALL `spt_iu_test`(3, 'test3')";
 			//echo $sql;  
-			$result = $this->dbal->execScalar($sql,FALSE);
+			$result = $this->dbal->execScalar($sql,true);
 			return $result;
 		}catch (Exception $ex)
 		{
