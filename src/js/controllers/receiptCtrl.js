@@ -200,7 +200,13 @@ angular.module('app')
              var obj = $scope.newReceiptData;
              if(obj !== undefined){
               $scope.makeToast('success','New receipt created! Rcpt Code is : ');
-              debugLog("New Receipt Saved Data : "+ obj);   
+              debugLog("New Receipt Saved Data : "+ obj);  
+              
+              // update information for selected record
+              $scope.new_rcpt_code = obj.rcpt_code[0][0];
+              
+              $scope.getInfo(); 
+              
              }else{
                $scope.makeToast('error','Unable to create new receipt!');
               debugLog("Receipt Not Saved Data : "+ obj);

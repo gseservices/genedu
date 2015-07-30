@@ -406,3 +406,148 @@ commit;
 
 END;;
 DELIMITER ;
+
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spm_iu_mstfeesheadagainstadmission`(IN p_xml text, varfk_admission_id int(11),
+varfk_reciept_id int(11), varinstallment_no int(10), isnested char(1),varpay_mode varchar(20),varch_dd_ac_no varchar(20),
+varch_dd_no varchar(20),varreceipt_code varchar(25))
+BEGIN
+  declare v_row_index int unsigned default 0;
+  declare v_row_count int unsigned;
+  declare v_xpath_row varchar(255);
+  DECLARE varcreated_by int(11);
+  DECLARE varCompCode VARCHAR(255);
+
+p_xml = '<mstfeesheadagainstadmission><row><field name=\'fk_feesheadadm_id\'>0</field><field name=\'fk_admission_id\'>2731</field><field name=\'fk_reciept_id\'>0</field><field name=\'fk_perticular_id\'>1</field><field name=\'amount_to_pay\'>26100</field><field name=\'paid_amount\'>100</field><field name=\'installment\'>0</field><field name=\'fees_type\'>Admission</field><field name=\'fk_batch_feeshead_id\'>727</field><field name=\'created_by\'>1</field><field name=\'modified_by\'>1</field></row></mstfeesheadagainstadmission>';
+
+  SET varCompCode = fn_getCompanyCode(1);
+
+    
+  set v_row_count := extractValue(p_xml,'count(/mstfeesheadagainstadmission/row)');
+  
+  if isnested ='N'  then
+  
+    START TRANSACTION;
+
+  end if;
+
+    while v_row_index < v_row_count do        
+        set v_row_index := v_row_index + 1;
+        set v_xpath_row := concat(
+            '/mstfeesheadagainstadmission/row['
+        ,   v_row_index
+        ,   ']'
+        );
+        
+            insert into mstfeesheadagainstadmission (`fk_admission_id`, `fk_reciept_id`,`fk_perticular_id`, 
+            `amount_to_pay`, `paid_amt`, `installment`,`fees_type`, `fk_batch_feeshead_id`,`created_on`, `created_by`,
+             `modified_by`) values (
+            varfk_admission_id
+        ,   varfk_reciept_id
+        ,   extractValue(p_xml,concat(v_xpath_row,'/field[4]/text()'))
+        ,   extractValue(p_xml,concat(v_xpath_row,'/field[5]/text()'))
+        ,   extractValue(p_xml,concat(v_xpath_row,'/field[6]/text()'))
+        ,   varinstallment_no
+        ,   extractValue(p_xml,concat(v_xpath_row,'/field[8]/text()'))
+        ,   extractValue(p_xml,concat(v_xpath_row,'/field[9]/text()'))
+        ,   now()
+        ,   extractValue(p_xml,concat(v_xpath_row,'/field[10]/text()'))
+        ,   extractValue(p_xml,concat(v_xpath_row,'/field[11]/text()'))
+        );
+
+    
+    SET varcreated_by  = extractValue(p_xml,concat(v_xpath_row,'/field[11]/text()'));
+
+
+        end while;
+
+    
+        IF varfk_reciept_id > 0 THEN
+        SELECT PRN into @prn from view_for_reciept WHERE pk_reciept_id = varfk_reciept_id and deleted = 'N' LIMIT 0,1;
+          CALL smp_post_voucher_for_reciept(varfk_admission_id,varfk_reciept_id,varCompCode,varpay_mode,varch_dd_ac_no,varch_dd_no,
+          varreceipt_code,varcreated_by,@prn);
+          CALL smp_post_voucher_for_reciept(varfk_admission_id,varfk_reciept_id,"PST",varpay_mode,varch_dd_ac_no,varch_dd_no,
+          varreceipt_code,varcreated_by,@prn);
+          
+        END IF;
+
+    
+  
+  if isnested = 'N' then
+      commit;
+  end if;
+
+     select v_row_index;
+
+END;;
+DELIMITER ;
+
+=============
+
+=============
+
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spm_iu_tbl_vouchers`(IN varfkbranch_id int (11), varfkacnt_trans_code int (11), varvch_sr_no varchar (20), varvch_date datetime , varfkdebit_ledger_id int (11), varfkcredit_ledger_id int (11), varamount double (11,2), varchq_no varchar (20), varchk_date datetime , varfkbank_acnt_id int (11), varchqstatus char (1), varnarration varchar (250), varremarks varchar (250), varprep_by int (11), varchecked_by int (11), varapproved_by int (11), varrcvd_by int (11), varanchor_id int (11), varanchor_type varchar (100), varfk_comp_code varchar(20),varcreated_by int (11),  varmodified_by int (11), varvch_id int (11), p_xml text)
+BEGIN
+declare vardeleted char(1) default 'N';
+  start transaction;
+  
+  if varvch_id<= 0 then 
+  INSERT INTO  `tbl_vouchers` (`fkbranch_id`, `fkacnt_trans_code`, `vch_sr_no`, `vch_date`, `fkdebit_ledger_id`, `fkcredit_ledger_id`, `amount`, `chq_no`, `chk_date`, `fkbank_acnt_id`, `chqstatus`, `narration`, `remarks`, `prep_by`, `checked_by`, `approved_by`, `rcvd_by`, `anchor_id`, `anchor_type`, `fk_comp_code`,`created_by`, `created_on`, `modified_by`,`deleted` ) VALUES  (`varfkbranch_id`, `varfkacnt_trans_code`, fn_getVchSrNo(), `varvch_date`, `varfkdebit_ledger_id`, `varfkcredit_ledger_id`, `varamount`, `varchq_no`, `varchk_date`, `varfkbank_acnt_id`, `varchqstatus`, `varnarration`, `varremarks`, `varprep_by`, `varchecked_by`, `varapproved_by`, `varrcvd_by`, `varanchor_id`, `varanchor_type`, `varfk_comp_code` ,`varcreated_by`, now(), `varmodified_by`,`vardeleted`);  
+  set @newid = last_insert_id();
+else
+delete from tbl_voucher_det where vch_id = varvch_id;
+set @newid = varvch_id;
+ UPDATE  `tbl_vouchers` SET `fkbranch_id`  = `varfkbranch_id`, `fkacnt_trans_code`  = `varfkacnt_trans_code`, `vch_sr_no`  = `varvch_sr_no`, `vch_date`  = `varvch_date`, `fkdebit_ledger_id`  = `varfkdebit_ledger_id`, `fkcredit_ledger_id`  = `varfkcredit_ledger_id`, `amount`  = `varamount`, `chq_no`  = `varchq_no`, `chk_date`  = `varchk_date`, `fkbank_acnt_id`  = `varfkbank_acnt_id`, `chqstatus`  = `varchqstatus`, `narration`  = `varnarration`, `remarks`  = `varremarks`, `prep_by`  = `varprep_by`, `checked_by`  = `varchecked_by`, `approved_by`  = `varapproved_by`, `rcvd_by`  = `varrcvd_by`, `anchor_id`  = `varanchor_id`, `anchor_type`  = `varanchor_type`,`fk_comp_code`=`varfk_comp_code`,  `modified_by`  = `varmodified_by` WHERE `vch_id`=`varvch_id`;
+    select row_count() as rows_updated;
+end if;
+  
+  
+  while @newid > 0  do       
+      call spm_iu_mstvoucherdetails (p_xml, @newid,'y',vardeleted); 
+     set @newid = 0;
+  end while;  
+    
+  
+  commit;
+  
+  select row_count();   
+ 
+END;;
+DELIMITER ;
+
+===========
+29 July 2015
+============
+
+Array
+(
+    [t1] => Array
+        (
+            [0] => Array
+                (
+                    [newreturnid] => 19926
+                )
+
+        )
+
+    [t2] => Array
+        (
+            [0] => Array
+                (
+                    [v_row_index] => 2
+                )
+
+        )
+
+    [rcpt_code] => Array
+        (
+            [0] => Array
+                (
+                    [@varreciept_code_return] => 00012/06/2015/PR
+                )
+
+        )
+
+)
+Array

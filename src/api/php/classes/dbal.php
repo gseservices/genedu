@@ -198,6 +198,7 @@
 					    $tableCounter = 0;
 						do {
 					        /* store first result set */
+							
 					        if ($result = mysqli_use_result($this->myLink)) {
 					            
 								$table = array();
