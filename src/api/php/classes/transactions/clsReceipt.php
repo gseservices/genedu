@@ -85,7 +85,7 @@ class clsReceipt extends clsBase
 			$sql .= ",". "'" . $this->var_is_rcpt_no_manual . "'";
 			$sql .= ",". "@varreciept_code_return";
 			 
-			$sql .= ");select @varreciept_code_return;";
+			$sql .= ");";
 			
 			//$sql = "CALL `spt_iu_test`(3, 'test3')";
 			//echo $sql;  
@@ -95,17 +95,17 @@ class clsReceipt extends clsBase
 			$result = $this->dbal->execReaderMultiDs($sql,$tableNames);
 			
 			//print_r($result);
-			echo "count : ".count($result[rcpt_code][0]);
+			/*echo "count : ".count($result[rcpt_code][0]);
 			
 			echo $result[rcpt_code][0]."<br/>";
 			
 			echo $result[rcpt_code][0][0]."<br/>";
 			echo $result[rcpt_code][0]["@varreciept_code_return"]."<br/>";
 			echo $result[2][0][0]."<br />";
-			/*if($result){
+			if($result){
 				$sql = "select @varreciept_code_return";
 				$result = $this->dbal->execScalar($sql, false);
-			}*/
+			}
 			$return_str="INIT";
 			if(!$result){
 				$return_str = $this->sanitizeBlankJSONRecordset();
@@ -117,9 +117,9 @@ class clsReceipt extends clsBase
 					$return_str = json_encode($result);	
 				}
 			}
-			return $return_str;
+			return $return_str;*/
 			
-			//return $result;
+			return $result;
 		}catch (Exception $ex)
 		{
 			echo $ex->getMessage();

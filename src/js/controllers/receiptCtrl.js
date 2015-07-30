@@ -203,7 +203,7 @@ angular.module('app')
               debugLog("New Receipt Saved Data : "+ obj);  
               
               // update information for selected record
-              $scope.new_rcpt_code = obj.rcpt_code[0][0];
+              //$scope.new_rcpt_code = obj.rcpt_code[0][0];
               
               $scope.getInfo(); 
               
