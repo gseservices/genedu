@@ -13,6 +13,15 @@
 	        	<div class="panel-body">
 	        		<div class="form-group">
 	        			<div class="row">
+							<div class="col-sm-2">
+								<div class="form-group">
+	    							<lable>Academic Year</lable>
+	    							<select style="margin-top:7px;" class="form-control" data-ng-model="academicYear" required>
+			                      		<option ng:repeat="o in academicYears" value="{{o.Key}}">{{o.Value}}</option>
+								  
+			                      	</select>
+								</div>
+    						</div>
 							<div class="col-sm-4">
 								<div class="form-group">
 	    							<label>PRN</label>
@@ -21,15 +30,7 @@
 	    							<!--<input type="text"  class="form-control" placeholder="PRN" data-ng-model="PRN" required name="prn">-->
 								</div>
     						</div>
-							<div class="col-sm-2">
-								<div class="form-group">
-	    							<lable>Academic Year</lable>
-	    							<select class="form-control" data-ng-model="academicYear" required>
-			                      		<option ng:repeat="o in academicYears" value="{{o.Key}}">{{o.Value}}</option>
-								  
-			                      	</select>
-								</div>
-    						</div>
+							
 							<div class="col-sm-2">
 								<br />
 								<button type="button" class="btn btn-sm btn-info" data-ng-click="getInfo()">Get Info</button>

@@ -93,6 +93,20 @@ angular.module('app')
              $scope.setPRNInfo(obj);
              
              $scope.feesInfo = ($scope.selectedPRNInfo.feesInfo !== undefined ? $scope.selectedPRNInfo.feesInfo : []);
+             
+             if($scope.feesInfo !== undefined && $scope.feesInfo.length == 2){
+               var admissionInfo = $scope.feesInfo[0];
+               var transportInfo = $scope.feesInfo[1];
+               
+               $scope.admissionFees = admissionInfo.amount_to_pay;
+               $scope.admissionFeesPaid = admissionInfo.PaidAmt;
+               $scope.admissionFeesBalance = admissionInfo.BalanceAmt;
+               
+               $scope.transportFees = transportInfo.amount_to_pay;
+               $scope.transportFeesPaid = transportInfo.PaidAmt;
+               $scope.transportFeesBalance = transportInfo.BalanceAmt;
+             }
+             
              $scope.installmentInfo = ($scope.selectedPRNInfo.installmentInfo !== undefined ? $scope.selectedPRNInfo.installmentInfo : []);
              
              $scope.receiptTypeChanged();
@@ -156,6 +170,8 @@ angular.module('app')
           ){
               blnValidate = false;
           }
+        if($scope.receivedAmount < 0)
+          blnValidate = false;
     }  
     return blnValidate;
   };
@@ -279,12 +295,46 @@ angular.module('app')
       $scope.currentBalance = parseFloat($scope.currentBalance);
         
       if($scope.receivedAmount >= 0){
-          if($scope.receivedAmount <= $scope.previousBalance){
+          /*if($scope.receivedAmount <= $scope.previousBalance){
             $scope.currentBalance = $scope.previousBalance - $scope.receivedAmount;      
           }else{
               $scope.receivedAmount = $scope.previousBalance;
               $scope.currentBalance = $scope.previousBalance - $scope.receivedAmount;
+          }*/
+          
+          //====
+          debugLog("Receipt Type : "+$scope.receiptType);
+          
+          switch($scope.receiptType){
+            case "Regular":
+              if($scope.receivedAmount <= $scope.admissionFeesBalance)
+              {
+                $scope.currentBalance = $scope.previousBalance - $scope.receivedAmount;
+                debugLog("Received Amount <= Admission Fees Balance");
+              }else{
+                $scope.receivedAmount = $scope.admissionFeesBalance;
+                $scope.currentBalance = $scope.previousBalance - $scope.receivedAmount;
+                debugLog("Received Amount > Admission Fees Balance");
+              }  
+              break;
+            case "Transport":
+              if($scope.receivedAmount <= $scope.transportFeesBalance)
+              {
+                $scope.currentBalance = $scope.previousBalance - $scope.receivedAmount;
+                debugLog("Received Amount <= Transport Fees Balance");
+              }else{
+                $scope.receivedAmount = $scope.transportFeesBalance;
+                $scope.currentBalance = $scope.previousBalance - $scope.receivedAmount;
+                debugLog("Received Amount > Transport Fees Balance");
+                
+              }
+              break;
+            case "Other":
+              break;
+            
           }
+          
+          
               
       }
       debugLog("received amount changed --> " + $scope.receivedAmount); 
@@ -350,6 +400,14 @@ angular.module('app')
     $scope.totalBalance = 0.00;
     $scope.currentBalance = 0.00;
     
+    $scope.admissionFees = 0.00;
+    $scope.transportFees = 0.00;
+    $scope.admissionFeesPaid = 0.00;
+    $scope.transportFeesPaid = 0.00;
+    $scope.admissionFeesBalance = 0.00;
+    $scope.transportFeesBalance = 0.00;
+    
+    
     $scope.receiptType = "Regular"; // regular / bus / other
     $scope.feesType = "Admission"; // Admission / Transport / Other
     $scope.receiptNo = 0;
@@ -388,6 +446,15 @@ angular.module('app')
       $scope.totalPaid = 0.00;
       $scope.totalFees = 0.00;
       $scope.currentBalance = 0.00;
+      
+      $scope.admissionFees = 0.00;
+      $scope.transportFees = 0.00;
+      $scope.admissionFeesPaid = 0.00;
+      $scope.transportFeesPaid = 0.00;
+      $scope.admissionFeesBalance = 0.00;
+      $scope.transportFeesBalance = 0.00;
+      
+      
       $scope.paymentMode = "Cash";
       $scope.paymentModeChanged();
       $scope.chqDDDate = getTodaysDateFormatted();
@@ -426,13 +493,30 @@ angular.module('app')
       $scope.fkBatchFeesHeadId = 0;
       $scope.fkFeesHeadAdmId = 0;
       $scope.admissionDate = getTodaysDateFormatted();
+      debugLog("Today's date : "+getTodaysDateFormatted());
+      debugLog("Today's date mysql : "+ getMySqlDate(getTodaysDateFormatted()));
+      
       $scope.studentName = "student name";
-      $scope.academicYear = ($scope.academicYears.length > 0 ? $scope.academicYears[0].Key : "");
+      $scope.academicYear = ($scope.academicYears.length > 0 ? $scope.app.academicYear : "");
+      
+      
+      //$scope.academicYear = $scope.app.academicYear;
+      debugLog("global academic year : "+ $scope.app.academicYear);
+      debugLog("local academic year : "+ $scope.academicYear);
       
       $scope.totalBalance = 0.00;
       $scope.totalPaid = 0.00;
       $scope.totalFees = 0.00;
       $scope.currentBalance = 0.00;
+      
+      $scope.admissionFees = 0.00;
+      $scope.transportFees = 0.00;
+      $scope.admissionFeesPaid = 0.00;
+      $scope.transportFeesPaid = 0.00;
+      $scope.admissionFeesBalance = 0.00;
+      $scope.transportFeesBalance = 0.00;
+      
+      
       $scope.paymentMode = "Cash";
       $scope.paymentModeChanged();
       $scope.chqDDDate = getTodaysDateFormatted();
@@ -451,6 +535,8 @@ angular.module('app')
       $scope.remarks = "";
       $scope.collegeType = "";
       
+      $scope.academicYear = ($scope.academicYears.length > 0 ? $scope.app.academicYear : "");
+      
       $scope.isNew = true;
       
       debugLog("initializeForm called");
@@ -463,6 +549,11 @@ angular.module('app')
     }
     
     $scope.getInfo = function(){
+      if($scope.asyncSelected === undefined){
+        $scope.makeToast('error','Please provide valid criteria to get information!');
+        return;
+      }
+      
       if($scope.asyncSelected.length > 0 && $scope.asyncSelected.indexOf(":") > 0){
         var temp = $scope.asyncSelected.split(":")[0];
         if(temp > 0)

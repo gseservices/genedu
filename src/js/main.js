@@ -17,7 +17,7 @@ angular.module('app')
         copyright_company:'GS eServices',
         copyright_year:'2015',
         cur_symbol:'₹',
-        
+        academicYear : '2014 - 2015',
         // for chart colors
         color: {
           primary: '#7266ba',

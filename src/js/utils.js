@@ -23,7 +23,7 @@ function getMySqlDate(dateString){
         var month = monthNames.indexOf(arr[1]);
         var year = arr[2];
         
-        return year + '-' + month + '-' + day;
+        return year + '-' + (month+1) + '-' + day;
 } // -- getMySqlDate -- 
 //debugControl
 var logs_on = true;
