@@ -218,7 +218,7 @@
 											</tr>-->
 											</thead>
 											<tbody>
-											<tr ng-repeat="row in installmentInfo">
+											<tr style={{row.pay_mode=='Cash'?'':'background-color:#7FD5E6'}} ng-repeat="row in installmentInfo">
 												<td>{{row.receip_code}}</td>
 												<td>{{row.rcpt_type}}</td>
 												<td>{{row.reciept_date}}</td>
