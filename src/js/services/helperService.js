@@ -2,11 +2,43 @@
 
 angular.module('app')
 .factory('HelperService', function($http,$q) {
-  var promiseCollegeTypes, 
+  var promiseStudentList,
+      promiseCollegeTypes, 
       promiseCourses,
       promiseCasteCategories,
       promiseDivisions;
   var HelperService = {
+    
+    reset_promises: function(){
+      promiseStudentList =  undefined;
+      debugLog("promises reset");
+    },
+    // retrieve data for college type or section combo box 
+    async_get_student_list: function(snameCriteria, ay) {
+      if ( !promiseStudentList ) {
+        // $http returns a promise, which has a then function, which also returns a promise
+        promiseStudentList = $http.get('../src/api/php/epnt/mst/ctrl_cls_mst_admission.php?a=sl&snc='+snameCriteria+'&ay='+ay).
+        success(function(data, status, headers, config) {
+          // this callback will be called asynchronously
+          // when the response is available
+          // The then function here is an opportunity to modify the response
+          //console.log(data);
+          // The return value gets picked up by the then in the controller.
+          return data;
+        }).
+        error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          console.log("Error : " + status + " - " + data.message);
+        });
+        
+      }
+      
+            
+      // Return the promise to the controller
+      return promiseStudentList;
+    }, // -- async_get_college_types --
+    
     // retrieve data for college type or section combo box 
     async_get_college_types: function() {
       if ( !promiseCollegeTypes ) {

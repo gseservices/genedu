@@ -44,6 +44,36 @@ angular.module('app')
     });
   };
   
+  // Any function returning a promise object can be used to load values asynchronously
+    $scope.getStudents = function(val) {
+      HelperService.reset_promises();
+      
+      return HelperService.async_get_student_list(val,$scope.academicYear).then(function(d){
+        var students = [];
+        //students = d.data;
+        angular.forEach(d.data, function(student){
+          students.push(""+student.prn_no+":"+student.studentname);
+        });
+        
+        return students;
+      });
+      
+      
+      /*return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
+        params: {
+          address: val,
+          sensor: false
+        }
+      }).then(function(res){
+        var students = [];
+        angular.forEach(res.data.results, function(item){
+          students.push(item.formatted_student);
+        });
+        return students;
+      });*/
+    };
+  
+  
   $scope.selectedPRNInfo = {
     studentInfo : "",
     feesInfo : "",
@@ -259,6 +289,12 @@ angular.module('app')
       }
       debugLog("received amount changed --> " + $scope.receivedAmount); 
   };
+  
+  $scope.PRNChanged = function(){
+    
+      debugLog("PRN changed --> "+ $scope.selected);
+      debugLog("PRN changed --> " + $scope.asyncSelected); 
+  };
 
   $scope.paymentModeChanged = function(){
       switch($scope.paymentMode){
@@ -293,6 +329,8 @@ angular.module('app')
     
     
     // object definition
+    $scope.selected = undefined;
+    
     $scope.academicYears = [];
     $scope.feesInfo = [];
     $scope.installmentInfo = [];
@@ -425,11 +463,23 @@ angular.module('app')
     }
     
     $scope.getInfo = function(){
-      $scope.selectedPRN = $scope.PRN;
+      if($scope.asyncSelected.length > 0 && $scope.asyncSelected.indexOf(":") > 0){
+        var temp = $scope.asyncSelected.split(":")[0];
+        if(temp > 0)
+          $scope.PRN = temp;
+      }
       
       
-      // getPRNInfo require PRN & academicYear 
-      $scope.getPRNInfo();
+      if($scope.PRN > 0)
+      {
+        
+        $scope.selectedPRN = $scope.PRN;
+      
+      
+        // getPRNInfo require PRN & academicYear 
+        $scope.getPRNInfo();
+        
+      }
       
       
     };
