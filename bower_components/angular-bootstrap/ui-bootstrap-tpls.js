@@ -3545,10 +3545,15 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position', 'ui.bootstrap
       //SUPPORTED ATTRIBUTES (OPTIONS)
 
       //minimal no of characters that needs to be entered before typeahead kicks-in
-      var minSearch = originalScope.$eval(attrs.typeaheadMinLength) || 1;
+      /* 
+      Date : 1 Aug 2015, Dipesh 
+      Modification in typeadheadMin Length to 4 chars (min)
+      Another modification in typeaheadWaitMs to 100
+      */
+      var minSearch = originalScope.$eval(attrs.typeaheadMinLength) || 4;
 
       //minimal wait time after last character typed before typehead kicks-in
-      var waitTime = originalScope.$eval(attrs.typeaheadWaitMs) || 0;
+      var waitTime = originalScope.$eval(attrs.typeaheadWaitMs) || 100;
 
       //should it restrict model values to the ones selected from the popup only?
       var isEditable = originalScope.$eval(attrs.typeaheadEditable) !== false;

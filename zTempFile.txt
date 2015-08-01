@@ -599,28 +599,27 @@ declare var_total_fees double(10,2);
 declare var_paid_fees double(10,2);
 declare var_admission_id bigint;
 
-select pk_admission_id into var_admission_id from mstadmission where prn_no=var_prn and academic_year=var_academic_year;
+select pk_admission_id into var_admission_id from mstadmission where prn_no=var_prn and academic_year=var_academic_year  and deleted='N';
 
-SELECT ifnull(sum(amount_to_pay),0) into var_total_fees FROM `mstfeesheadagainstadmission` WHERE fk_admission_id = var_admission_id and installment=1;
+SELECT ifnull(sum(amount_to_pay),0) into var_total_fees FROM `mstfeesheadagainstadmission` WHERE fk_admission_id = var_admission_id and installment=1  and deleted='N';
 
-select IFNULL(sum(paid_amt),0) into var_paid_fees from transmfeesreciept where `fk_admission_id`=var_admission_id and rcpt_type != 'Concession';
+select IFNULL(sum(paid_amt),0) into var_paid_fees from transmfeesreciept where `fk_admission_id`=var_admission_id and rcpt_type != 'Concession'  and deleted='N';
 
 
-select pk_admission_id, concat(firstName , ' ',middlename,' ',surname) as student_name, var_total_fees as total_fees, var_paid_fees as paid_fees from mstadmission where pk_admission_id = var_admission_id;
+select pk_admission_id, concat(firstName , ' ',middlename,' ',surname) as student_name, var_total_fees as total_fees, var_paid_fees as paid_fees from mstadmission where pk_admission_id = var_admission_id  and deleted='N';
 
 select fk_batch_feeshead_id,fees_type, amount_to_pay,
     ifnull((case when fees_type='Admission' then 
-        (select sum(paid_amt) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Regular') 
+        (select ifnull(sum(paid_amt),0) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Regular' and deleted='N') 
         when fees_type='Transport' then 
-        (select sum(paid_amt) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Transport') END),0) as PaidAmt, 
+        (select ifnull(sum(paid_amt),0) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Transport'  and deleted='N') END),0) as PaidAmt, 
         ifnull((amount_to_pay - (case when fees_type='Admission' then 
-            (select sum(paid_amt) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Regular') 
-            when fees_type='Transport' then (select sum(paid_amt) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Transport') END)),0) as BalanceAmt from mstfeesheadagainstadmission  where fk_admission_id = var_admission_id and fees_type in ('Admission','Transport') and installment =1;
+            (select ifnull(sum(paid_amt),0) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Regular' and deleted='N') 
+            when fees_type='Transport' then (select ifnull(sum(paid_amt),0) from transmfeesreciept where fk_admission_id = var_admission_id and rcpt_type='Transport' and deleted='N') END)),0) as BalanceAmt from mstfeesheadagainstadmission  where fk_admission_id = var_admission_id and fees_type in ('Admission','Transport') and installment =1;
 
 
 
-select pk_reciept_id, receip_code, rcpt_no, reciept_date, pay_mode, ch_dd_no, ch_dd_date, paid_amt, rcpt_type from transmfeesreciept where fk_admission_id = var_admission_id;
+select pk_reciept_id, receip_code, rcpt_no, reciept_date, pay_mode, ch_dd_no, ch_dd_date, paid_amt, rcpt_type from transmfeesreciept where fk_admission_id = var_admission_id  and deleted='N';
 
 
 END
-
