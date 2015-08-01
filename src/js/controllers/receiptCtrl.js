@@ -94,9 +94,19 @@ angular.module('app')
              
              $scope.feesInfo = ($scope.selectedPRNInfo.feesInfo !== undefined ? $scope.selectedPRNInfo.feesInfo : []);
              
+             var admissionInfo, transportInfo;
+             
+             $scope.admissionFees = 0.00;
+             $scope.admissionFeesPaid = 0.00;
+             $scope.admissionFeesBalance = 0.00;
+             
+             $scope.transportFees = 0.00;
+             $scope.transportFeesPaid = 0.00;
+             $scope.transportFeesBalance = 0.00;
+             
              if($scope.feesInfo !== undefined && $scope.feesInfo.length == 2){
-               var admissionInfo = $scope.feesInfo[0];
-               var transportInfo = $scope.feesInfo[1];
+               admissionInfo = $scope.feesInfo[0];
+               transportInfo = $scope.feesInfo[1];
                
                $scope.admissionFees = admissionInfo.amount_to_pay;
                $scope.admissionFeesPaid = admissionInfo.PaidAmt;
@@ -105,7 +115,15 @@ angular.module('app')
                $scope.transportFees = transportInfo.amount_to_pay;
                $scope.transportFeesPaid = transportInfo.PaidAmt;
                $scope.transportFeesBalance = transportInfo.BalanceAmt;
+             }else if($scope.feesInfo !== undefined && $scope.feesInfo.length == 1){
+               admissionInfo = $scope.feesInfo[0];
+               
+               $scope.admissionFees = admissionInfo.amount_to_pay;
+               $scope.admissionFeesPaid = admissionInfo.PaidAmt;
+               $scope.admissionFeesBalance = admissionInfo.BalanceAmt;
+               
              }
+             
              
              $scope.installmentInfo = ($scope.selectedPRNInfo.installmentInfo !== undefined ? $scope.selectedPRNInfo.installmentInfo : []);
              
