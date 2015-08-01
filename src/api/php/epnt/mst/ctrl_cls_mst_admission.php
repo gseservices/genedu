@@ -46,16 +46,30 @@ switch($action)
 			$academicYear = $_REQUEST['ay'];
 		
 		$filterCriteria = "deleted='N'";
-		if($studentNameCriteria)
-			$filterCriteria .= " AND (firstname like '".$studentNameCriteria."%' OR surname like '" .$studentNameCriteria."%')";
+		
+		if($studentNameCriteria){
+			if(is_numeric($studentNameCriteria)){
+			//if(is_int(is_numeric($studentNameCriteria))){
+				//echo "hi2";
+				$filterCriteria .= " AND prn_no =".$studentNameCriteria;
+				//echo "hi 3";
+			}
+				
+			else
+				$filterCriteria .= " AND (firstname like '".$studentNameCriteria."%' OR middlename like '".$studentNameCriteria."%' OR surname like '" .$studentNameCriteria."%'" .")";		
+		}else{
+			$filterCriteria = "No filter criteria";
+		}
+				
 		if($academicYear)
 			$filterCriteria .= " AND academic_year = '". $academicYear."'";
-			
+		
+				
 		$filterCriteria .= " order by studentname";
 		//echo "reached at retrieval location";
 		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, 
-			"mstadmission",
-			"prn_no,pk_admission_id,concat(firstname, concat(' ', concat(middlename, concat(' ', surname)))) as studentname,academic_year",
+			"mstadmission", // inner join mstcourse c on mstadmission.fk_course_id = c.courseId",
+			"prn_no,pk_admission_id,concat(firstname, concat(' ', concat(middlename, concat(' ', surname)))) as studentname,academic_year", //,c.coursecode",
 			$filterCriteria);
 		echo  $ret;
 		break;

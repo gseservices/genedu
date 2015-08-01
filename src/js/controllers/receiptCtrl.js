@@ -52,7 +52,7 @@ angular.module('app')
         var students = [];
         //students = d.data;
         angular.forEach(d.data, function(student){
-          students.push(""+student.prn_no+":"+student.studentname);
+          students.push(""+student.prn_no+":"+student.studentname); //+" : "+student.coursecode);
         });
         
         return students;
