@@ -298,7 +298,17 @@ angular.module('app')
               })
               .state('app.form.busInvoice', {
                   url: '/busInvoice',
-                  templateUrl: 'views/busInvoice.html'
+                  templateUrl: 'views/busInvoice.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad){
+                          return $ocLazyLoad.load('toaster').then(
+                              function(){
+                                 return $ocLazyLoad.load('js/controllers/toaster.js');
+                              }
+                          );
+                      }]
+                  }
               })
               .state('app.form.courseMaster', {
                   url: '/courseMaster',

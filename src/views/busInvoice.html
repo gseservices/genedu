@@ -239,34 +239,19 @@
 		    </div><!-- Student Details -->
 
 		    <div class="panel panel-default">
-		        <div class="panel-heading font-bold">Receipt Details</div>
+		        <div class="panel-heading font-bold">Bus Invoice Details</div>
 	        	<div class="panel-body">
 	        		<div class="form-group">
 
 	        			<div class="row">
 	        				<div class="col-sm-6">
-		        				<label>Receipt Type</label>
-		        				
-						        
-					              <label class="i-checks">
-					                <input type="radio" name="receiptType" data-ng-change="receiptTypeChanged()" data-ng-model="receiptType" value="Regular" checked>
-					                <i></i>
-					                Regular Fees
-					              </label>
-					            
-		        				
-					              <label class="i-checks">
-					                <input type="radio" name="receiptType" data-ng-change="receiptTypeChanged()" data-ng-model="receiptType" value="Transport">
-					                <i></i>
-					                Transport Fees
-					              </label>
-					            
-					              <label class="i-checks">
-					                <input type="radio" name="receiptType" data-ng-change="receiptTypeChanged()" data-ng-model="receiptType" value="Other">
-					                <i></i>
-					                Other Fees
-					              </label>
-					            
+		        				<div class="form-group">
+	    							<lable>Routes*</lable>
+	    							<select style="margin-top:7px;" class="form-control" data-ng-model="routes" required>
+			                      		<option ng:repeat="o in routes" value="{{o.Key}}">{{o.Value}}</option>
+								  
+			                      	</select>
+								</div>
 				            </div>
 	        			</div><br />
 						<div class="row">

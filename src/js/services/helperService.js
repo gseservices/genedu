@@ -10,9 +10,10 @@ angular.module('app')
   var HelperService = {
     
     reset_promises: function(){
-      promiseStudentList =  undefined;
+      promiseStudentList = promiseGetPRNInfo =  undefined;
       debugLog("promises reset");
     },
+    
     // retrieve data for college type or section combo box 
     async_get_student_list: function(snameCriteria, ay) {
       if ( !promiseStudentList ) {
