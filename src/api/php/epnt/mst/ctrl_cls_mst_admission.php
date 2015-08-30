@@ -45,7 +45,7 @@ switch($action)
 		if(isset($_REQUEST['ay']))
 			$academicYear = $_REQUEST['ay'];
 		
-		$filterCriteria = "deleted='N'";
+		$filterCriteria = "m.deleted='N'";
 		
 		if($studentNameCriteria){
 			if(is_numeric($studentNameCriteria)){
@@ -67,9 +67,14 @@ switch($action)
 				
 		$filterCriteria .= " order by studentname";
 		//echo "reached at retrieval location";
-		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, 
+		/*$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING, 
 			"mstadmission", // inner join mstcourse c on mstadmission.fk_course_id = c.courseId",
 			"prn_no,pk_admission_id,concat(firstname, concat(' ', concat(middlename, concat(' ', surname)))) as studentname,academic_year", //,c.coursecode",
+			$filterCriteria);*/
+			
+		$ret = $obj->GetData(SELECT_MODE_TABLE, SELECT_RETURN_TYPE_JSONSTRING,
+			"mstadmission m inner join mstcourse c on m.fk_course_id = c.courseId",
+			"prn_no,pk_admission_id,concat(firstname, concat(' ', concat(middlename, concat(' ', surname)))) as studentname,academic_year,c.`coursecode`,(select div_name from mstdivision where pk_div_id=m.fk_division_id) as student_div",
 			$filterCriteria);
 		echo  $ret;
 		break;

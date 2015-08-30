@@ -1,0 +1,379 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Bus Invoice New</h1>
+</div>
+<div class="wrapper-md" ng-controller="busInvoiceCtrl">
+	<!-- toaster directive -->
+    <toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
+    <!-- / toaster directive -->
+	<div class="row">
+		<form role="form">
+			
+			<div class="panel panel-default">
+		        <div class="panel-heading font-bold">Set Criteria</div>
+	        	<div class="panel-body">
+	        		<div class="form-group">
+	        			<div class="row">
+							<div class="col-sm-2">
+								<div class="form-group">
+	    							<lable>Academic Year</lable>
+	    							<select style="margin-top:7px;" class="form-control" data-ng-model="academicYear" required>
+			                      		<option ng:repeat="o in academicYears" value="{{o.Key}}">{{o.Value}}</option>
+								  
+			                      	</select>
+								</div>
+    						</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+	    							<label>PRN</label>
+									<i ng-show="loadingStudents" class="fa fa-spinner fa-spin form-control-spin"></i>
+          							<input type="text" ng-model="asyncSelected" placeholder="Start typing Student Name" data-ng-change="PRNChanged()" typeahead="student for student in getStudents($viewValue)" typeahead-loading="loadingStudents" class="form-control">
+	    							<!--<input type="text"  class="form-control" placeholder="PRN" data-ng-model="PRN" required name="prn">-->
+								</div>
+    						</div>
+							
+							<div class="col-sm-2">
+								<br />
+								<button type="button" class="btn btn-sm btn-info" data-ng-click="getInfo()">Get Info</button>
+							</div>
+							<div class="col-md-2">
+								<!--<h3>{{studentName}}</h3>-->
+							</div>
+	        			</div>
+						<div class="row">
+							
+						</div><!-- row -->
+					</div>
+	        	</div>
+			</div>
+			
+		    <div class="panel panel-default">
+		        <div class="panel-heading font-bold">Student Details</div>
+	        	<div class="panel-body">
+	        		<div class="form-group">
+	        			<div class="row">
+        					<div class="col-sm-12">
+								<div class="col-lg-10">
+							      <div class="panel panel-default">
+							        <div class="panel-body">
+										<div class="row">
+											<div class="col-sm-5">
+												<div class="clearfix text-center m-t">
+										            <div class="inline">
+										              <div ui-jq="easyPieChart" ui-options="{
+										                    percent: 75,
+										                    lineWidth: 5,
+										                    trackColor: '{{app.color.light}}',
+										                    barColor: '{{app.color.info}}',
+										                    scaleColor: false,
+										                    color: '{{app.color.dark}}',
+										                    size: 134,
+										                    lineCap: 'butt',
+										                    rotate: -90,
+										                    animate: 1000
+										                  }">
+										                <div class="thumb-xl">
+										                  <img src="img/a8.jpg" class="img-circle" alt="...">
+										                </div>
+														
+										              </div>
+										              <div class="h4 m-t m-b-xs">{{studentName}}</div>
+										              <small class="text-muted m-b">{{academicYear}}</small>
+										            </div>                      
+										          </div>
+											</div>
+											<div class="col-sm-7">
+												<div class="col-sm-12" style="padding-top: 13px;">
+													<h4><b>PRN :</b> {{PRN}}</h4>
+													<h4><b>Student Name :</b> {{studentName}}</h4>
+													<h4><b>Academic Year :</b> {{academicYear}}</h4>
+													<h4><b>Total Balance :</b> {{totalBalance | currency:app.cur_symbol }}</h4>
+													<h4><b>Current Balance :</b> {{currentBalance  | currency:app.cur_symbol}}</h4>
+													<br /><br /><br />
+												</div>
+											</div>
+										</div>
+							          
+							        </div>
+							        <footer class="panel-footer bg-info text-center no-padder">
+							          <div class="row no-gutter">
+							            <div class="col-xs-4">
+							              <div class="wrapper">
+							                <span class="m-b-xs h3 block text-white" style="color:#2B2F30;">{{totalFees | currency:app.cur_symbol}}</span>
+							                <small class="text-muted block text-white" style="color:#2B2F30 !important;">Total Fees</small>
+							              </div>
+							            </div>
+							            <div class="col-xs-4 dk" style="background-color:#42CDA3;">
+							              <div class="wrapper">
+							                <span class="m-b-xs h3 block text-white"style="color:#2B2F30;">{{totalPaid | currency:app.cur_symbol}}</span>
+							                <small class="text-muted block" style="color:#2B2F30 !important;">Total Paid</small>
+							              </div>
+							            </div>
+							            <div class="col-xs-4" style="background-color:#ED2C50;">
+							              <div class="wrapper">
+							                <span class="m-b-xs h3 block text-white" style="color:#2B2F30;">{{totalBalance | currency:app.cur_symbol}}</span>
+							                <small class="text-muted block" style="color:#2B2F30 !important;">Total Balance</small>
+							              </div>
+							            </div>
+							          </div>
+							        </footer>
+							      </div>
+						    	</div><!-- col -sm -4 -->
+								
+								<!--
+        						<div class="col-sm-4">
+        							<label>PRN</label>
+									<h3>{{PRN}}</h3>
+        							<input type="text"  class="form-control" placeholder="PRN" data-ng-model="PRN" required name="prn">
+        						</div>
+        						<div class="col-sm-4">
+        							<lable>*Student Name</lable>
+        							<input type="text" disabled="disabled" class="form-control" placeholder="Student Name" data-ng-model="studentName" required name="studentName" >
+        						</div>
+        						<div class="col-sm-4">
+        							<lable>Academic Year</lable>
+        							<select class="form-control"  disabled="disabled" data-ng-model="academicYear" required>
+		                      			<option ng:repeat="o in academicYears" value="{{o.Key}}">{{o.Value}}</option>
+							  
+		                     	 	</select>
+        						</div>
+        						<br /><br/>
+
+        						
+
+        						<br />
+        						<div class="col-sm-4">
+    								<label>Total Balance Amount</label>
+    								<input type="text" class="form-control"  disabled="disabled" placeholder="0.00" data-ng-model="totalBalance" name="totalBalancecAmount">
+        						</div>
+        						<div class="col-sm-4">
+        						<label>Current Balance Amount</label>
+    								<input type="text" step="any" min="0"  disabled="disabled" class="form-control" placeholder="0.00" data-ng-model="currentBalance" name="currentBalancecAmount">
+        						</div>-->
+        					</div>
+						</div><!-- row -->
+						<br />
+						<div class="row" >
+        					<div class="col-sm-12">
+        						<div class="col-sm-6">
+    								<div class="table-responsive">
+										<h4 style="padding-left:3px;" >Fees Info</h4>
+				        				<table st-table="feesInfo" class="table table-striped table-bordered">
+											<thead>
+											<tr>
+												<th st-sort="fees_type">Fees Type</th>
+												<th st-sort="amount_to_pay">Amt To Pay</th>
+												<th st-sort="PaidAmt">Paid Amt</th>
+												<th st-sort="BalanceAmt">Balance Amt</th>
+											</tr>
+											<!--<tr>
+												<th>
+													<input st-search="'firstName'" placeholder="search for firstname" class="input-sm form-control" type="search"/>
+												</th>
+												<th colspan="4">
+													<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+												</th>
+											</tr>-->
+											</thead>
+											<tbody>
+											<tr ng-repeat="row in feesInfo">
+												<td>{{row.fees_type}}</td>
+												<td>{{row.amount_to_pay | currency:app.cur_symbol}}</td>
+												<td>{{row.PaidAmt | currency:app.cur_symbol}}</td>
+												<td>{{row.BalanceAmt | currency:app.cur_symbol}}</td>
+											</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="5" class="text-center">
+														<div st-pagination="" st-items-by-page="15" st-displayed-pages="1"></div>
+													</td>
+												</tr>
+											</tfoot>
+										</table><!-- fees Info -->
+				        			</div>
+        						</div>
+
+        						<div class="col-sm-6">
+        							<div class="table-responsive">
+										<h4 style="padding-left:3px;" >Installment Info</h4>
+				        				<table st-table="feesInfo" class="table table-striped table-bordered">
+											<thead>
+											<tr>
+												<th st-sort="receip_code">Rcpt Code</th>
+												<th st-sort="rcpt_type">Type</th>
+												<th st-sort="reciept_date">Date</th>
+												<th st-sort="paid_amt">Paid Amt</th>
+											</tr>
+											<!--<tr>
+												<th>
+													<input st-search="'firstName'" placeholder="search for firstname" class="input-sm form-control" type="search"/>
+												</th>
+												<th colspan="4">
+													<input st-search placeholder="global search" class="input-sm form-control" type="search"/>
+												</th>
+											</tr>-->
+											</thead>
+											<tbody>
+											<tr style={{row.pay_mode=='Cash'?'':'background-color:#7FD5E6'}} ng-repeat="row in installmentInfo">
+												<td>{{row.receip_code}}</td>
+												<td>{{row.rcpt_type}}</td>
+												<td>{{row.reciept_date}}</td>
+												<td>{{row.paid_amt | currency:app.cur_symbol}}</td>
+											</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="5" class="text-center">
+														<div st-pagination="" st-items-by-page="15" st-displayed-pages="1"></div>
+													</td>
+												</tr>
+											</tfoot>
+										</table><!-- installment Info -->
+				        			</div>
+        						</div>
+        					</div>
+
+	        			</div><!--row -->
+	        		</div>
+	        	</div>
+		    </div><!-- Student Details -->
+
+		    <div class="panel panel-default">
+		        <div class="panel-heading font-bold">Receipt Details</div>
+	        	<div class="panel-body">
+	        		<div class="form-group">
+
+	        			<div class="row">
+	        				<div class="col-sm-6">
+		        				<label>Receipt Type</label>
+		        				
+						        
+					              <label class="i-checks">
+					                <input type="radio" name="receiptType" data-ng-change="receiptTypeChanged()" data-ng-model="receiptType" value="Regular" checked>
+					                <i></i>
+					                Regular Fees
+					              </label>
+					            
+		        				
+					              <label class="i-checks">
+					                <input type="radio" name="receiptType" data-ng-change="receiptTypeChanged()" data-ng-model="receiptType" value="Transport">
+					                <i></i>
+					                Transport Fees
+					              </label>
+					            
+					              <label class="i-checks">
+					                <input type="radio" name="receiptType" data-ng-change="receiptTypeChanged()" data-ng-model="receiptType" value="Other">
+					                <i></i>
+					                Other Fees
+					              </label>
+					            
+				            </div>
+	        			</div><br />
+						<div class="row">
+							<div class="col-sm-4">
+		        				<lable>*Receipt No.</lable>
+		        				<input type="text" class="form-control" disabled="disabled" placeholder="Receipt No" required name="receiptNo" data-ng-model="receiptNo" />
+		        			</div>
+		        			<div class="col-sm-4">
+		        				<lable>Payment Mode</lable>
+		        				<select class="form-control" data-ng-change="paymentModeChanged()" data-ng-model="paymentMode" >
+			                      <option selected value="Cash">Cash</option>
+			                      <option value="Cheque">Cheque</option>
+			                      <option value="DD">DD</option>
+			                  	</select>
+		        			</div>
+		        			<div class="col-sm-4">
+        							<label>Receipt Date</label>
+	        						<div ng-controller="DatepickerDemoCtrl">
+							            <div class="input-group w-md">
+							              <input type="text" class="form-control" datepicker-popup="{{format}}" data-ng-model="receiptDate" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </div>
+							        </div>
+        						</div>	
+						</div><!-- row --><br />
+						<div class="row">
+							<div class="col-sm-4">
+		        				<lable>Receipt Code</lable>
+		        				<input type="text" class="form-control" placeholder="Auto Generated" disabled name="receiptCode" data-ng-model="receiptCode" />
+		        			</div>
+		        			<div class="col-sm-4">
+		        				<lable>*Received Amount</lable>
+		        				<input type="text" class="form-control" placeholder="Received Amt" required name="receivedAmount" data-ng-change="receivedAmountChanged()" data-ng-model="receivedAmount" />
+		        			</div>
+		        			<div class="col-sm-4">
+		        				<lable>Remarks</lable>
+		        				<input type="text" class="form-control" placeholder="Remarks" name="remarks"  data-ng-model="remarks" />
+		        			</div>	
+						</div><!-- row -->
+						
+					</div>
+	        	</div>
+		    </div><!-- Receipt Details -->
+
+		    <div class="panel panel-default"  >
+		        <div class="panel-heading font-bold">Bank Details</div>
+	        	<div class="panel-body">
+					
+					<div id="bankDetails" data-ng-disabled="disableBankDetails" >
+					
+	        		<div class="row">
+        				<div class="col-sm-4">
+	        				<lable>Bank</lable>
+	        				<input type="text" class="form-control" placeholder="Bank" name="bank" data-ng-model="bankName" data-ng-disabled="disableBankDetails" />
+	        			</div><!-- bank -->
+	        			<div class="col-sm-4">
+	        				<lable>Chq/DD Date</lable>
+	        				<div ng-controller="DatepickerDemoCtrl">
+					            <div class="input-group w-md" >
+					              <input type="text" class="form-control"  data-ng-disabled="disableBankDetails" datepicker-popup="{{format}}" data-ng-model="chqDDDate" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-default"  data-ng-disabled="disableBankDetails" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+					            </div>
+					        </div>
+	        			</div><!-- chq/dd date -->
+	        			<div class="col-sm-4">
+	        				<lable>Bank Branch</lable>
+	        				<input type="text" class="form-control" placeholder="Bank Branch"  name="bankBranch" data-ng-model="bankBranch"  data-ng-disabled="disableBankDetails" />
+	        			</div><!-- bank branch -->
+	        				
+					</div><!-- row --><br />
+					<div class="row">
+						<div class="col-sm-4">
+	        				<lable>Chq/DD No.</lable>
+	        				<input type="text" class="form-control" placeholder="Chq/DD No"  name="chqDDNo" data-ng-model="chqDDNo"  data-ng-disabled="disableBankDetails" />
+	        			</div><!-- chq/dd no -->
+	        			<div class="col-sm-4">
+	        				<lable>Account No.</lable>
+	        				<input type="text" class="form-control" placeholder="Account No"  name="accountNo" data-ng-model="accountNo"  data-ng-disabled="disableBankDetails" />
+	        			</div><!-- account no -->
+	        				
+					</div><!-- row --><br /><br />
+					</div><!--bank details div-->
+					<div class="row">
+						<div class="col-sm-4">
+	        				
+	        			</div>
+	        			<div class="col-sm-4">
+	        				<div class="form-group">
+				              <div class="col-lg-offset-2 col-lg-10">
+				                <button type="submit" class="btn btn-sm btn-info" data-ng-click="saveReceipt()">Save</button>
+				                <button type="reset" class="btn btn-sm btn-info">Cancel</button>
+				              </div>
+				              
+				            </div>
+	        			</div>
+	        			<div class="col-sm-4">
+	        				
+	        			</div>
+	        		</div>
+	        		</div><!-- row -->
+	        	</div>
+		    </div><!-- Bank Details -->
+
+		</form><!-- form -->
+	</div><!-- outer row -->
+</div><!-- receipt controller -->
