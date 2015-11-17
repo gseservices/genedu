@@ -72,6 +72,10 @@
         "FORM_VALIDATION" : "Form validation",
         "FORM_WIZARD" : "Form wizard"
       },
+      "reports":{
+        "REPORTS":"Reports",
+        "ADMISSION":"Admission Form"
+      },
       "CHART" : "Chart",
       "pages" : {
         "PAGES" : "Pages",

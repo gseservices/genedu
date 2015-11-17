@@ -1,0 +1,82 @@
+/*CSS for Report Common Styles*/
+
+.align-center{
+  text-align: center;
+}
+.admnform-table{
+  padding:20px;
+}
+.admnform-table .admn-srno{
+  width:5%;
+}
+.admnform-table .heading{
+  width:15%;
+  text-align:left;
+  padding: 5px;
+}
+.admnform-table .particular{
+  width:80%;
+}
+
+.admnform-table .split-row{
+  width:100%;
+  padding:0px 0px 0px 0px;
+}
+.admnform-table .split-row .admn-srno{
+  width:6%;
+  padding:0px 0px 0px 0px;
+}
+.admnform-table .split-row .heading-first{
+  width:15.60%;
+  text-align:left;  
+  padding:0px 0px 0px 5px;
+}
+.admnform-table .split-row .heading-second{
+  width:16%;
+  text-align:left;  
+  padding:0px 0px 0px 5px;
+}
+.admnform-table .split-row .particular-first{
+  width:31%;
+  padding:0px 0px 0px 5px;
+}
+.admnform-table .split-row .particular-second{
+  width:31%;
+  padding:0px 0px 0px 5px;
+}
+
+
+.admnform-table .section-heading{
+  text-align:left;
+  padding:0px 0px 0px 20px;
+}
+
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+  /* ... the rest of the rules ... */
+  .page {
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+    }
+  .subpage {
+    padding: 1cm;
+    border: 5px red solid;
+    height: 256mm;
+    outline: 2cm #FFEAEA solid;
+	}
+}

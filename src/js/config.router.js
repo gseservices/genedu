@@ -241,7 +241,7 @@ angular.module('app')
                           return uiLoad.load('js/controllers/form.js');
                       }]
                   }
-              })
+              })//admissionForm.html
               .state('app.form.components', {
                   url: '/components',
                   templateUrl: 'tpl/form_components.html',
@@ -459,6 +459,22 @@ angular.module('app')
                       }]
                   }
               })
+              //Reports
+              .state('app.reports', {
+                  url: '/reports',
+                  template: '<div ui-view class="fade-in"></div>',
+                  resolve: {
+                      deps: ['uiLoad',
+                        function( uiLoad ){
+                          return uiLoad.load('js/controllers/reports.js');
+                      }]
+                  }
+              })
+              .state('app.reports.admission', {
+                  url: '/admnForm',
+                  templateUrl: 'views/reports/admissionForm.html'
+              })
+              //admissionForm.html              
               // pages
               .state('app.page', {
                   url: '/page',

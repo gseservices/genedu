@@ -61,7 +61,8 @@ angular.module('app')
           intakeCapacityMaster: true,
           menuSettings: true,
           printerSettings: true,
-          roleManager: true
+          roleManager: true,          
+          reportAdmnForm:true,
         }
       }
 

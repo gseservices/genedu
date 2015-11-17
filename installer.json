@@ -1,0 +1,9 @@
+{
+"os":"windows",
+"db":"mysql",
+"db:plug":"udf",
+"db:dump":"phpmyadmin",
+"webserver": "apache",
+"git":"github",
+"source":"from-github"
+}

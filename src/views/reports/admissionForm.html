@@ -1,0 +1,149 @@
+<div class = "admnform-table">
+<table class="admnform-table align-center " width="100%" border="1" cellpadding="0" cellspacing="5">
+<tr>
+	<td colspan="3">Header for Admission form</td>
+</tr>
+<tr>
+	<td colspan="3" class="section-heading"><b>Details of student:</b></td>
+</tr>
+<tr>
+	<td class="admn-srno" rowspan="3">
+		1.
+	</td>
+	<td class="heading">Surname</td>
+	<td class="particular">{{student.surname}}</td>
+</tr>
+<tr>	
+	<td class="heading">Student's Name</td>
+	<td class="particular">{{student.firstname}}</td>
+</tr>
+<tr>	
+	<td class="heading">Father's Name</td>
+	<td class="particular">{{student.middlename}}</td>
+</tr>
+<tr> 
+	<td class="admn-srno">
+		2.
+	</td>
+	<td class="heading">Date of birth(in words)</td>
+	<td class="particular">{{student.dob_words}}</td>
+</tr>
+<tr> 
+	<td class="admn-srno">
+		3.
+	</td>
+	<td class="heading">Date of birth(in figures)</td>
+	<td class="particular">{{student.dob_figs}}</td>
+</tr>
+<tr> 
+	<td class="admn-srno">
+		4.
+	</td>
+	<td class="heading">Gender (M/F)</td>
+	<td class="particular">{{student.gender}}</td>
+</tr>
+<tr> 
+	<td class="admn-srno">
+		5.
+	</td>
+	<td class="heading">Blood Group</td>
+	<td class="particular">{{student.blood_group}}</td>
+</tr>
+<tr> 
+	<td class="admn-srno">
+		6.
+	</td>
+	<td class="heading">Place of Birth</td>
+	<td class="particular">
+	<table>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	{{student.pob_atpost}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Tq.: &nbsp; {{student.pob_taluka}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	Dist.: &nbsp; {{student.pob_dist}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	State: &nbsp; {{student.pob_state}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	</td>
+</tr>
+<tr>
+	<td class="admn-srno">
+		7.
+	</td>
+	<td class="heading">Marks of identification</td>
+	<td class="particular">{{student.blood_group}}</td>
+</tr>
+<tr>
+	<td class="admn-srno">
+		8.
+	</td>
+	<td colspan="2">
+		<table border="1" width="100%" class="split-row">
+		<tr>
+			<td class="heading-first">Nationality</td>
+			<td class="particular-first"></td>		
+			<td class="admn-srno">9.</td>
+			<td class="heading-second">Nationality</td>
+			<td class="particular-second"></td>						
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td class="admn-srno">
+		10.
+	</td>
+	<td colspan="2">
+		<table border="1" width="100%" class="split-row">
+		<tr>
+			<td class="heading-first">Caste/Sub-caste</td>
+			<td class="particular-first"></td>		
+			<td class="admn-srno">11.</td>
+			<td class="heading-second">Religion</td>
+			<td class="particular-second"><div>
+				<div></div>
+				<div>Category</div>
+			</div></td>						
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td class="admn-srno">
+		12.
+	</td>
+	<td class="heading">Father's/Guardian's name in full</td>
+	<td class="particular">{{student.father_name}}</td>
+</tr>
+<tr>
+	<td class="admn-srno">
+		13.
+	</td>
+	<td class="heading">Guardian's relationship with student</td>
+	<td class="particular">{{student.father_name}}</td>
+</tr>
+<tr>
+	<td class="admn-srno">
+		12.
+	</td>
+	<td colspan="2">
+		<table border="1" width="100%" class="split-row">
+		<tr>
+			<td class="heading-first"></td>
+			<td class="particular-first"></td>		
+			<td class="admn-srno">14.</td>
+			<td class="heading-second">Nationality</td>
+			<td class="particular-second"></td>						
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td colspan="3">
+		Last row
+	</td>
+</tr>
+</table>
+</div>
